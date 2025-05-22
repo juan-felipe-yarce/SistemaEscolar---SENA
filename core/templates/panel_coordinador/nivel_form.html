@@ -1,0 +1,38 @@
+{% extends "panel_coordinador/panel_base.html" %}
+
+{% block panel_content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center gap-2">
+    <span>📚</span> Nuevo Nivel Educativo
+  </h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Campo Nombre -->
+    <div class="mb-4">
+      <label for="id_nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre:</label>
+      <input
+        type="text"
+        name="nombre"
+        id="id_nombre"
+        value="{{ form.nombre.value|default_if_none:'' }}"
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-500"
+        required
+      />
+      {% if form.nombre.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.nombre.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div class="mt-6 flex gap-4">
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        💾 Guardar
+      </button>
+      <a href="{% url 'lista_niveles' %}" class="bg-red-100 text-red-700 px-4 py-2 rounded hover:bg-red-200 transition">
+        ❌ Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

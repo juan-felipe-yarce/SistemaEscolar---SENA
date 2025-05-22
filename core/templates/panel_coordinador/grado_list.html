@@ -1,0 +1,36 @@
+{% extends "panel_coordinador/panel_base.html" %}
+
+{% block panel_content %}
+<div class="max-w-4xl mx-auto">
+  <h1>Lista de Grados</h1>
+
+  <!-- Enlace para crear un nuevo grado -->
+  <a href="{% url 'crear_grado' %}" class="bg-blue-500 text-white py-1 px-3 rounded">Nuevo Grado</a>
+
+  <!-- Tabla que muestra todos los grados -->
+  <table class="mt-4 w-full border border-gray-300">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="py-2 px-4">Nombre del Grado</th>
+        <th class="py-2 px-4">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grado in grados %}
+        <tr class="border-t">
+          <td class="py-2 px-4">{{ grado.nombre }}</td>
+          <td class="py-2 px-4">
+            <!-- Enlaces para editar y eliminar -->
+            <a href="{% url 'editar_grado' grado.id %}" class="text-blue-600">Editar</a> |
+            <a href="{% url 'eliminar_grado' grado.id %}" class="text-red-600">Eliminar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="2" class="py-2 px-4">No hay grados registrados.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

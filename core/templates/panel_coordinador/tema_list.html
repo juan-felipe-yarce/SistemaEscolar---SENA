@@ -1,0 +1,37 @@
+{% extends "panel_coordinador/panel_base.html" %}
+
+{% block panel_content %}
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4 text-blue-800">Lista de Temas</h1>
+
+  <!-- Enlace para crear un nuevo tema -->
+  <a href="{% url 'crear_tema' %}" class="bg-blue-500 text-white py-1 px-3 rounded">Nuevo Tema</a>
+
+  <!-- Tabla que muestra todos los temas -->
+  <table class="mt-4 w-full border border-gray-300">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="py-2 px-4">Nombre del Tema</th>
+        <th class="py-2 px-4">Asignatura</th>
+        <th class="py-2 px-4">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tema in temas %}
+        <tr class="border-t">
+          <td class="py-2 px-4">{{ tema.nombre }}</td>
+          <td class="py-2 px-4">{{ tema.asignatura.nombre }}</td>
+          <td class="py-2 px-4">
+            <a href="{% url 'editar_tema' tema.id %}" class="text-blue-600">Editar</a> |
+            <a href="{% url 'eliminar_tema' tema.id %}" class="text-red-600">Eliminar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3" class="py-2 px-4 text-center text-gray-500">No hay temas registrados.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

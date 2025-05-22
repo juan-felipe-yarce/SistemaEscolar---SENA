@@ -1,0 +1,54 @@
+{% extends "panel_coordinador/panel_base.html" %}
+{% load widget_tweaks %}
+
+{% block panel_content %}
+<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+  <!-- Título -->
+  <h2 class="text-2xl font-bold mb-4 text-blue-800 flex items-center">
+    🎓 Nuevo Grupo
+  </h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="space-y-4">
+      
+      <!-- Campo: Nombre del Grupo -->
+      <div>
+        <label for="{{ form.nombre.id_for_label }}" class="block text-sm font-medium text-gray-700">Nombre del Grupo</label>
+        {{ form.nombre|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
+        {% if form.nombre.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.nombre.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Grado -->
+      <div>
+        <label for="{{ form.grado.id_for_label }}" class="block text-sm font-medium text-gray-700">Grado</label>
+        {{ form.grado|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
+        {% if form.grado.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.grado.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Aula -->
+      <div>
+        <label for="{{ form.aula.id_for_label }}" class="block text-sm font-medium text-gray-700">Aula</label>
+        {{ form.aula|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
+        {% if form.aula.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.aula.errors.0 }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="mt-6 flex gap-4">
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        💾 Guardar
+      </button>
+      <a href="{% url 'lista_grupos' %}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition">
+        ❌ Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{
+  "name": "sistema_escolar",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tailwindcss -i ./core/static/css/input.css -o ./core/static/css/tailwind.css --minify",
+    "watch": "tailwindcss -i ./core/static/css/input.css -o ./core/static/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.4.21",
+    "autoprefixer": "^10.4.21"
+  }
+}

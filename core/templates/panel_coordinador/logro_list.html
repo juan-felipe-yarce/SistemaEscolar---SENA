@@ -1,0 +1,28 @@
+{% extends "panel_coordinador/panel_base.html" %}
+{% block panel_content %}
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-xl font-bold mb-4">Lista de Logros</h1>
+  <a href="{% url 'crear_logro' %}" class="bg-blue-500 text-white py-1 px-3 rounded">Nuevo Logro</a>
+  <table class="mt-4 w-full border border-gray-300">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="py-2 px-4">Descripción</th>
+        <th class="py-2 px-4">Asignatura</th>
+        <th class="py-2 px-4">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for logro in logros %}
+        <tr class="border-t">
+          <td class="py-2 px-4">{{ logro.descripcion }}</td>
+          <td class="py-2 px-4">{{ logro.asignatura.nombre }}</td>
+          <td class="py-2 px-4">
+            <a href="{% url 'editar_logro' logro.pk %}" class="text-blue-600">Editar</a> |
+            <a href="{% url 'eliminar_logro' logro.pk %}" class="text-red-600">Eliminar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

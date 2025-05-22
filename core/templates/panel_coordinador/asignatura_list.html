@@ -1,0 +1,39 @@
+{% extends "panel_coordinador/panel_base.html" %}
+
+{% block panel_content %}
+<div class="max-w-4xl mx-auto">
+  <h1>Lista de Asignaturas</h1>
+
+  <!-- Enlace para crear una nueva asignatura -->
+  <a href="{% url 'crear_asignatura' %}" class="bg-blue-500 text-white py-1 px-3 rounded">Nueva Asignatura</a>
+
+  <!-- Tabla para listar las asignaturas -->
+  <table class="mt-4 w-full border border-gray-300">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="py-2 px-4">Nombre de la Asignatura</th>
+        <th class="py-2 px-4">Grado</th>
+        <th class="py-2 px-4">Área</th>
+        <th class="py-2 px-4">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for asignatura in asignaturas %}
+        <tr class="border-t">
+          <td class="py-2 px-4">{{ asignatura.nombre }}</td>
+          <td class="py-2 px-4">{{ asignatura.grado.nombre }}</td>
+          <td class="py-2 px-4">{{ asignatura.area.nombre }}</td>
+          <td class="py-2 px-4">
+            <a href="{% url 'editar_asignatura' asignatura.id %}" class="text-blue-600">Editar</a> |
+            <a href="{% url 'eliminar_asignatura' asignatura.id %}" class="text-red-600">Eliminar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4" class="py-2 px-4">No hay asignaturas registradas.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

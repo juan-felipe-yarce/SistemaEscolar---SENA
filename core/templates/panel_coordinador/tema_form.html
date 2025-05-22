@@ -1,0 +1,35 @@
+{% extends "panel_coordinador/panel_base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Nuevo Tema{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow-md">
+  <h2 class="text-xl font-bold text-blue-800 flex items-center mb-4">
+    🛠️ Nuevo Tema
+  </h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="mb-4">
+      <label for="id_nombre" class="block text-gray-700 font-semibold mb-1">Nombre del Tema</label>
+      {{ form.nombre|add_class:"w-full px-4 py-2 border border-gray-300 rounded" }}
+    </div>
+
+    <div class="mb-4">
+      <label for="id_asignatura" class="block text-gray-700 font-semibold mb-1">Asignatura</label>
+      {{ form.asignatura|add_class:"w-full px-4 py-2 border border-gray-300 rounded" }}
+    </div>
+
+    <div class="mt-4 flex gap-4">
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        💾 Guardar
+      </button>
+      <a href="{% url 'lista_temas' %}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition">
+        ❌ Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

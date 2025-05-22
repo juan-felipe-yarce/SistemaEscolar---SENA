@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Perfil de Usuario{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl font-bold mb-4 text-blue-700">👤 Perfil de Usuario</h2>
+  <p><strong>Correo:</strong> {{ user.correo }}</p>
+  <p><strong>Rol:</strong> {{ user.rol.nombre }}</p>
+  <p><strong>Fecha de creación:</strong> {{ user.fecha_creacion }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "panel_coordinador/panel_base.html" %}
+{% load widget_tweaks %}
+
+{% block panel_content %}
+<div class="flex justify-center">
+  <div class="max-w-xl w-full bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4 text-blue-800">🧑‍🏫 {% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Asignación Docente</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="space-y-4">
+        <!-- Campo: Docente -->
+        <div>
+          <label for="{{ form.docente.id_for_label }}" class="block text-sm font-medium text-gray-700">Docente</label>
+          {{ form.docente|add_class:"mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
+          {% if form.docente.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.docente.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Campo: Asignatura -->
+        <div>
+          <label for="{{ form.asignatura.id_for_label }}" class="block text-sm font-medium text-gray-700">Asignatura</label>
+          {{ form.asignatura|add_class:"mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
+          {% if form.asignatura.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.asignatura.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Campo: Grupo -->
+        <div>
+          <label for="{{ form.grupo.id_for_label }}" class="block text-sm font-medium text-gray-700">Grupo</label>
+          {{ form.grupo|add_class:"mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
+          {% if form.grupo.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ form.grupo.errors.0 }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="mt-6 flex gap-4">
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+          💾 Guardar
+        </button>
+        <a href="{% url 'lista_asignaciones' %}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition">
+          ❌ Cancelar
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

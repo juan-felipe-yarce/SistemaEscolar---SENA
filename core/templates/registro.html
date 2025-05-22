@@ -1,0 +1,59 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+  </head>
+  
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white shadow-md rounded p-8 w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center text-blue-700">Registro de Usuario</h1>
+
+    {% if messages %}
+      <div class="mb-4">
+        {% for message in messages %}
+          <p class="text-sm {% if message.tags == 'error' %}text-red-500{% else %}text-green-600{% endif %}">
+            {{ message }}
+          </p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold mb-1">Correo Electrónico:</label>
+        {{ form.correo|add_class:"w-full p-2 border rounded" }}
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold mb-1">Rol:</label>
+        {{ form.rol|add_class:"w-full p-2 border rounded" }}
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold mb-1">Contraseña:</label>
+        {{ form.password|add_class:"w-full p-2 border rounded" }}
+        <p class="text-xs text-gray-500">{{ form.password.help_text }}</p>
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-sm font-semibold mb-1">Confirmar Contraseña:</label>
+        {{ form.confirmar_password|add_class:"w-full p-2 border rounded" }}
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+        Registrarse
+      </button>
+    </form>
+  </div>
+
+</body>
+</html>
