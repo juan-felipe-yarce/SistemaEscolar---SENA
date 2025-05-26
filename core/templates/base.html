@@ -2,90 +2,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <title>{% block title %}Sistema Escolar{% endblock %}</title>
-
-      <link rel="stylesheet" href="{% static 'css/tailwind.css' %}" />
-
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    {% block extra_head %}{% endblock %} {# Si tienes este bloque, asegúrate de que esté aquí #}
+  <meta charset="UTF-8">
+  <title>{% block title %}Sistema Escolar{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="flex flex-col min-h-screen bg-gray-100 text-gray-800">
 
-<!-- Barra de navegación -->
-<header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-  <!-- Logo + Inicio -->
-  <div class="flex items-center gap-4">
-    <a href="{% url 'inicio' %}" class="text-xl font-bold text-blue-700">Sistema Escolar</a>
-    <a href="{% url 'bienvenida' %}" class="flex items-center text-blue-700 hover:underline">
-      <span class="text-xl">🏠</span><span class="ml-1">Inicio</span>
-    </a>
+  <!-- NAVBAR -->
+  <header class="bg-white shadow z-10">
+    {% include "includes/navbar.html" %}
+  </header>
+
+  <!-- ZONA PRINCIPAL: ASIDE + CONTENIDO -->
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- BLOQUE ASIDE -->
+    {% block aside %}
+    {% endblock %}
+
+    <!-- BLOQUE CONTENIDO -->
+    <main class="flex-1 p-6 overflow-y-auto bg-gray-100">
+      {% block content %}{% endblock %}
+    </main>
   </div>
 
-  <!-- Menú derecho -->
-  <nav class="relative" x-data="{ open: false }">
-    {% if user.is_authenticated %}
-    <div class="relative inline-block text-left">
-      <button @click="open = !open" class="flex items-center gap-2 px-3 py-1 rounded-full hover:bg-gray-100 focus:outline-none">
-        {% if user.perfil.foto %}
-          <img src="{{ user.perfil.foto.url }}" alt="Foto de perfil" class="w-8 h-8 object-cover border border-gray-300" />
-        {% else %}
-          <img src="{% static 'img/default_avatar.png' %}" alt="Avatar por defecto" class="w-8 h-8 object-cover border border-gray-300" />
-        {% endif %}
-        <span class="text-sm font-semibold text-blue-800 hidden sm:inline">
-          Bienvenido, {{ user.perfil.primer_nombre }} {{ user.perfil.segundo_nombre }}
-        </span>
-      </button>
+  <!-- FOOTER -->
+  <footer class="bg-white border-t py-4 text-center text-sm text-gray-500">
+    © 2025 Sistema Escolar. Todos los derechos reservados. | Contacto: colegio@example.edu.co
+  </footer>
 
-      <!-- Menú desplegable -->
-      <div x-show="open" @click.away="open = false"
-           class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-all"
-           x-transition>
-        <a href="{% url 'perfil_usuario' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-800 transition">
-          <span>👤</span> <span>Perfil de Usuario</span>
-        </a>
-        <a href="{% url 'editar_perfil' %}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-800 transition">
-          <span>✏️</span> <span>Editar Perfil</span>
-        </a>
-        <form method="post" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button type="submit" class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:text-red-800 transition">
-            <span>📤</span> <span>Cerrar sesión</span>
-          </button>
-        </form>
-      </div>
-    </div>
-    {% else %}
-    <div class="flex items-center gap-4">
-      <a
-        href="{% url 'login' %}"
-        class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-      >
-        <img
-          src="{% static 'img/default_avatar.png' %}"
-          alt="Avatar temporal"
-          class="w-6 h-6 object-cover rounded-full border border-white"
-        />
-        <span class="font-medium">Iniciar Sesión</span>
-      </a>
-      <a
-        href="{% url 'registro' %}"
-        class="flex items-center gap-2 px-4 py-2 bg-gray-200 text-blue-700 border border-blue-600 rounded hover:bg-gray-300 transition"
-      >
-        <span class="text-sm font-medium">Registrarse</span>
-      </a>
-    </div>
-    
-    {% endif %}
-  </nav>
-</header>
-
-<!-- Contenido principal -->
-<main class="p-6">{% block content %}{% endblock %}</main>
-
-<!-- Pie de página -->
-<footer class="text-center text-gray-500 text-sm mt-6 py-4 border-t">
-  © 2025 Sistema Escolar. Todos los derechos reservados.
-</footer>
 </body>
 </html>

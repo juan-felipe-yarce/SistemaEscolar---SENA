@@ -1,0 +1,57 @@
+{% load static %}
+
+<header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+  <!-- Logo e Inicio -->
+  <div class="flex items-center gap-4">
+    <a href="{% url 'inicio' %}" class="text-xl font-bold text-blue-700">Sistema Escolar</a>
+    <a href="{% url 'bienvenida' %}" class="flex items-center text-blue-700 hover:underline">
+      <span class="text-xl">🏠</span>
+      <span class="ml-1">Inicio</span>
+    </a>
+  </div>
+
+  <!-- Usuario -->
+  <nav class="relative" x-data="{ open: false }">
+    {% if user.is_authenticated %}
+    <div class="relative inline-block text-left">
+      <button @click="open = !open" class="flex items-center gap-2 px-3 py-1 rounded-full hover:bg-gray-100 focus:outline-none">
+        {% if user.perfil.foto %}
+          <img src="{{ user.perfil.foto.url }}" alt="Foto de perfil" class="w-8 h-8 object-cover border border-gray-300 rounded-full" />
+        {% else %}
+          <img src="{% static 'img/default_avatar.png' %}" alt="Avatar por defecto" class="w-8 h-8 object-cover border border-gray-300 rounded-full" />
+        {% endif %}
+        <span class="text-sm font-semibold text-blue-800 hidden sm:inline">
+          Bienvenido, {{ user.perfil.primer_nombre }} {{ user.perfil.segundo_nombre }}
+        </span>
+      </button>
+
+      <!-- Menú desplegable -->
+      <div x-show="open" @click.away="open = false"
+           class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-all"
+           x-transition>
+        <a href="{% url 'perfil_usuario' %}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+          👤 <span>Perfil de Usuario</span>
+        </a>
+        <a href="{% url 'editar_perfil' %}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+          ✏️ <span>Editar Perfil</span>
+        </a>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+            📤 <span>Cerrar sesión</span>
+          </button>
+        </form>
+      </div>
+    </div>
+    {% else %}
+    <div class="flex items-center gap-4">
+      <a href="{% url 'login' %}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Iniciar Sesión
+      </a>
+      <a href="{% url 'registro' %}" class="px-4 py-2 bg-gray-200 text-blue-700 border border-blue-600 rounded hover:bg-gray-300 transition">
+        Registrarse
+      </a>
+    </div>
+    {% endif %}
+  </nav>
+</header>

@@ -1,37 +1,44 @@
-{% extends "panel_coordinador/panel_base.html" %}
+{% extends "panel_coordinador/dashboard_base.html" %}
+
+{% block title %}Lista de Asignaturas{% endblock %}
 
 {% block panel_content %}
-<div class="max-w-4xl mx-auto">
-  <h1>Lista de Asignaturas</h1>
+<div class="bg-white p-6 rounded shadow w-full">
+  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+    📘 Asignaturas Académicas
+  </h2>
 
-  <!-- Enlace para crear una nueva asignatura -->
-  <a href="{% url 'crear_asignatura' %}" class="bg-blue-500 text-white py-1 px-3 rounded">Nueva Asignatura</a>
+  <a
+    href="{% url 'crear_asignatura' %}"
+    class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block"
+  >
+    + Nueva Asignatura
+  </a>
 
-  <!-- Tabla para listar las asignaturas -->
   <table class="mt-4 w-full border border-gray-300">
     <thead class="bg-gray-200">
       <tr>
-        <th class="py-2 px-4">Nombre de la Asignatura</th>
-        <th class="py-2 px-4">Grado</th>
-        <th class="py-2 px-4">Área</th>
-        <th class="py-2 px-4">Acciones</th>
+        <th class="py-2 px-4 text-left">Nombre</th>
+        <th class="py-2 px-4 text-left">Grado</th>
+        <th class="py-2 px-4 text-left">Área</th>
+        <th class="py-2 px-4 text-left">Acciones</th>
       </tr>
     </thead>
     <tbody>
       {% for asignatura in asignaturas %}
-        <tr class="border-t">
-          <td class="py-2 px-4">{{ asignatura.nombre }}</td>
-          <td class="py-2 px-4">{{ asignatura.grado.nombre }}</td>
-          <td class="py-2 px-4">{{ asignatura.area.nombre }}</td>
-          <td class="py-2 px-4">
-            <a href="{% url 'editar_asignatura' asignatura.id %}" class="text-blue-600">Editar</a> |
-            <a href="{% url 'eliminar_asignatura' asignatura.id %}" class="text-red-600">Eliminar</a>
-          </td>
-        </tr>
+      <tr class="border-t hover:bg-gray-50">
+        <td class="py-2 px-4">{{ asignatura.nombre }}</td>
+        <td class="py-2 px-4">{{ asignatura.grado.nombre }}</td>
+        <td class="py-2 px-4">{{ asignatura.area.nombre }}</td>
+        <td class="py-2 px-4">
+          <a href="{% url 'editar_asignatura' asignatura.id %}" class="text-blue-600 hover:underline">Editar</a> |
+          <a href="{% url 'eliminar_asignatura' asignatura.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Deseas eliminar esta asignatura?');">Eliminar</a>
+        </td>
+      </tr>
       {% empty %}
-        <tr>
-          <td colspan="4" class="py-2 px-4">No hay asignaturas registradas.</td>
-        </tr>
+      <tr>
+        <td colspan="4" class="py-4 px-4 text-center text-gray-500">No hay asignaturas registradas.</td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>

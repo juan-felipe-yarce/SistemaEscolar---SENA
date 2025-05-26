@@ -1,52 +1,53 @@
-{% extends "panel_coordinador/panel_base.html" %}
+{% extends "panel_coordinador/dashboard_base.html" %}
 {% load widget_tweaks %}
 
+{% block title %}Nueva Asignación Docente{% endblock %}
+
 {% block panel_content %}
-<div class="flex justify-center">
-  <div class="max-w-xl w-full bg-white p-6 rounded shadow">
-    <h2 class="text-2xl font-bold mb-4 text-blue-800">🧑‍🏫 {% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Asignación Docente</h2>
+<div class="bg-white p-6 rounded shadow w-full max-w-lg">
+  <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center gap-2">
+    <span>👨‍🏫</span> {% if form.instance.pk %}Editar{% else %}Nueva{% endif %} Asignación Docente
+  </h2>
 
-    <form method="post">
-      {% csrf_token %}
-      <div class="space-y-4">
-        <!-- Campo: Docente -->
-        <div>
-          <label for="{{ form.docente.id_for_label }}" class="block text-sm font-medium text-gray-700">Docente</label>
-          {{ form.docente|add_class:"mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
-          {% if form.docente.errors %}
-            <p class="text-red-500 text-sm mt-1">{{ form.docente.errors.0 }}</p>
-          {% endif %}
-        </div>
+  <form method="post">
+    {% csrf_token %}
 
-        <!-- Campo: Asignatura -->
-        <div>
-          <label for="{{ form.asignatura.id_for_label }}" class="block text-sm font-medium text-gray-700">Asignatura</label>
-          {{ form.asignatura|add_class:"mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
-          {% if form.asignatura.errors %}
-            <p class="text-red-500 text-sm mt-1">{{ form.asignatura.errors.0 }}</p>
-          {% endif %}
-        </div>
+    <!-- Campo: Docente -->
+    <div class="mb-4">
+      <label for="{{ form.docente.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Docente:</label>
+      {{ form.docente|add_class:"w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-500" }}
+      {% if form.docente.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.docente.errors.0 }}</p>
+      {% endif %}
+    </div>
 
-        <!-- Campo: Grupo -->
-        <div>
-          <label for="{{ form.grupo.id_for_label }}" class="block text-sm font-medium text-gray-700">Grupo</label>
-          {{ form.grupo|add_class:"mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
-          {% if form.grupo.errors %}
-            <p class="text-red-500 text-sm mt-1">{{ form.grupo.errors.0 }}</p>
-          {% endif %}
-        </div>
-      </div>
+    <!-- Campo: Asignatura -->
+    <div class="mb-4">
+      <label for="{{ form.asignatura.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Asignatura:</label>
+      {{ form.asignatura|add_class:"w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-500" }}
+      {% if form.asignatura.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.asignatura.errors.0 }}</p>
+      {% endif %}
+    </div>
 
-      <!-- Botones -->
-      <div class="mt-6 flex gap-4">
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-          💾 Guardar
-        </button>
-        <a href="{% url 'lista_asignaciones' %}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition">
-          ❌ Cancelar
-        </a>
-      </div>
-    </form>
-  </div>
+    <!-- Campo: Grupo -->
+    <div class="mb-4">
+      <label for="{{ form.grupo.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Grupo:</label>
+      {{ form.grupo|add_class:"w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-500" }}
+      {% if form.grupo.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.grupo.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Botones -->
+    <div class="mt-6 flex gap-4">
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        💾 Guardar
+      </button>
+      <a href="{% url 'lista_asignaciones' %}" class="bg-red-100 text-red-700 px-4 py-2 rounded hover:bg-red-200 transition">
+        ❌ Cancelar
+      </a>
+    </div>
+  </form>
 </div>
 {% endblock %}

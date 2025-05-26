@@ -1,47 +1,53 @@
-{% extends 'panel_coordinador/panel_base.html' %}
+{% extends 'panel_coordinador/dashboard_base.html' %}
 
 {% block panel_content %}
-<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
-  <h2 class="text-2xl font-bold text-blue-800 mb-4">👤 Perfil de Usuario</h2>
-
-  {% if perfil.foto %}
-    <div class="flex justify-center items-center mb-6">
-      <div class="flex-none w-28 h-28 rounded-xl overflow-hidden">
+<div class="bg-white p-8 rounded shadow w-full max-w-6xl mx-auto">
+  <div class="flex flex-col md:flex-row items-start gap-20">
+    
+    <!-- Foto del perfil -->
+    {% if perfil.foto %}
+      <div class="w-[128px] h-[128px] rounded-xl overflow-hidden border shadow mx-auto md:mx-0">
         <img 
           src="{{ perfil.foto.url }}" 
           alt="Foto de perfil" 
-          class="w-full h-full object-cover"
+          class="object-cover w-[128px] h-[128px]"
         >
-      </div>      
-    </div>
-  {% endif %}
-
-  <!-- ⬇️ Reemplazamos el <dl> por un div normal con margin-top -->
-  <div class="mt-6 divide-y divide-gray-200 text-sm text-gray-700">
-
-    <div class="py-2"><strong>Correo:</strong> {{ usuario.correo }}</div>
-    <div class="py-2"><strong>Rol:</strong> {{ usuario.rol.nombre }}</div>
-    <div class="py-2"><strong>Fecha de creación:</strong> {{ usuario.fecha_creacion|date:"j \\d\\e F \\d\\e Y, g:i a" }}</div>
-
-    {% if perfil %}
-      <div class="py-2"><strong>Primer nombre:</strong> {{ perfil.primer_nombre }}</div>
-      <div class="py-2"><strong>Segundo nombre:</strong> {{ perfil.segundo_nombre }}</div>
-      <div class="py-2"><strong>Primer apellido:</strong> {{ perfil.primer_apellido }}</div>
-      <div class="py-2"><strong>Segundo apellido:</strong> {{ perfil.segundo_apellido }}</div>
-      <div class="py-2"><strong>Tipo de documento:</strong> {{ perfil.tipo_documento }}</div>
-      <div class="py-2"><strong>Número de documento:</strong> {{ perfil.numero_documento }}</div>
-      <div class="py-2"><strong>Dirección línea 1:</strong> {{ perfil.direccion_linea1 }}</div>
-      <div class="py-2"><strong>Dirección línea 2:</strong> {{ perfil.direccion_linea2 }}</div>
-      <div class="py-2"><strong>Ciudad:</strong> {{ perfil.ciudad }}</div>
-    {% else %}
-      <div class="py-2 text-red-600">❗ Este usuario no tiene un perfil creado.</div>
+      </div>
     {% endif %}
-  </div>
 
-  <div class="mt-6">
-    <a href="{% url 'editar_perfil' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-      ✏️ Editar Perfil
-    </a>
+    <!-- Datos del usuario -->
+    <div class="flex-1">
+      <h2 class="text-2xl font-bold text-blue-800 mb-4">👤 Perfil de Usuario</h2>
+      <div class="divide-y divide-gray-200 text-sm text-gray-700">
+        <div class="py-2"><strong>Correo:</strong> {{ usuario.correo }}</div>
+        <div class="py-2"><strong>Rol:</strong> {{ usuario.rol.nombre }}</div>
+        <div class="py-2"><strong>Fecha de creación:</strong> {{ usuario.fecha_creacion|date:"j \\d\\e F \\d\\e Y, g:i a" }}</div>
+
+        {% if perfil %}
+          <div class="py-2"><strong>Primer nombre:</strong> {{ perfil.primer_nombre }}</div>
+          <div class="py-2"><strong>Segundo nombre:</strong> {{ perfil.segundo_nombre }}</div>
+          <div class="py-2"><strong>Primer apellido:</strong> {{ perfil.primer_apellido }}</div>
+          <div class="py-2"><strong>Segundo apellido:</strong> {{ perfil.segundo_apellido }}</div>
+          <div class="py-2"><strong>Tipo de documento:</strong> {{ usuario.tipo_documento }}</div>
+          <div class="py-2"><strong>Número de documento:</strong> {{ usuario.numero_documento }}</div>
+          <div class="py-2"><strong>Dirección línea 1:</strong> {{ perfil.direccion_linea1 }}</div>
+          <div class="py-2"><strong>Dirección línea 2:</strong> {{ perfil.direccion_linea2 }}</div>
+          <div class="py-2"><strong>Ciudad:</strong> {{ perfil.ciudad.nombre }}</div>
+          <div class="py-2"><strong>Departamento / Estado:</strong> {{ perfil.ciudad.departamento.nombre }}</div>
+          <div class="py-2"><strong>País:</strong> {{ perfil.ciudad.departamento.pais.nombre }}</div>
+        {% else %}
+          <div class="py-2 text-red-600">❗ Este usuario no tiene un perfil creado.</div>
+        {% endif %}
+      </div>
+
+      <div class="mt-6">
+        <a href="{% url 'editar_perfil' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+          ✏️ Editar Perfil
+        </a>
+      </div>
+    </div>
+
   </div>
 </div>
+
 {% endblock %}

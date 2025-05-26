@@ -1,14 +1,19 @@
-{% extends "panel_coordinador/panel_base.html" %}
+{% extends "panel_coordinador/dashboard_base.html" %}
+
+{% block title %}Lista de Niveles Educativos{% endblock %}
 
 {% block panel_content %}
-<div class="max-w-4xl mx-auto">
+<div class="bg-white p-6 rounded shadow w-full">
   <!-- Título -->
-  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center">
+  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
     📚 Niveles Educativos
   </h2>
 
   <!-- Botón: Nuevo Nivel -->
-  <a href="{% url 'crear_nivel' %}" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block">
+  <a
+    href="{% url 'crear_nivel' %}"
+    class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block"
+  >
     + Nuevo Nivel
   </a>
 
@@ -22,17 +27,17 @@
     </thead>
     <tbody>
       {% for nivel in niveles %}
-        <tr class="border-t hover:bg-gray-50">
-          <td class="py-2 px-4">{{ nivel.nombre }}</td>
-          <td class="py-2 px-4">
-            <a href="{% url 'editar_nivel' nivel.id %}" class="text-blue-600 hover:underline">Editar</a> |
-            <a href="{% url 'eliminar_nivel' nivel.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de eliminar este nivel?');">Eliminar</a>
-          </td>
-        </tr>
+      <tr class="border-t hover:bg-gray-50">
+        <td class="py-2 px-4">{{ nivel.nombre }}</td>
+        <td class="py-2 px-4">
+          <a href="{% url 'editar_nivel' nivel.id %}" class="text-blue-600 hover:underline">Editar</a> |
+          <a href="{% url 'eliminar_nivel' nivel.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de eliminar este nivel?');">Eliminar</a>
+        </td>
+      </tr>
       {% empty %}
-        <tr>
-          <td colspan="2" class="py-4 px-4 text-center text-gray-500">No hay niveles registrados.</td>
-        </tr>
+      <tr>
+        <td colspan="2" class="py-4 px-4 text-center text-gray-500">No hay niveles registrados.</td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>

@@ -1,18 +1,20 @@
-{% extends "panel_coordinador/panel_base.html" %}
+{% extends "panel_coordinador/dashboard_base.html" %}
+
+{% block title %}Lista de Grupos{% endblock %}
 
 {% block panel_content %}
-<div class="max-w-4xl mx-auto">
-  <!-- Título -->
-  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center">
-    👨‍🎓 Lista de Grupos
+<div class="bg-white p-6 rounded shadow w-full">
+  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+    👨‍🎓 Grupos Académicos
   </h2>
 
-  <!-- Botón: Nuevo Grupo -->
-  <a href="{% url 'crear_grupo' %}" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block">
+  <a
+    href="{% url 'crear_grupo' %}"
+    class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block"
+  >
     + Nuevo Grupo
   </a>
 
-  <!-- Tabla -->
   <table class="mt-4 w-full border border-gray-300">
     <thead class="bg-gray-200">
       <tr>
@@ -24,19 +26,19 @@
     </thead>
     <tbody>
       {% for grupo in grupos %}
-        <tr class="border-t hover:bg-gray-50">
-          <td class="py-2 px-4">{{ grupo.nombre }}</td>
-          <td class="py-2 px-4">{{ grupo.grado }}</td>
-          <td class="py-2 px-4">{{ grupo.aula }}</td>
-          <td class="py-2 px-4">
-            <a href="{% url 'editar_grupo' grupo.id %}" class="text-blue-600 hover:underline">Editar</a> |
-            <a href="{% url 'eliminar_grupo' grupo.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de eliminar este grupo?');">Eliminar</a>
-          </td>
-        </tr>
+      <tr class="border-t hover:bg-gray-50">
+        <td class="py-2 px-4">{{ grupo.nombre }}</td>
+        <td class="py-2 px-4">{{ grupo.grado }}</td>
+        <td class="py-2 px-4">{{ grupo.aula }}</td>
+        <td class="py-2 px-4">
+          <a href="{% url 'editar_grupo' grupo.id %}" class="text-blue-600 hover:underline">Editar</a> |
+          <a href="{% url 'eliminar_grupo' grupo.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de eliminar este grupo?');">Eliminar</a>
+        </td>
+      </tr>
       {% empty %}
-        <tr>
-          <td colspan="4" class="py-4 px-4 text-center text-gray-500">No hay grupos registrados.</td>
-        </tr>
+      <tr>
+        <td colspan="4" class="py-4 px-4 text-center text-gray-500">No hay grupos registrados.</td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>

@@ -1,9 +1,11 @@
-from django.urls import path
+from django.conf import settings
+from django.urls import path, include
 from . import views
 from django.contrib.auth.views import LogoutView
 from .views import (
     inicio, login_usuario, registro_usuario, perfil_usuario,
     panel_coordinador, panel_docente, panel_estudiante, panel_acudiente,
+    usuarios_pendientes, activar_usuario,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -16,7 +18,7 @@ urlpatterns = [
     path('', views.inicio, name='inicio'),  # Esto maneja http://127.0.0.1:8000/
     
     # Cerrar
-    path('logout/', LogoutView.as_view(next_page='inicio'), name='logout'),
+    path('logout/', views.logout_usuario, name='logout'),
 
     # Registro de usuarios
     path('registro/', views.registro_usuario, name='registro'),
@@ -67,7 +69,11 @@ urlpatterns = [
     path('coordinador/asignaciones/editar/<int:pk>/', views.editar_asignacion, name='editar_asignacion'),
     path('coordinador/asignaciones/eliminar/<int:pk>/', views.eliminar_asignacion, name='eliminar_asignacion'),
 
+    # Coordinador Usuarios Pendientes
+    path('coordinador/usuarios-pendientes/', usuarios_pendientes, name='usuarios_pendientes'),
+    path('coordinador/activar-usuario/<int:usuario_id>/', activar_usuario, name='activar_usuario'),
 
+    
     # Áreas
     path('coordinador/areas/', views.lista_areas, name='lista_areas'),
     path('coordinador/areas/nuevo/', views.crear_area, name='crear_area'),
@@ -92,5 +98,12 @@ urlpatterns = [
     path('coordinador/logros/editar/<int:pk>/', views.editar_logro, name='editar_logro'),
     path('coordinador/logros/eliminar/<int:pk>/', views.eliminar_logro, name='eliminar_logro'),
 ]
+
+# Solo en modo desarrollo
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
 
 

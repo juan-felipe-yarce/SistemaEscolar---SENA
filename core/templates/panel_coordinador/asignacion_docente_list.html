@@ -1,46 +1,50 @@
-{% extends "panel_coordinador/panel_base.html" %}
+{% extends "panel_coordinador/dashboard_base.html" %}
+
+{% block title %}Lista de Asignaciones Docentes{% endblock %}
 
 {% block panel_content %}
-<!-- Botón -->
-<div class="mb-4">
-  <a href="{% url 'crear_asignacion' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-    ➕ Nueva Asignación
+<div class="bg-white p-6 rounded shadow w-full">
+  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+    📚 Asignaciones Docentes
+  </h2>
+
+  <a
+    href="{% url 'crear_asignacion' %}"
+    class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block"
+  >
+    + Nueva Asignación
   </a>
-</div>
 
-<!-- Título -->
-<h2 class="text-2xl font-bold mb-4 text-blue-800 flex items-center">
-  📚 Asignaciones Docentes
-</h2>
-
-<!-- Tabla -->
-<div class="overflow-x-auto">
-  <table class="min-w-full bg-white shadow-md rounded border">
-    <thead>
-      <tr class="bg-gray-200 text-left text-sm font-medium text-gray-700">
-        <th class="px-4 py-2">Docente</th>
-        <th class="px-4 py-2">Asignatura</th>
-        <th class="px-4 py-2">Grupo</th>
-        <th class="px-4 py-2">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for asignacion in asignaciones %}
-      <tr class="border-t text-sm">
-        <td class="px-4 py-2">{{ asignacion.docente }}</td>
-        <td class="px-4 py-2">{{ asignacion.asignatura }}</td>
-        <td class="px-4 py-2">{{ asignacion.grupo }}</td>
-        <td class="px-4 py-2">
-          <a href="{% url 'editar_asignacion' asignacion.id %}" class="text-blue-600 hover:underline">Editar</a> |
-          <a href="{% url 'eliminar_asignacion' asignacion.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de eliminar esta asignación?');">Eliminar</a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="4" class="text-center py-4 text-gray-500">No hay asignaciones registradas.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="overflow-x-auto">
+    <table class="w-full border border-gray-300">
+      <thead class="bg-gray-200 text-sm text-gray-700 text-left">
+        <tr>
+          <th class="px-4 py-2">Docente</th>
+          <th class="px-4 py-2">Asignatura</th>
+          <th class="px-4 py-2">Grupo</th>
+          <th class="px-4 py-2">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for asignacion in asignaciones %}
+        <tr class="border-t hover:bg-gray-50 text-sm">
+          <td class="px-4 py-2">{{ asignacion.docente }}</td>
+          <td class="px-4 py-2">{{ asignacion.asignatura }}</td>
+          <td class="px-4 py-2">{{ asignacion.grupo }}</td>
+          <td class="px-4 py-2">
+            <a href="{% url 'editar_asignacion' asignacion.id %}" class="text-blue-600 hover:underline">Editar</a> |
+            <a href="{% url 'eliminar_asignacion' asignacion.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de eliminar esta asignación?');">Eliminar</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center py-4 text-gray-500">
+            No hay asignaciones registradas.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

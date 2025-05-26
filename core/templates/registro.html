@@ -39,6 +39,16 @@
       </div>
 
       <div class="mb-4">
+        <label class="block text-sm font-semibold mb-1">Tipo de Documento:</label>
+        {{ form.tipo_documento|add_class:"w-full p-2 border rounded" }}
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold mb-1">Número de Documento:</label>
+        {{ form.numero_documento|add_class:"w-full p-2 border rounded" }}
+      </div>
+
+      <div class="mb-4">
         <label class="block text-sm font-semibold mb-1">Contraseña:</label>
         {{ form.password|add_class:"w-full p-2 border rounded" }}
         <p class="text-xs text-gray-500">{{ form.password.help_text }}</p>

@@ -1,13 +1,15 @@
 import re
 from django import forms
-from django.forms import TextInput, Select, EmailInput
+from django.forms import TextInput, Select, EmailInput, FileInput
 from django.contrib.auth.hashers import make_password
 
 from .models import (
-    Usuario, Rol, NivelEducativo, Grado, Area, Asignatura, Tema, Logro,
-    Aula, Grupo, AsignacionDocente, PerfilDeUsuario
+    Usuario, Rol, TipoDocumento,
+    NivelEducativo, Grado, Area, Asignatura, Tema, Logro,
+    Aula, Grupo, AsignacionDocente,
+    PerfilDeUsuario
 )
-from django.forms import FileInput
+
 
 # Formulario de Registro de Usuario
 class RegistroUsuarioForm(forms.ModelForm):
@@ -23,7 +25,11 @@ class RegistroUsuarioForm(forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ['correo', 'rol', 'password']
+        fields = ['correo', 'rol', 'tipo_documento', 'numero_documento', 'password']
+        widgets = {
+            'tipo_documento': forms.Select(attrs={'class': 'w-full p-2 border rounded'}),
+            'numero_documento': forms.TextInput(attrs={'class': 'w-full p-2 border rounded'}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
@@ -48,9 +54,11 @@ class RegistroUsuarioForm(forms.ModelForm):
     def save(self, commit=True):
         usuario = super().save(commit=False)
         usuario.set_password(self.cleaned_data["password"])
+        usuario.is_active = False  # Por si se te olvida en algún punto
         if commit:
             usuario.save()
         return usuario
+
     
 # Formulario para Perfil de Usuario
 class PerfilUsuarioForm(forms.ModelForm):
@@ -61,7 +69,6 @@ class PerfilUsuarioForm(forms.ModelForm):
         fields = [
             'foto',
             'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido',
-            'tipo_documento', 'numero_documento',
             'direccion_linea1', 'direccion_linea2', 'ciudad',
             'especialidad', 'grupo', 'acudidos'  # Estos serán filtrados
         ]

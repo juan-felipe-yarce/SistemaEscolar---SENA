@@ -25,8 +25,16 @@ class TipoDocumento(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class Pais(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    codigo_iso = models.CharField(max_length=3, unique=True)
+
+    def __str__(self):
+        return self.nombre
 
 class Departamento(models.Model):
+    pais = models.ForeignKey(Pais, on_delete=models.PROTECT)
     nombre = models.CharField(max_length=50)
 
     class Meta:
@@ -35,6 +43,7 @@ class Departamento(models.Model):
 
     def __str__(self):
         return self.nombre
+
 
 class Ciudad(models.Model):
     nombre = models.CharField(max_length=50)
@@ -56,8 +65,6 @@ class Persona(models.Model):
     segundo_nombre = models.CharField(max_length=50, blank=True, null=True)
     primer_apellido = models.CharField(max_length=50)
     segundo_apellido = models.CharField(max_length=50, blank=True, null=True)
-    tipo_documento = models.ForeignKey(TipoDocumento, on_delete=models.PROTECT)
-    numero_documento = models.CharField(max_length=20, unique=True)
     direccion_linea1 = models.CharField(max_length=100)
     direccion_linea2 = models.CharField(max_length=100, blank=True, null=True)
     ciudad = models.ForeignKey(Ciudad, on_delete=models.PROTECT)
@@ -87,9 +94,14 @@ class UsuarioManager(BaseUserManager):
 class Usuario(AbstractBaseUser, PermissionsMixin):
     correo = models.EmailField(unique=True)
     rol = models.ForeignKey(Rol, on_delete=models.PROTECT)
+
+    tipo_documento = models.ForeignKey(TipoDocumento, on_delete=models.PROTECT, null=True)
+    numero_documento = models.CharField(max_length=20, unique=True, null=True)
+
     fecha_creacion = models.DateTimeField(default=timezone.now)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)  # La cuenta queda inactiva hasta validación
     is_staff = models.BooleanField(default=False)
+
     groups = models.ManyToManyField(Group, blank=True, related_name='usuario_set')
     user_permissions = models.ManyToManyField(Permission, blank=True, related_name='usuario_set')
 
@@ -104,6 +116,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.correo
+
 
 # ────────────────────────────────
 # PERFIL DE USUARIO
