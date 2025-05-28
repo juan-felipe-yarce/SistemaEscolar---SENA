@@ -49,10 +49,22 @@
     <!-- 🙋‍♂️ Identidad -->
     <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🙋‍♂️ Identidad</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-      {{ form_identidad.primer_nombre.label_tag }} {{ form_identidad.primer_nombre }}
-      {{ form_identidad.segundo_nombre.label_tag }} {{ form_identidad.segundo_nombre }}
-      {{ form_identidad.primer_apellido.label_tag }} {{ form_identidad.primer_apellido }}
-      {{ form_identidad.segundo_apellido.label_tag }} {{ form_identidad.segundo_apellido }}
+      <div>
+        {{ form_identidad.primer_nombre.label_tag }} 
+        {{ form_identidad.primer_nombre }}
+      </div>
+      <div>
+        {{ form_identidad.segundo_nombre.label_tag }} 
+        {{ form_identidad.segundo_nombre }}
+      </div>
+      <div>
+        {{ form_identidad.primer_apellido.label_tag }} 
+        {{ form_identidad.primer_apellido }}
+      </div>
+      <div>
+        {{ form_identidad.segundo_apellido.label_tag }} 
+        {{ form_identidad.segundo_apellido }}
+      </div>
     </div>
 
     <!-- 🎂 Nacimiento -->
@@ -75,37 +87,72 @@
     <!-- 🏠 Domicilio -->
     <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🏠 Domicilio</h2>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {{ form_basico.pais_residencia.label_tag }} {{ form_basico.pais_residencia }}
-      {{ form_basico.departamento_residencia.label_tag }} {{ form_basico.departamento_residencia }}
-      {{ form_basico.municipio_residencia.label_tag }} {{ form_basico.municipio_residencia }}
+      <div>
+        {{ form_basico.pais_residencia.label_tag }} 
+        {{ form_basico.pais_residencia }}
+      </div>
+      <div>
+        {{ form_basico.departamento_residencia.label_tag }} 
+        {{ form_basico.departamento_residencia }}
+      </div>
+      <div>
+        {{ form_basico.municipio_residencia.label_tag }} 
+        {{ form_basico.municipio_residencia }}
+      </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      {{ form_basico.direccion_linea1.label_tag }} {{ form_basico.direccion_linea1 }}
-      {{ form_basico.direccion_linea2.label_tag }} {{ form_basico.direccion_linea2 }}
+      <div>
+        {{ form_basico.direccion_linea1.label_tag }} 
+        {{ form_basico.direccion_linea1 }}
+      </div>
+      <div>
+        {{ form_basico.direccion_linea2.label_tag }} 
+        {{ form_basico.direccion_linea2 }}
+      </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      {{ form_basico.estrato.label_tag }} {{ form_basico.estrato }}
+      <div>
+        {{ form_basico.estrato.label_tag }} 
+        {{ form_basico.estrato }}
+      </div>
     </div>
 
     <!-- ☎️ Datos de Contacto -->
     <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">☎️ Datos de Contacto</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {{ form_basico.telefono_celular.label_tag }} {{ form_basico.telefono_celular }}
-      {{ form_basico.telefono_celular_alterno.label_tag }} {{ form_basico.telefono_celular_alterno }}
+      <div>
+        {{ form_basico.telefono_celular.label_tag }} 
+        {{ form_basico.telefono_celular }}
+      </div>
+      <div>
+        {{ form_basico.telefono_celular_alterno.label_tag }} 
+        {{ form_basico.telefono_celular_alterno }}
+      </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      {{ form_basico.telefono_fijo.label_tag }} {{ form_basico.telefono_fijo }}
-      {{ form_basico.telefono_fijo_ext.label_tag }} {{ form_basico.telefono_fijo_ext }}
+      <div>
+        {{ form_basico.telefono_fijo.label_tag }} 
+        {{ form_basico.telefono_fijo }}
+      </div>
+      <div>
+        {{ form_basico.telefono_fijo_ext.label_tag }} 
+        {{ form_basico.telefono_fijo_ext }}
+      </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      {{ form_basico.correo_alterno.label_tag }} {{ form_basico.correo_alterno }}
+      <div>
+        {{ form_basico.correo_alterno.label_tag }} 
+        {{ form_basico.correo_alterno }}
+      </div>
     </div>
 
     <!-- 🎓 Perfil Ocupacional -->
     <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🎓 Perfil Ocupacional</h2>
     <div class="mt-2">
-      {{ form_basico.resumen.label_tag }}
-      {{ form_basico.resumen }}
+      <div>
+        {{ form_basico.resumen.label_tag }}
+        {{ form_basico.resumen }}
+      </div>
     </div>
 
     <!-- 💾 Botón -->
