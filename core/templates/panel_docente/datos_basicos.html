@@ -1,0 +1,142 @@
+{% extends "panel_docente/dashboard_base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Datos Básicos del Docente
+{% endblock %}
+
+{% block panel_content %}
+<div class="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 mt-6">
+  <h1 class="text-2xl font-semibold text-gray-700 mb-4">
+    📄 Datos Básicos del Docente
+  </h1>
+
+  {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+        <div class="p-3 rounded text-sm {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- 🧾 Identificación -->
+<h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🧾 Datos de Identificación</h2>
+{{ form_identificacion.non_field_errors }}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+  <div>
+    {{ form_identificacion.tipo_documento.label_tag }}
+    {{ form_identificacion.tipo_documento }}
+    {{ form_identificacion.tipo_documento.errors }}
+  </div>
+  <div>
+    {{ form_identificacion.numero_documento.label_tag }}
+    {{ form_identificacion.numero_documento }}
+    {{ form_identificacion.numero_documento.errors }}
+  </div>
+  <div class="sm:col-span-2">
+    {{ form_identificacion.municipio_identificacion.label_tag }}
+    {{ form_identificacion.municipio_identificacion }}
+    {{ form_identificacion.municipio_identificacion.errors }}
+  </div>
+</div>
+
+
+    <!-- 🙋‍♂️ Identidad -->
+    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🙋‍♂️ Identidad</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+      {{ form_identidad.primer_nombre.label_tag }} {{ form_identidad.primer_nombre }}
+      {{ form_identidad.segundo_nombre.label_tag }} {{ form_identidad.segundo_nombre }}
+      {{ form_identidad.primer_apellido.label_tag }} {{ form_identidad.primer_apellido }}
+      {{ form_identidad.segundo_apellido.label_tag }} {{ form_identidad.segundo_apellido }}
+    </div>
+
+    <!-- 🎂 Nacimiento -->
+    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🎂 Nacimiento</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+        {{ form_basico.fecha_nacimiento.label_tag }}
+        {{ form_basico.fecha_nacimiento }}
+      </div>
+      <div>
+        <label for="edad" class="block text-sm font-medium text-gray-700">Edad</label>
+        <input type="text" id="edad" name="edad" readonly class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100" />
+      </div>
+      <div>
+        {{ form_basico.genero.label_tag }}
+        {{ form_basico.genero }}
+      </div>
+    </div>
+
+    <!-- 🏠 Domicilio -->
+    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🏠 Domicilio</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {{ form_basico.pais_residencia.label_tag }} {{ form_basico.pais_residencia }}
+      {{ form_basico.departamento_residencia.label_tag }} {{ form_basico.departamento_residencia }}
+      {{ form_basico.municipio_residencia.label_tag }} {{ form_basico.municipio_residencia }}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      {{ form_basico.direccion_linea1.label_tag }} {{ form_basico.direccion_linea1 }}
+      {{ form_basico.direccion_linea2.label_tag }} {{ form_basico.direccion_linea2 }}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      {{ form_basico.estrato.label_tag }} {{ form_basico.estrato }}
+    </div>
+
+    <!-- ☎️ Datos de Contacto -->
+    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">☎️ Datos de Contacto</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {{ form_basico.telefono_celular.label_tag }} {{ form_basico.telefono_celular }}
+      {{ form_basico.telefono_celular_alterno.label_tag }} {{ form_basico.telefono_celular_alterno }}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      {{ form_basico.telefono_fijo.label_tag }} {{ form_basico.telefono_fijo }}
+      {{ form_basico.telefono_fijo_ext.label_tag }} {{ form_basico.telefono_fijo_ext }}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      {{ form_basico.correo_alterno.label_tag }} {{ form_basico.correo_alterno }}
+    </div>
+
+    <!-- 🎓 Perfil Ocupacional -->
+    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🎓 Perfil Ocupacional</h2>
+    <div class="mt-2">
+      {{ form_basico.resumen.label_tag }}
+      {{ form_basico.resumen }}
+    </div>
+
+    <!-- 💾 Botón -->
+    <div class="mt-6">
+      <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        💾 Guardar
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const birthInput = document.querySelector("#id_fecha_nacimiento");
+    const ageOutput = document.querySelector("#edad");
+
+    if (birthInput) {
+      function calcularEdad() {
+        const birthDate = new Date(birthInput.value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        ageOutput.value = isNaN(age) ? "" : age;
+      }
+
+      birthInput.addEventListener("change", calcularEdad);
+      calcularEdad(); // Ejecutar al cargar si hay valor
+    }
+  });
+</script>
+{% endblock %}

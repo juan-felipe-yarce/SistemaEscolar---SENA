@@ -1,140 +1,22 @@
-# Importaciones y utilidades
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout
-from django.urls import reverse
-from django.contrib import messages
-from django.http import HttpResponse
-from django.contrib.auth import login, logout
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
-
-def logout_usuario(request):
-    logout(request)
-    return redirect('bienvenida')  # ← Esto lleva al inicio, ya sin sesión activa
-
-from .models import (
-    Usuario, NivelEducativo, Grado, Area, Asignatura, Tema, Logro,
-    PerfilDeUsuario, Aula, Grupo, AsignacionDocente
+from django.contrib import messages
+from core.models import (
+    NivelEducativo, Grado, Aula, Grupo,
+    Asignatura, Area, Tema, Logro,
+    AsignacionDocente
 )
-from .forms import (
-    LoginForm, RegistroUsuarioForm, PerfilUsuarioForm,
-    NivelEducativoForm, GradoForm, AreaForm, AsignaturaForm,
-    TemaForm, LogroForm, AulaForm, GrupoForm, AsignacionDocenteForm
+from core.forms import (
+    NivelEducativoForm, GradoForm, AulaForm, GrupoForm,
+    AsignacionDocenteForm, AreaForm, AsignaturaForm,
+    TemaForm, LogroForm
 )
 
 def es_coordinador(user):
     return user.rol.nombre == 'Coordinador Académico'
 
-# Inicio, autenticación y redirección por rol
-def bienvenida(request):
-    return render(request, 'inicio.html')
-
-from django.shortcuts import redirect
-
-def inicio(request):
-    if request.user.is_authenticated:
-        rol = request.user.rol.nombre
-        redirecciones = {
-            'Coordinador Académico': 'panel_coordinador',
-            'Docente': 'panel_docente',
-            'Estudiante': 'panel_estudiante',
-            'Acudiente': 'panel_acudiente',
-            'Padre de Familia o Acudiente': 'panel_acudiente',
-        }
-        return redirect(redirecciones.get(rol, 'login'))
-    return redirect('login')
-
-
-
-def registro_usuario(request):
-    if request.method == 'POST':
-        form = RegistroUsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()  # ← ya deja is_active=False desde el form
-            messages.success(
-                request,
-                "✅ Usuario registrado correctamente. Tu cuenta ha sido creada y está pendiente de validación por parte del Coordinador Académico. Recibirás notificación cuando esté activa."
-            )
-            return redirect('login')
-        else:
-            messages.error(request, "❌ Verifica los errores en el formulario.")
-    else:
-        form = RegistroUsuarioForm()
-    return render(request, 'registro.html', {'form': form})
-
-
-def login_usuario(request):
-    error = ''
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            correo = form.cleaned_data['correo']
-            password = form.cleaned_data['password']
-            try:
-                usuario = Usuario.objects.get(correo=correo)
-                if usuario.check_password(password):
-                    login(request, usuario)
-                    redirecciones = {
-                        'Coordinador Académico': 'lista_niveles',  # 👈 ir directo a gestionar los Niveles Educativos
-                        'Docente': 'panel_docente',
-                        'Estudiante': 'panel_estudiante',
-                        'Acudiente': 'panel_acudiente',
-                        'Padre de Familia o Acudiente': 'panel_acudiente',
-                    }
-                    destino = redirecciones.get(usuario.rol.nombre)
-                    return redirect(reverse(destino)) if destino else HttpResponse("Rol no reconocido.")
-                else:
-                    error = "Contraseña incorrecta"
-            except Usuario.DoesNotExist:
-                error = "Usuario no encontrado"
-    else:
-        form = LoginForm()
-    return render(request, 'login.html', {'form': form, 'error': error})
-
-# Paneles por rol
-@login_required
-def perfil_usuario(request):
-    usuario = request.user
-    perfil = getattr(usuario, 'perfil', None)  # Evita errores si no existe
-
-    return render(request, 'core/perfil_usuario.html', {
-        'usuario': usuario,
-        'perfil': perfil
-    })
-
-@login_required
-def editar_perfil(request):
-    try:
-        perfil = request.user.perfil
-    except PerfilDeUsuario.DoesNotExist:
-        perfil = PerfilDeUsuario(usuario=request.user)
-    if request.method == 'POST':
-        form = PerfilUsuarioForm(request.POST, request.FILES, instance=perfil, user=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, '✅ Perfil actualizado correctamente.')
-            return redirect('editar_perfil')
-        else:
-            messages.error(request, '❌ Corrige los errores del formulario.')
-    else:
-        form = PerfilUsuarioForm(instance=perfil, user=request.user)
-    return render(request, 'core/editar_perfil.html', {'form': form})
-
-def panel_docente(request):
-    return HttpResponse("Panel del Docente")
-
-def panel_estudiante(request):
-    return HttpResponse("Panel del Estudiante")
-
-def panel_acudiente(request):
-    return HttpResponse("Panel del Acudiente")
-
-# Panel del Coordinador
-@login_required
-@user_passes_test(es_coordinador)
-def panel_coordinador(request):
-    return redirect('usuarios_pendientes')
-
-
+# Y a continuación, todas las funciones tal como están en tu views.py:
+# lista_niveles, crear_nivel, editar_nivel, eliminar_nivel, etc...
 # Módulos del Coordinador Académico
 # Niveles
 @login_required
@@ -450,22 +332,3 @@ def eliminar_asignacion(request, pk):
     AsignacionDocente.objects.get(pk=pk).delete()
     messages.success(request, "Asignación eliminada correctamente.")
     return redirect('lista_asignaciones')
-
-@login_required
-@user_passes_test(es_coordinador)
-def usuarios_pendientes(request):
-    usuarios = Usuario.objects.filter(is_active=False)
-    return render(request, 'panel_coordinador/usuarios_pendientes.html', {
-        'usuarios': usuarios,
-        'pending_users_count': usuarios.count()
-    })
-    
-@login_required
-@user_passes_test(es_coordinador)
-def activar_usuario(request, usuario_id):
-    usuario = get_object_or_404(Usuario, id=usuario_id)
-    usuario.is_active = True
-    usuario.save()
-    messages.success(request, f"✅ Usuario {usuario.correo} activado correctamente.")
-    return redirect('usuarios_pendientes')
-

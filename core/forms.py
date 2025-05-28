@@ -6,9 +6,11 @@ from django.contrib.auth.hashers import make_password
 from .models import (
     Usuario, Rol, TipoDocumento,
     NivelEducativo, Grado, Area, Asignatura, Tema, Logro,
-    Aula, Grupo, AsignacionDocente,
-    PerfilDeUsuario
+    Aula, Grupo, AsignacionDocente, Ciudad,
+    PerfilDeUsuario, HojaDeVidaDocente, EducacionDocente, CapacitacionDocente, IdiomaDocente, ExperienciaDocente
 )
+
+
 
 
 # Formulario de Registro de Usuario
@@ -134,9 +136,23 @@ class PerfilUsuarioForm(forms.ModelForm):
 
 
 # Formulario de Login de Usuario
+from django import forms
+
 class LoginForm(forms.Form):
-    correo = forms.EmailField(label="Correo electrónico")
-    password = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
+    username = forms.CharField(
+        label="Usuario",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full border border-gray-300 rounded px-3 py-2 mt-1',
+            'placeholder': 'Tu usuario'
+        })
+    )
+    password = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(attrs={
+            'class': 'w-full border border-gray-300 rounded px-3 py-2 mt-1',
+            'placeholder': 'Tu contraseña'
+        })
+    )
 
 # Formulario para Nivel Educativo
 class NivelEducativoForm(forms.ModelForm):
@@ -219,3 +235,125 @@ class LogroForm(forms.ModelForm):
     class Meta:
         model = Logro
         fields = ['descripcion', 'asignatura']
+
+# Hoja de Vida Docentes
+class DatosBasicosDocenteForm(forms.ModelForm):
+    class Meta:
+        model = HojaDeVidaDocente
+        exclude = ['usuario']  # Usuario se asigna en la vista
+
+        widgets = {
+            'fecha_nacimiento': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'genero': forms.Select(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'estado_civil': forms.Select(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'pais_residencia': forms.Select(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'departamento_residencia': forms.Select(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'municipio_residencia': forms.Select(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'direccion_linea1': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'direccion_linea2': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'estrato': forms.Select(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'telefono_celular': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'telefono_celular_alterno': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'telefono_fijo': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'telefono_fijo_ext': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'correo_alterno': forms.EmailInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'resumen': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+        }
+
+# Identificaci♀n Formulario
+class IdentificacionForm(forms.ModelForm):
+    municipio_identificacion = forms.ModelChoiceField(
+        queryset=Ciudad.objects.all(),
+        label="Municipio de Identificación",
+        required=False,  # MUY IMPORTANTE
+        widget=forms.Select(attrs={
+            'class': 'w-full border border-gray-300 rounded px-3 py-2'
+        })
+    )
+
+
+    class Meta:
+        model = Usuario
+        fields = ['tipo_documento', 'numero_documento']  # 👈 Solo campos del modelo
+        widgets = {
+            'tipo_documento': forms.Select(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'numero_documento': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+        }
+
+        
+# Identidad Form
+class IdentidadForm(forms.ModelForm):
+    class Meta:
+        model = PerfilDeUsuario
+        fields = ['primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido']
+        widgets = {
+            'primer_nombre': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'segundo_nombre': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'primer_apellido': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+            'segundo_apellido': forms.TextInput(attrs={
+                'class': 'w-full border border-gray-300 rounded px-3 py-2'
+            }),
+        }
+
+class EducacionDocenteForm(forms.ModelForm):
+    class Meta:
+        model = EducacionDocente
+        fields = '__all__'
+
+class CapacitacionDocenteForm(forms.ModelForm):
+    class Meta:
+        model = CapacitacionDocente
+        fields = '__all__'
+
+class IdiomaDocenteForm(forms.ModelForm):
+    class Meta:
+        model = IdiomaDocente
+        fields = '__all__'
+
+class ExperienciaDocenteForm(forms.ModelForm):
+    class Meta:
+        model = ExperienciaDocente
+        fields = '__all__' 
+        

@@ -1,5 +1,6 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission, User
 from django.utils import timezone
 
 # ────────────────────────────────
@@ -124,6 +125,14 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 class PerfilDeUsuario(Persona):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name="perfil")
+    municipio_identificacion = models.ForeignKey(
+        Ciudad,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='perfiles_por_municipio_ident'
+    )
+
     especialidad = models.CharField(max_length=100, blank=True, null=True)
     grupo = models.ForeignKey('Grupo', on_delete=models.SET_NULL, null=True, blank=True)
     acudidos = models.ManyToManyField(
@@ -249,3 +258,100 @@ class Calificacion(models.Model):
     )
     nota = models.DecimalField(max_digits=3, decimal_places=1)
     fecha_registro = models.DateField(auto_now_add=True)
+    
+# ────────────────────────────────
+# HOJA DE VIDA DOCENTE
+# ────────────────────────────────
+
+# core/models.py
+
+class Genero(models.Model):
+    nombre = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.nombre
+
+class EstadoCivil(models.Model):
+    nombre = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.nombre
+
+class Estrato(models.Model):
+    nombre = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.nombre
+    
+class HojaDeVidaDocente(models.Model):
+    usuario = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='hoja_de_vida'
+    )
+    fecha_nacimiento = models.DateField()
+    genero = models.ForeignKey('Genero', on_delete=models.SET_NULL, null=True)
+    estado_civil = models.ForeignKey('EstadoCivil', on_delete=models.SET_NULL, null=True)
+    pais_residencia = models.ForeignKey('Pais', on_delete=models.SET_NULL, null=True)
+    departamento_residencia = models.ForeignKey('Departamento', on_delete=models.SET_NULL, null=True)
+    municipio_residencia = models.ForeignKey('Ciudad', on_delete=models.SET_NULL, null=True)
+    direccion_linea1 = models.CharField(max_length=255)
+    direccion_linea2 = models.CharField(max_length=255, blank=True, null=True)
+    estrato = models.ForeignKey('Estrato', on_delete=models.SET_NULL, null=True)
+    telefono_celular = models.CharField(max_length=20)
+    telefono_celular_alterno = models.CharField(max_length=20, blank=True, null=True)
+    telefono_fijo = models.CharField(max_length=20, blank=True, null=True)
+    telefono_fijo_ext = models.CharField(max_length=10, blank=True, null=True)
+    correo_alterno = models.EmailField(blank=True, null=True)
+    resumen = models.TextField()
+
+    def __str__(self):
+        return f"Hoja de Vida - {self.usuario.get_full_name()}"
+
+class EducacionDocente(models.Model):
+    hoja_de_vida = models.ForeignKey(HojaDeVidaDocente, on_delete=models.CASCADE)
+    nivel = models.CharField(max_length=50)  # Primaria, Secundaria, Superior
+    institucion = models.CharField(max_length=100)
+    titulo_obtenido = models.CharField(max_length=100)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+
+    def __str__(self):
+        return f"{self.nivel} - {self.institucion}"
+
+
+class CapacitacionDocente(models.Model):
+    hoja_de_vida = models.ForeignKey(HojaDeVidaDocente, on_delete=models.CASCADE)
+    nombre_curso = models.CharField(max_length=100)
+    institucion = models.CharField(max_length=100)
+    duracion_horas = models.IntegerField()
+    documento_soporte = models.FileField(upload_to='capacitaciones/', blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre_curso
+
+
+class IdiomaDocente(models.Model):
+    hoja_de_vida = models.ForeignKey(HojaDeVidaDocente, on_delete=models.CASCADE)
+    idioma = models.CharField(max_length=50)
+    nivel_habla = models.CharField(max_length=20)
+    nivel_lee = models.CharField(max_length=20)
+    nivel_escribe = models.CharField(max_length=20)
+    documento_soporte = models.FileField(upload_to='idiomas/', blank=True, null=True)
+
+    def __str__(self):
+        return self.idioma
+
+
+class ExperienciaDocente(models.Model):
+    hoja_de_vida = models.ForeignKey(HojaDeVidaDocente, on_delete=models.CASCADE)
+    institucion = models.CharField(max_length=100)
+    cargo = models.CharField(max_length=100)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    descripcion = models.TextField()
+    documento_soporte = models.FileField(upload_to='experiencias/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.institucion} - {self.cargo}"
+
