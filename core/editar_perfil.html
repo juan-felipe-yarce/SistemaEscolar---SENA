@@ -58,18 +58,52 @@
       </div>
     {% endif %}
 
+    <!-- Campo: Tipo de Documento -->
+    {% if form.tipo_documento %}
+    <div>
+      <label for="{{ form.tipo_documento.id_for_label }}" class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+      {{ form.tipo_documento|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm" }}
+      {% if form.tipo_documento.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.tipo_documento.errors.0 }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Campo: Número de Documento -->
+    {% if form.numero_documento %}
+    <div>
+      <label for="{{ form.numero_documento.id_for_label }}" class="block text-sm font-medium text-gray-700">Número de Documento</label>
+      {{ form.numero_documento|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm" }}
+      {% if form.numero_documento.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.numero_documento.errors.0 }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Campo: Municipio de expedición -->
+    {% if form.municipio_identificacion %}
+    <div>
+      <label for="{{ form.municipio_identificacion.id_for_label }}" class="block text-sm font-medium text-gray-700">Municipio de expedición</label>
+      {{ form.municipio_identificacion|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm" }}
+      {% if form.municipio_identificacion.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.municipio_identificacion.errors.0 }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
     <!-- Campos del modelo Perfil (excepto foto y correo) -->
     {% for field in form %}
-    {% if field.name != 'correo' and field.name != 'foto' %}
-      <div>
-        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-        {{ field|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" }}
-        {% if field.errors %}
-          <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
-        {% endif %}
-      </div>
-    {% endif %}
+      {% if field.name != 'correo' and field.name != 'foto' and field.name != 'tipo_documento' and field.name != 'numero_documento' and field.name != 'municipio_identificacion' %}
+        <div class="mb-4">
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+          {{ field|add_class:"mt-1 block w-full rounded border border-gray-300 shadow-sm" }}
+          {% if field.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
     {% endfor %}
+
 
 
     <!-- Botones -->

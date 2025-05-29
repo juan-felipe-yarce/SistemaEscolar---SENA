@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from .models import (
     Usuario, Rol, TipoDocumento,
     NivelEducativo, Grado, Area, Asignatura, Tema, Logro,
-    Aula, Grupo, AsignacionDocente, Ciudad,
+    Aula, Grupo, AsignacionDocente, TipoDocumento, Ciudad,
     PerfilDeUsuario, HojaDeVidaDocente, EducacionDocente, CapacitacionDocente, IdiomaDocente, ExperienciaDocente
 )
 
@@ -66,6 +66,21 @@ class RegistroUsuarioForm(forms.ModelForm):
 class PerfilUsuarioForm(forms.ModelForm):
     correo = forms.EmailField(label="Correo electrónico", required=True, disabled=True)
     
+    tipo_documento = forms.ModelChoiceField(
+        queryset=TipoDocumento.objects.all(),
+        required=False,
+        label="Tipo de Documento"
+    )
+    numero_documento = forms.CharField(
+        required=False,
+        label="Número de Documento"
+    )
+    municipio_identificacion = forms.ModelChoiceField(
+        queryset=Ciudad.objects.all(),
+        required=False,
+        label="Municipio de expedición"
+    )
+    
     class Meta:
         model = PerfilDeUsuario
         fields = [
@@ -80,8 +95,6 @@ class PerfilUsuarioForm(forms.ModelForm):
             'segundo_nombre': TextInput(),
             'primer_apellido': TextInput(),
             'segundo_apellido': TextInput(),
-            'tipo_documento': Select(),
-            'numero_documento': TextInput(),
             'direccion_linea1': TextInput(),
             'direccion_linea2': TextInput(),
             'ciudad': Select(),
@@ -94,11 +107,14 @@ class PerfilUsuarioForm(forms.ModelForm):
         # Inicializar correo si está presente
         if self.user:
             self.fields['correo'].initial = self.user.correo
+            self.fields['tipo_documento'].initial = self.user.tipo_documento
+            self.fields['numero_documento'].initial = self.user.numero_documento
+            self.fields['municipio_identificacion'].initial = self.instance.municipio_identificacion
 
         # ---- Filtrar campos por rol ----
         campos_visibles = [
             'foto', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido',
-            'tipo_documento', 'numero_documento',
+            'tipo_documento', 'numero_documento', 'municipio_identificacion',
             'direccion_linea1', 'direccion_linea2', 'ciudad'
         ]
 
@@ -117,7 +133,6 @@ class PerfilUsuarioForm(forms.ModelForm):
                     usuario__rol__nombre__iexact='estudiante'
                 )
 
-        # Eliminar campos que no deben mostrarse
         for field in list(self.fields):
             if field not in campos_visibles and field != 'correo':
                 del self.fields[field]
@@ -125,9 +140,11 @@ class PerfilUsuarioForm(forms.ModelForm):
     def save(self, commit=True):
         perfil = super().save(commit=False)
         if self.user:
-            # No se actualiza self.user.correo porque es solo lectura
+            self.user.tipo_documento = self.cleaned_data.get('tipo_documento')
+            self.user.numero_documento = self.cleaned_data.get('numero_documento')
             if commit:
                 self.user.save()
+        perfil.municipio_identificacion = self.cleaned_data.get('municipio_identificacion')
         if commit:
             perfil.save()
             self.save_m2m()
@@ -135,8 +152,7 @@ class PerfilUsuarioForm(forms.ModelForm):
 
 
 
-# Formulario de Login de Usuario
-from django import forms
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(

@@ -16,7 +16,7 @@
         <p class="font-semibold text-gray-800">{{ usuario.correo }}</p>
         <p class="text-sm text-gray-500">Rol: {{ usuario.rol.nombre }}</p>
       </div>
-      <form method="post" action="{% url 'activar_usuario' usuario.id %}">
+      <form method="post" action="{% url 'activar_usuario' usuario.id %}" onsubmit="return confirmarActivacion('{{ usuario.correo }}')">
         {% csrf_token %}
         <button
           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
@@ -27,10 +27,40 @@
     </li>
     {% endfor %}
   </ul>
+   <!-- 🔽 Aquí va el contenedor del toast -->
+   <div id="toast-exito" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg hidden z-50">
+    ✅ Usuario activado con éxito.
+  </div>
   {% else %}
   <p class="text-gray-600 text-center py-4">
     No hay usuarios pendientes por activar.
   </p>
   {% endif %}
 </div>
+<script>
+  function confirmarActivacion(correo) {
+    return confirm(`¿Estás seguro de que deseas activar la cuenta del usuario con correo: ${correo}?`);
+  }
+
+  // Muestra el toast si existe una marca en sessionStorage
+  window.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('mostrarToast') === 'true') {
+      const toast = document.getElementById('toast-exito');
+      toast.classList.remove('hidden');
+
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        sessionStorage.removeItem('mostrarToast');
+      }, 3000);
+    }
+  });
+
+  // Marca para mostrar toast después del POST
+  document.querySelectorAll("form[action*='activar_usuario']").forEach(form => {
+    form.addEventListener('submit', () => {
+      sessionStorage.setItem('mostrarToast', 'true');
+    });
+  });
+</script>
+
 {% endblock %}

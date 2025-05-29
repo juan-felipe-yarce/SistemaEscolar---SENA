@@ -33,6 +33,13 @@
           <div class="py-2"><strong>Segundo apellido:</strong> {{ perfil.segundo_apellido }}</div>
           <div class="py-2"><strong>Tipo de documento:</strong> {{ usuario.tipo_documento }}</div>
           <div class="py-2"><strong>Número de documento:</strong> {{ usuario.numero_documento }}</div>
+          <div class="py-2"><strong>Municipio de expedición:</strong> 
+            {% if perfil.municipio_identificacion %}
+              {{ perfil.municipio_identificacion.nombre }}
+            {% else %}
+              <span class="text-gray-400">No especificado</span>
+            {% endif %}
+          </div>
           <div class="py-2"><strong>Dirección línea 1:</strong> {{ perfil.direccion_linea1 }}</div>
           <div class="py-2"><strong>Dirección línea 2:</strong> {{ perfil.direccion_linea2 }}</div>
           <div class="py-2"><strong>Ciudad:</strong> {{ perfil.ciudad.nombre }}</div>
