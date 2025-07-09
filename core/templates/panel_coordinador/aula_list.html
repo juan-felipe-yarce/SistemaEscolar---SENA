@@ -3,44 +3,100 @@
 {% block title %}Lista de Aulas{% endblock %}
 
 {% block panel_content %}
-<div class="bg-white p-6 rounded shadow w-full">
-  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
-    🏫 Aulas Registradas
-  </h2>
+<style>
+  .btn-pastel-blue {
+    background: #eaf4fb;
+    color: #0574c7;
+    border-radius: 0.5rem;
+    border: 1px solid #b6e0fe;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-blue:hover, .btn-pastel-blue:focus {
+    background: #cbe7fb;
+    color: #035485;
+    text-decoration: none;
+  }
+  .btn-pastel-red {
+    background: #fdeaea;
+    color: #d71b3b;
+    border-radius: 0.5rem;
+    border: 1px solid #ffd6da;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-red:hover, .btn-pastel-red:focus {
+    background: #fbbfc1;
+    color: #98001b;
+    text-decoration: none;
+  }
+  .btn-pastel-blue, .btn-pastel-red {
+    margin-bottom: 0 !important;
+  }
+  td.text-end.pe-4 {
+    white-space: nowrap;
+    min-width: 210px;
+  }
+</style>
 
-  <a
-    href="{% url 'crear_aula' %}"
-    class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block"
-  >
-    + Nueva Aula
-  </a>
-
-  <table class="mt-4 w-full border border-gray-300">
-    <thead class="bg-gray-200">
-      <tr>
-        <th class="py-2 px-4 text-left">Nombre</th>
-        <th class="py-2 px-4 text-left">Capacidad</th>
-        <th class="py-2 px-4 text-left">Estado</th>
-        <th class="py-2 px-4 text-left">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for aula in aulas %}
-      <tr class="border-t hover:bg-gray-50">
-        <td class="py-2 px-4">{{ aula.nombre }}</td>
-        <td class="py-2 px-4">{{ aula.capacidad }}</td>
-        <td class="py-2 px-4">{{ aula.estado }}</td>
-        <td class="py-2 px-4">
-          <a href="{% url 'editar_aula' aula.id %}" class="text-blue-600 hover:underline">Editar</a> |
-          <a href="{% url 'eliminar_aula' aula.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Deseas eliminar esta aula?');">Eliminar</a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="4" class="py-4 px-4 text-center text-gray-500">No hay aulas registradas.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container-fluid px-0" style="max-width: 1100px;">
+  <div class="card shadow rounded-4 border-0 mt-3">
+    <div class="card-body">
+      <h2 class="h4 text-primary fw-bold mb-2">Aulas Registradas</h2>
+      <!-- Botón: Nueva Aula -->
+      <div class="mb-4">
+        <a href="{% url 'crear_aula' %}" class="btn btn-primary btn-sm px-4 py-2 rounded-3 shadow-sm">
+          <i class="bi bi-plus-circle me-2"></i>+ Nueva Aula
+        </a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-borderless align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" class="ps-4">Nombre</th>
+              <th scope="col">Capacidad</th>
+              <th scope="col">Estado</th>
+              <th scope="col" class="text-end pe-4" style="width: 210px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for aula in aulas %}
+            <tr>
+              <td class="ps-4 fw-semibold text-dark" style="vertical-align: middle;">{{ aula.nombre }}</td>
+              <td style="vertical-align: middle;">{{ aula.capacidad }}</td>
+              <td style="vertical-align: middle;">{{ aula.estado }}</td>
+              <td class="text-end pe-4" style="vertical-align: middle;">
+                <a href="{% url 'editar_aula' aula.id %}" class="btn btn-pastel-blue me-2 d-inline-flex align-items-center">
+                  <i class="bi bi-pencil-square me-1"></i>Editar
+                </a>
+                <a href="{% url 'eliminar_aula' aula.id %}" class="btn btn-pastel-red d-inline-flex align-items-center"
+                   onclick="return confirm('¿Deseas eliminar esta aula?');">
+                  <i class="bi bi-trash me-1"></i>Eliminar
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center text-muted py-5">
+                <div>
+                  <span style="font-size:2rem;">📂</span>
+                  <div class="mt-2 fw-medium">No hay aulas registradas.</div>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- ICONOS BOOTSTRAP (una sola vez en tu base.html si no está) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 {% endblock %}

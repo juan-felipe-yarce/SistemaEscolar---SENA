@@ -1,69 +1,258 @@
+{% extends "base.html" %}
+{% block body_class %}no-aside{% endblock %}
+
 {% load static %}
 {% load widget_tweaks %}
 
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
-    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
-  </head>
-  
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+{% block title %}Registro de Usuario{% endblock %}
 
-  <div class="bg-white shadow-md rounded p-8 w-full max-w-md">
-    <h1 class="text-2xl font-bold mb-4 text-center text-blue-700">Registro de Usuario</h1>
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
+  <div class="row w-100 justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h4 text-primary fw-bold mb-0">Registro de Usuario</h2>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm">Volver a iniciar sesión</a>
+          </div>
 
-    {% if messages %}
-      <div class="mb-4">
-        {% for message in messages %}
-          <p class="text-sm {% if message.tags == 'error' %}text-red-500{% else %}text-green-600{% endif %}">
-            {{ message }}
-          </p>
-        {% endfor %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="id_correo" class="form-label">Correo Electrónico:</label>
+              {{ form.correo|add_class:"form-control" }}
+              {% if form.correo.errors %}
+                <div class="text-danger small">{{ form.correo.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="id_rol" class="form-label">Rol:</label>
+              {{ form.rol|add_class:"form-select" }}
+              {% if form.rol.errors %}
+                <div class="text-danger small">{{ form.rol.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div id="coordinador-alerta" class="alert alert-warning py-2 px-3 mb-3 d-none small">
+              ⚠️ Tu cuenta será revisada por un Superusuario antes de poder ingresar. Recibirás una notificación cuando sea activada.
+            </div>
+
+            <div class="mb-3">
+              <label for="id_tipo_documento" class="form-label">Tipo de Documento:</label>
+              {{ form.tipo_documento|add_class:"form-select" }}
+              {% if form.tipo_documento.errors %}
+                <div class="text-danger small">{{ form.tipo_documento.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="id_numero_documento" class="form-label">Número de Documento:</label>
+              {{ form.numero_documento|add_class:"form-control" }}
+              {% if form.numero_documento.errors %}
+                <div class="text-danger small">{{ form.numero_documento.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="id_pais_identificacion" class="form-label">País de Expedición:</label>
+              {{ form.pais_identificacion|add_class:"form-select" }}
+              {% if form.pais_identificacion.errors %}
+                <div class="text-danger small">{{ form.pais_identificacion.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="id_departamento_identificacion" class="form-label">Departamento de Expedición:</label>
+              {{ form.departamento_identificacion|add_class:"form-select" }}
+              {% if form.departamento_identificacion.errors %}
+                <div class="text-danger small">{{ form.departamento_identificacion.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="id_municipio_identificacion" class="form-label">Municipio de Expedición:</label>
+              {{ form.municipio_identificacion|add_class:"form-select" }}
+              {% if form.municipio_identificacion.errors %}
+                <div class="text-danger small">{{ form.municipio_identificacion.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Contraseña -->
+            <div class="mb-3 position-relative">
+              <label for="id_password" class="form-label">Contraseña:</label>
+              {{ form.password|add_class:"form-control pe-5" }}
+              <button type="button" onclick="togglePassword('id_password')" class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2" tabindex="-1" style="text-decoration:none;">👁️</button>
+              {% if form.password.errors %}
+                <div class="text-danger small">{{ form.password.errors.0 }}</div>
+              {% endif %}
+
+              <div class="progress my-2" style="height: 7px;">
+                <div id="password-strength" class="progress-bar bg-danger" style="width: 0%"></div>
+              </div>
+              <ul class="small ps-3 mb-0" id="password-requirements">
+                <li id="len" class="text-danger">✔️ Al menos 8 caracteres</li>
+                <li id="mayus" class="text-danger">✔️ Una letra mayúscula</li>
+                <li id="minus" class="text-danger">✔️ Una letra minúscula</li>
+                <li id="num" class="text-danger">✔️ Un número</li>
+                <li id="sym" class="text-danger">✔️ Un símbolo especial (# $ % ! _)</li>
+              </ul>
+            </div>
+
+            <!-- Confirmar contraseña -->
+            <div class="mb-4 position-relative">
+              <label for="id_confirmar_password" class="form-label">Confirmar Contraseña:</label>
+              {{ form.confirmar_password|add_class:"form-control pe-5" }}
+              <button type="button" onclick="togglePassword('id_confirmar_password')" class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2" tabindex="-1" style="text-decoration:none;">👁️</button>
+              {% if form.confirmar_password.errors %}
+                <div class="text-danger small">{{ form.confirmar_password.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Registrarse</button>
+            </div>
+          </form>
+        </div>
       </div>
-    {% endif %}
-
-    <form method="post">
-      {% csrf_token %}
-
-      <div class="mb-4">
-        <label class="block text-sm font-semibold mb-1">Correo Electrónico:</label>
-        {{ form.correo|add_class:"w-full p-2 border rounded" }}
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-semibold mb-1">Rol:</label>
-        {{ form.rol|add_class:"w-full p-2 border rounded" }}
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-semibold mb-1">Tipo de Documento:</label>
-        {{ form.tipo_documento|add_class:"w-full p-2 border rounded" }}
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-semibold mb-1">Número de Documento:</label>
-        {{ form.numero_documento|add_class:"w-full p-2 border rounded" }}
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-semibold mb-1">Contraseña:</label>
-        {{ form.password|add_class:"w-full p-2 border rounded" }}
-        <p class="text-xs text-gray-500">{{ form.password.help_text }}</p>
-      </div>
-
-      <div class="mb-6">
-        <label class="block text-sm font-semibold mb-1">Confirmar Contraseña:</label>
-        {{ form.confirmar_password|add_class:"w-full p-2 border rounded" }}
-      </div>
-
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-        Registrarse
-      </button>
-    </form>
+    </div>
   </div>
+</div>
 
-</body>
-</html>
+<script>
+  // 👁️ Mostrar / ocultar contraseña
+  function togglePassword(id) {
+    const field = document.getElementById(id);
+    field.type = field.type === "password" ? "text" : "password";
+  }
+
+  // 🔒 Verificación de fuerza de contraseña
+  const passwordField = document.getElementById("id_password");
+  const bar = document.getElementById("password-strength");
+  const checks = {
+    len: document.getElementById("len"),
+    mayus: document.getElementById("mayus"),
+    minus: document.getElementById("minus"),
+    num: document.getElementById("num"),
+    sym: document.getElementById("sym"),
+  };
+
+  if(passwordField){
+    passwordField.addEventListener("input", function () {
+      const value = passwordField.value;
+      let score = 0;
+
+      if (value.length >= 8) {
+        checks.len.classList.replace("text-danger", "text-success");
+        score++;
+      } else {
+        checks.len.classList.replace("text-success", "text-danger");
+      }
+
+      if (/[A-Z]/.test(value)) {
+        checks.mayus.classList.replace("text-danger", "text-success");
+        score++;
+      } else {
+        checks.mayus.classList.replace("text-success", "text-danger");
+      }
+
+      if (/[a-z]/.test(value)) {
+        checks.minus.classList.replace("text-danger", "text-success");
+        score++;
+      } else {
+        checks.minus.classList.replace("text-success", "text-danger");
+      }
+
+      if (/\d/.test(value)) {
+        checks.num.classList.replace("text-danger", "text-success");
+        score++;
+      } else {
+        checks.num.classList.replace("text-success", "text-danger");
+      }
+
+      if (/[#\$%!_]/.test(value)) {
+        checks.sym.classList.replace("text-danger", "text-success");
+        score++;
+      } else {
+        checks.sym.classList.replace("text-success", "text-danger");
+      }
+
+      const percentage = (score / 5) * 100;
+      bar.style.width = percentage + "%";
+      bar.classList.remove("bg-success", "bg-warning", "bg-danger");
+      if (percentage < 40) {
+        bar.classList.add("bg-danger");
+      } else if (percentage < 80) {
+        bar.classList.add("bg-warning");
+      } else {
+        bar.classList.add("bg-success");
+      }
+    });
+  }
+
+  // Carga dinámica de País → Departamento → Ciudad
+  document.addEventListener("DOMContentLoaded", function () {
+    const paisSelect = document.getElementById("id_pais_identificacion");
+    const departamentoSelect = document.getElementById("id_departamento_identificacion");
+    const municipioSelect = document.getElementById("id_municipio_identificacion");
+
+    if (paisSelect && departamentoSelect && municipioSelect) {
+      paisSelect.addEventListener("change", function () {
+        const paisId = this.value;
+        departamentoSelect.innerHTML = '<option value="">Cargando...</option>';
+        municipioSelect.innerHTML = '<option value="">Seleccione municipio</option>';
+
+        fetch(`/ajax/departamentos/?pais_id=${paisId}`)
+          .then(res => res.json())
+          .then(data => {
+            departamentoSelect.innerHTML = '<option value="">Seleccione un departamento</option>';
+            data.forEach(dep => {
+              departamentoSelect.innerHTML += `<option value="${dep.id}">${dep.nombre}</option>`;
+            });
+          });
+      });
+
+      departamentoSelect.addEventListener("change", function () {
+        const depId = this.value;
+        municipioSelect.innerHTML = '<option value="">Cargando...</option>';
+
+        fetch(`/ajax/ciudades/?departamento_id=${depId}`)
+          .then(res => res.json())
+          .then(data => {
+            municipioSelect.innerHTML = '<option value="">Seleccione municipio</option>';
+            data.forEach(mun => {
+              municipioSelect.innerHTML += `<option value="${mun.id}">${mun.nombre}</option>`;
+            });
+          });
+      });
+    }
+  });
+
+  // Mostrar alerta si el rol seleccionado es Coordinador Académico
+  document.addEventListener("DOMContentLoaded", function () {
+    const rolSelect = document.getElementById("id_rol");
+    const alertaDiv = document.getElementById("coordinador-alerta");
+
+    if (rolSelect && alertaDiv) {
+      function toggleAlerta() {
+        const selectedText = rolSelect.options[rolSelect.selectedIndex].text.toLowerCase();
+        if (selectedText.includes("coordinador")) {
+          alertaDiv.classList.remove("d-none");
+        } else {
+          alertaDiv.classList.add("d-none");
+        }
+      }
+      rolSelect.addEventListener("change", toggleAlerta);
+      toggleAlerta(); // Ejecutar una vez al cargar
+    }
+  });
+</script>
+{% endblock %}

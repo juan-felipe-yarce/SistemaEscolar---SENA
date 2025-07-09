@@ -1,14 +1,18 @@
 import re
+from django.contrib.auth import authenticate
 from django import forms
-from django.forms import TextInput, Select, EmailInput, FileInput
-from django.contrib.auth.hashers import make_password
+from django.forms import TextInput, Select, EmailInput, FileInput, PasswordInput
+# from django.contrib.auth.hashers import make_password
 
 from .models import (
-    Usuario, Rol, TipoDocumento,
+    Usuario, Rol, TipoDocumento, Ciudad, Pais, Departamento,
     NivelEducativo, Grado, Area, Asignatura, Tema, Logro,
-    Aula, Grupo, AsignacionDocente, TipoDocumento, Ciudad,
-    PerfilDeUsuario, HojaDeVidaDocente, EducacionDocente, CapacitacionDocente, IdiomaDocente, ExperienciaDocente
+    Aula, Grupo, AsignacionDocente,
+    PerfilDeUsuario,
+    HojaDeVidaDocente, EducacionDocente, CapacitacionDocente,
+    IdiomaDocente, ExperienciaDocente
 )
+
 
 
 
@@ -17,21 +21,65 @@ from .models import (
 class RegistroUsuarioForm(forms.ModelForm):
     password = forms.CharField(
         label="Contraseña",
-        widget=forms.PasswordInput,
+        widget=PasswordInput(attrs={'class': 'w-full p-2 border rounded'}),
         help_text="Debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un símbolo (#$%!)."
     )
     confirmar_password = forms.CharField(
         label="Confirmar Contraseña",
-        widget=forms.PasswordInput
+        widget=PasswordInput(attrs={'class': 'w-full p-2 border rounded'})
+    )
+
+    # Campos auxiliares para ubicación de expedición
+    pais_identificacion = forms.ModelChoiceField(
+        label="País de expedición",
+        queryset=Pais.objects.all(),
+        required=False,
+        widget=Select(attrs={'class': 'w-full p-2 border rounded'})
+    )
+    departamento_identificacion = forms.ModelChoiceField(
+        label="Departamento de expedición",
+        queryset=Departamento.objects.none(),
+        required=False,
+        widget=Select(attrs={'class': 'w-full p-2 border rounded'})
+    )
+    municipio_identificacion = forms.ModelChoiceField(
+        label="Municipio de expedición",
+        queryset=Ciudad.objects.none(),
+        required=False,
+        widget=Select(attrs={'class': 'w-full p-2 border rounded'})
     )
 
     class Meta:
         model = Usuario
-        fields = ['correo', 'rol', 'tipo_documento', 'numero_documento', 'password']
+        fields = ['correo', 'rol', 'tipo_documento', 'numero_documento', 'municipio_identificacion', 'password']
         widgets = {
-            'tipo_documento': forms.Select(attrs={'class': 'w-full p-2 border rounded'}),
-            'numero_documento': forms.TextInput(attrs={'class': 'w-full p-2 border rounded'}),
+            'correo': EmailInput(attrs={'class': 'w-full p-2 border rounded'}),
+            'rol': Select(attrs={'class': 'w-full p-2 border rounded'}),
+            'tipo_documento': Select(attrs={'class': 'w-full p-2 border rounded'}),
+            'numero_documento': TextInput(attrs={'class': 'w-full p-2 border rounded'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Ordenar roles por ID
+        self.fields['rol'].queryset = Rol.objects.all().order_by('id')
+
+        # Cargar departamentos si hay país en los datos
+        if 'pais_identificacion' in self.data:
+            try:
+                pais_id = int(self.data.get('pais_identificacion'))
+                self.fields['departamento_identificacion'].queryset = Departamento.objects.filter(pais_id=pais_id)
+            except (ValueError, TypeError):
+                self.fields['departamento_identificacion'].queryset = Departamento.objects.none()
+
+        # Cargar ciudades si hay departamento en los datos
+        if 'departamento_identificacion' in self.data:
+            try:
+                departamento_id = int(self.data.get('departamento_identificacion'))
+                self.fields['municipio_identificacion'].queryset = Ciudad.objects.filter(departamento_id=departamento_id)
+            except (ValueError, TypeError):
+                self.fields['municipio_identificacion'].queryset = Ciudad.objects.none()
 
     def clean(self):
         cleaned_data = super().clean()
@@ -56,16 +104,22 @@ class RegistroUsuarioForm(forms.ModelForm):
     def save(self, commit=True):
         usuario = super().save(commit=False)
         usuario.set_password(self.cleaned_data["password"])
-        usuario.is_active = False  # Por si se te olvida en algún punto
+        usuario.municipio_identificacion = self.cleaned_data.get("municipio_identificacion")
+        usuario.is_active = False
+        usuario.is_superuser = False
+        usuario.is_staff = False
+
         if commit:
             usuario.save()
+
         return usuario
+
 
     
 # Formulario para Perfil de Usuario
 class PerfilUsuarioForm(forms.ModelForm):
     correo = forms.EmailField(label="Correo electrónico", required=True, disabled=True)
-    
+
     tipo_documento = forms.ModelChoiceField(
         queryset=TipoDocumento.objects.all(),
         required=False,
@@ -80,14 +134,14 @@ class PerfilUsuarioForm(forms.ModelForm):
         required=False,
         label="Municipio de expedición"
     )
-    
+
     class Meta:
         model = PerfilDeUsuario
         fields = [
             'foto',
             'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido',
             'direccion_linea1', 'direccion_linea2', 'ciudad',
-            'especialidad', 'grupo', 'acudidos'  # Estos serán filtrados
+            'especialidad', 'grupo', 'acudidos'
         ]
         widgets = {
             'foto': FileInput(),
@@ -104,22 +158,23 @@ class PerfilUsuarioForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-        # Inicializar correo si está presente
+        # Inicializar desde el usuario autenticado
         if self.user:
             self.fields['correo'].initial = self.user.correo
             self.fields['tipo_documento'].initial = self.user.tipo_documento
             self.fields['numero_documento'].initial = self.user.numero_documento
-            self.fields['municipio_identificacion'].initial = self.instance.municipio_identificacion
+            self.fields['municipio_identificacion'].initial = self.user.municipio_identificacion
 
-        # ---- Filtrar campos por rol ----
+        # Definir campos visibles según el rol
         campos_visibles = [
             'foto', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido',
             'tipo_documento', 'numero_documento', 'municipio_identificacion',
             'direccion_linea1', 'direccion_linea2', 'ciudad'
         ]
 
-        if self.user:
+        if self.user and self.user.rol:
             rol = self.user.rol.nombre.strip().lower()
+
             if rol == 'docente':
                 campos_visibles.append('especialidad')
                 self.fields['especialidad'].required = True
@@ -128,10 +183,10 @@ class PerfilUsuarioForm(forms.ModelForm):
                 self.fields['grupo'].required = True
             elif rol in ['acudiente', 'padre de familia o acudiente']:
                 campos_visibles.append('acudidos')
-                self.fields['acudidos'].required = False
                 self.fields['acudidos'].queryset = PerfilDeUsuario.objects.filter(
                     usuario__rol__nombre__iexact='estudiante'
                 )
+                self.fields['acudidos'].required = False
 
         for field in list(self.fields):
             if field not in campos_visibles and field != 'correo':
@@ -139,15 +194,18 @@ class PerfilUsuarioForm(forms.ModelForm):
 
     def save(self, commit=True):
         perfil = super().save(commit=False)
+
         if self.user:
             self.user.tipo_documento = self.cleaned_data.get('tipo_documento')
             self.user.numero_documento = self.cleaned_data.get('numero_documento')
+            self.user.municipio_identificacion = self.cleaned_data.get('municipio_identificacion')
             if commit:
                 self.user.save()
-        perfil.municipio_identificacion = self.cleaned_data.get('municipio_identificacion')
+
         if commit:
             perfil.save()
             self.save_m2m()
+
         return perfil
 
 
@@ -155,20 +213,47 @@ class PerfilUsuarioForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(
-        label="Usuario",
-        widget=forms.TextInput(attrs={
-            'class': 'w-full border border-gray-300 rounded px-3 py-2 mt-1',
-            'placeholder': 'Tu usuario'
+    correo = forms.EmailField(
+        label="Correo electrónico",
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Correo electrónico',
+            'autocomplete': 'email'
         })
     )
     password = forms.CharField(
         label="Contraseña",
         widget=forms.PasswordInput(attrs={
-            'class': 'w-full border border-gray-300 rounded px-3 py-2 mt-1',
-            'placeholder': 'Tu contraseña'
+            'class': 'form-control',
+            'placeholder': 'Contraseña',
+            'autocomplete': 'current-password'
         })
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        correo = cleaned_data.get("correo")
+        password = cleaned_data.get("password")
+
+        if correo and password:
+            try:
+                usuario = Usuario.objects.get(correo=correo)
+            except Usuario.DoesNotExist:
+                raise forms.ValidationError("❌ Usuario o contraseña incorrectos.")
+
+            if not usuario.is_active:
+                if usuario.rol and usuario.rol.nombre.lower() == "coordinador académico":
+                    raise forms.ValidationError("🕒 Tu cuenta como Coordinador Académico aún no ha sido activada por el superusuario.")
+                else:
+                    raise forms.ValidationError("🕒 Tu cuenta aún no ha sido activada. Espera la validación.")
+
+            usuario_autenticado = authenticate(correo=correo, password=password)
+            if usuario_autenticado is None:
+                raise forms.ValidationError("❌ Usuario o contraseña incorrectos.")
+
+            self.cleaned_data["usuario"] = usuario_autenticado
+
+        return self.cleaned_data
 
 # Formulario para Nivel Educativo
 class NivelEducativoForm(forms.ModelForm):

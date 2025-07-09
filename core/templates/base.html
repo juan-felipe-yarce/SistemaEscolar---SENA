@@ -4,35 +4,113 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Sistema Escolar{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      background: #f8f9fa;
+    }
+    body.no-aside .layout-content {
+      left: 0 !important;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .layout-navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1040;
+      height: 64px;
+      background: #fff;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+    }
+    .layout-aside {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      bottom: 48px;
+      width: 240px;
+      background: #fff;
+      box-shadow: 1px 0 8px rgba(0,0,0,0.04);
+      z-index: 1030;
+      padding-top: 1.5rem;
+      overflow-y: auto;
+    }
+    .layout-footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 48px;
+      background: #fff;
+      border-top: 1px solid #dee2e6;
+      z-index: 1040;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.92rem;
+      color: #6c757d;
+    }
+    .layout-content {
+      position: absolute;
+      left: 240px;
+      right: 0;
+      top: 64px;
+      bottom: 48px;
+      overflow-y: auto;
+      padding: 2rem 2rem 1.5rem 2rem;
+      background: #f8f9fa;
+    }
+    @media (max-width: 991px) {
+      .layout-aside {
+        width: 65px;
+        padding-top: 0.5rem;
+      }
+      .layout-content {
+        left: 65px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  </style>
   {% block extra_head %}{% endblock %}
 </head>
-<body class="flex flex-col min-h-screen bg-gray-100 text-gray-800">
-
+<body class="{% block body_class %}{% endblock %}">
   <!-- NAVBAR -->
-  <header class="bg-white shadow z-10">
+  <nav class="layout-navbar">
     {% include "includes/navbar.html" %}
-  </header>
+  </nav>
 
-  <!-- ZONA PRINCIPAL: ASIDE + CONTENIDO -->
-  <div class="flex flex-1 overflow-hidden">
+  <!-- ASIDE (menú lateral) -->
+  {% comment %} Mostrar aside sólo a coordinador autenticado {% endcomment %}
+  {% if user.is_authenticated and user.rol.nombre == "Coordinador Académico" %}
+    <aside class="layout-aside">
+      {% block aside %}{% include "includes/aside_coordinador.html" %}{% endblock %}
+    </aside>
+  {% endif %}
 
-    <!-- BLOQUE ASIDE -->
-    {% block aside %}
-    {% endblock %}
 
-    <!-- BLOQUE CONTENIDO -->
-    <main class="flex-1 p-6 overflow-y-auto bg-gray-100">
-      {% block content %}{% endblock %}
-    </main>
-  </div>
+  <!-- CONTENIDO CENTRAL -->
+  <main class="layout-content">
+    {% block content %}{% endblock %}
+  </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-white border-t py-4 text-center text-sm text-gray-500">
+  <!-- FOOTER FIJO -->
+  <footer class="layout-footer">
     © 2025 Sistema Escolar. Todos los derechos reservados. | Contacto: colegio@example.edu.co
   </footer>
-  <script src="{% static 'js/ubicacion_encadenada.js' %}"></script>
 
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

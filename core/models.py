@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission, User
 from django.utils import timezone
 
+from .managers import UsuarioManager
+
+
 # ────────────────────────────────
 # TABLAS PARAMÉTRICAS
 # ────────────────────────────────
@@ -18,7 +21,7 @@ class Rol(models.Model):
         return self.nombre
 
 class TipoDocumento(models.Model):
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=60)
 
     class Meta:
         verbose_name = "Tipo de Documento"
@@ -94,10 +97,27 @@ class UsuarioManager(BaseUserManager):
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     correo = models.EmailField(unique=True)
-    rol = models.ForeignKey(Rol, on_delete=models.PROTECT)
+    rol = models.ForeignKey(Rol, on_delete=models.PROTECT, null=True, blank=True)
 
     tipo_documento = models.ForeignKey(TipoDocumento, on_delete=models.PROTECT, null=True)
     numero_documento = models.CharField(max_length=20, unique=True, null=True)
+
+    municipio_identificacion = models.ForeignKey(
+        Ciudad,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='usuarios_por_municipio_ident'
+    )
+
+    activado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='usuarios_activados',
+        verbose_name='Activado por'
+    )
 
     fecha_creacion = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False)  # La cuenta queda inactiva hasta validación
@@ -125,13 +145,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 class PerfilDeUsuario(Persona):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name="perfil")
-    municipio_identificacion = models.ForeignKey(
-        Ciudad,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='perfiles_por_municipio_ident'
-    )
+    
 
     especialidad = models.CharField(max_length=100, blank=True, null=True)
     grupo = models.ForeignKey('Grupo', on_delete=models.SET_NULL, null=True, blank=True)

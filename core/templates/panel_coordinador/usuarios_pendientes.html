@@ -3,55 +3,61 @@
 {% block title %}Usuarios Pendientes de Activación{% endblock %}
 
 {% block panel_content %}
-<div class="bg-white p-6 rounded shadow w-full">
-  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
-    🕒 Usuarios Pendientes de Activación
-  </h2>
+<div class="card shadow-sm border-0 rounded-4 my-4">
+  <div class="card-body">
+    <h2 class="h4 text-primary fw-bold mb-4 d-flex align-items-center gap-2">
+      <span class="me-2"><i class="bi bi-hourglass-split"></i></span> Usuarios Pendientes de Activación
+    </h2>
 
-  {% if pendientes %}
-  <ul class="divide-y divide-gray-200">
-    {% for usuario in pendientes %}
-    <li class="py-4 flex justify-between items-center">
-      <div>
-        <p class="font-semibold text-gray-800">{{ usuario.correo }}</p>
-        <p class="text-sm text-gray-500">Rol: {{ usuario.rol.nombre }}</p>
+    {% if pendientes %}
+      <ul class="list-group mb-0">
+        {% for usuario in pendientes %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <span class="fw-semibold">{{ usuario.correo }}</span><br>
+            <span class="text-secondary small">Rol: {{ usuario.rol.nombre }}</span>
+          </div>
+          <form method="post" action="{% url 'activar_usuario' usuario.id %}" onsubmit="return confirmarActivacion('{{ usuario.correo }}')">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm rounded-3 shadow-none" aria-label="Activar cuenta de {{ usuario.correo }}">
+              <i class="bi bi-person-check me-1"></i> Activar
+            </button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Toast Bootstrap -->
+      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+        <div id="toast-exito" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body">
+              <i class="bi bi-check-circle me-2"></i>Usuario activado con éxito.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+          </div>
+        </div>
       </div>
-      <form method="post" action="{% url 'activar_usuario' usuario.id %}" onsubmit="return confirmarActivacion('{{ usuario.correo }}')">
-        {% csrf_token %}
-        <button
-          class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-        >
-          Activar
-        </button>
-      </form>
-    </li>
-    {% endfor %}
-  </ul>
-   <!-- 🔽 Aquí va el contenedor del toast -->
-   <div id="toast-exito" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg hidden z-50">
-    ✅ Usuario activado con éxito.
+    {% else %}
+      <p class="text-secondary text-center py-4 mb-0">
+        No hay usuarios pendientes por activar.
+      </p>
+    {% endif %}
   </div>
-  {% else %}
-  <p class="text-gray-600 text-center py-4">
-    No hay usuarios pendientes por activar.
-  </p>
-  {% endif %}
 </div>
+
 <script>
   function confirmarActivacion(correo) {
     return confirm(`¿Estás seguro de que deseas activar la cuenta del usuario con correo: ${correo}?`);
   }
 
-  // Muestra el toast si existe una marca en sessionStorage
+  // Toast visual al activar usuario
   window.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('mostrarToast') === 'true') {
-      const toast = document.getElementById('toast-exito');
-      toast.classList.remove('hidden');
-
-      setTimeout(() => {
-        toast.classList.add('hidden');
-        sessionStorage.removeItem('mostrarToast');
-      }, 3000);
+      var toastEl = document.getElementById('toast-exito');
+      var toast = new bootstrap.Toast(toastEl);
+      toast.show();
+      sessionStorage.removeItem('mostrarToast');
     }
   });
 
@@ -62,5 +68,4 @@
     });
   });
 </script>
-
 {% endblock %}

@@ -4,50 +4,92 @@
 {% block title %}Nueva Asignatura{% endblock %}
 
 {% block panel_content %}
-<div class="bg-white p-6 rounded shadow w-full max-w-lg">
-  <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center gap-2">
-    <span>📘</span> Nueva Asignatura
-  </h2>
+<style>
+  .btn-pastel-blue {
+    background: #eaf4fb;
+    color: #0574c7;
+    border-radius: 0.5rem;
+    border: 1px solid #b6e0fe;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-blue:hover, .btn-pastel-blue:focus {
+    background: #cbe7fb;
+    color: #035485;
+    text-decoration: none;
+  }
+  .btn-pastel-red {
+    background: #fdeaea;
+    color: #d71b3b;
+    border-radius: 0.5rem;
+    border: 1px solid #ffd6da;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-red:hover, .btn-pastel-red:focus {
+    background: #fbbfc1;
+    color: #98001b;
+    text-decoration: none;
+  }
+</style>
 
-  <form method="post">
-    {% csrf_token %}
+<div class="container-fluid px-0" style="max-width: 600px;">
+  <div class="card shadow rounded-4 border-0 mt-4">
+    <div class="card-body">
+      <h2 class="h4 text-primary fw-bold mb-4">
+        Nueva Asignatura
+      </h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
 
-    <!-- Campo Nombre -->
-    <div class="mb-4">
-      <label for="id_nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre:</label>
-      {{ form.nombre|add_class:"w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-500" }}
-      {% if form.nombre.errors %}
-        <p class="text-red-500 text-sm mt-1">{{ form.nombre.errors.0 }}</p>
-      {% endif %}
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label for="id_nombre" class="form-label fw-semibold">Nombre:</label>
+          {{ form.nombre|add_class:"form-control"|attr:"placeholder:Ejemplo: Inglés" }}
+          {% if form.nombre.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.nombre.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Grado -->
+        <div class="mb-3">
+          <label for="id_grado" class="form-label fw-semibold">Grado:</label>
+          {{ form.grado|add_class:"form-select" }}
+          {% if form.grado.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.grado.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Área -->
+        <div class="mb-3">
+          <label for="id_area" class="form-label fw-semibold">Área:</label>
+          {{ form.area|add_class:"form-select" }}
+          {% if form.area.errors %}
+            <div class="invalid-feedback d-block">
+              {{ form.area.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Botones -->
+        <div class="mt-4 d-flex gap-3">
+          <button type="submit" class="btn btn-pastel-blue">
+            Guardar
+          </button>
+          <a href="{% url 'lista_asignaturas' %}" class="btn btn-pastel-red">
+            Cancelar
+          </a>
+        </div>
+      </form>
     </div>
-
-    <!-- Campo Grado -->
-    <div class="mb-4">
-      <label for="id_grado" class="block text-sm font-medium text-gray-700 mb-1">Grado:</label>
-      {{ form.grado|add_class:"w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-500" }}
-      {% if form.grado.errors %}
-        <p class="text-red-500 text-sm mt-1">{{ form.grado.errors.0 }}</p>
-      {% endif %}
-    </div>
-
-    <!-- Campo Área -->
-    <div class="mb-4">
-      <label for="id_area" class="block text-sm font-medium text-gray-700 mb-1">Área:</label>
-      {{ form.area|add_class:"w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-500" }}
-      {% if form.area.errors %}
-        <p class="text-red-500 text-sm mt-1">{{ form.area.errors.0 }}</p>
-      {% endif %}
-    </div>
-
-    <!-- Botones -->
-    <div class="mt-6 flex gap-4">
-      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-        💾 Guardar
-      </button>
-      <a href="{% url 'lista_asignaturas' %}" class="bg-red-100 text-red-700 px-4 py-2 rounded hover:bg-red-200 transition">
-        ❌ Cancelar
-      </a>
-    </div>
-  </form>
+  </div>
 </div>
 {% endblock %}

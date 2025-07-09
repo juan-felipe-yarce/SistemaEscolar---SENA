@@ -1,46 +1,50 @@
 {% extends "panel_coordinador/dashboard_base.html" %}
 
-{% block title %}Lista de Grupos{% endblock %}
+{% block title %}Lista de Niveles Educativos{% endblock %}
 
 {% block panel_content %}
-<div class="bg-white p-6 rounded shadow w-full">
-  <h2 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
-    👨‍🎓 Grupos Académicos
-  </h2>
-
-  <a
-    href="{% url 'crear_grupo' %}"
-    class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition mb-4 inline-block"
-  >
-    + Nuevo Grupo
-  </a>
-
-  <table class="mt-4 w-full border border-gray-300">
-    <thead class="bg-gray-200">
-      <tr>
-        <th class="py-2 px-4 text-left">Nombre</th>
-        <th class="py-2 px-4 text-left">Grado</th>
-        <th class="py-2 px-4 text-left">Aula</th>
-        <th class="py-2 px-4 text-left">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for grupo in grupos %}
-      <tr class="border-t hover:bg-gray-50">
-        <td class="py-2 px-4">{{ grupo.nombre }}</td>
-        <td class="py-2 px-4">{{ grupo.grado }}</td>
-        <td class="py-2 px-4">{{ grupo.aula }}</td>
-        <td class="py-2 px-4">
-          <a href="{% url 'editar_grupo' grupo.id %}" class="text-blue-600 hover:underline">Editar</a> |
-          <a href="{% url 'eliminar_grupo' grupo.id %}" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de eliminar este grupo?');">Eliminar</a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="4" class="py-4 px-4 text-center text-gray-500">No hay grupos registrados.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="card shadow-lg rounded-4 border-0 mt-0" style="background:rgba(255,255,255,0.97);">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h4 text-primary fw-bold mb-0">
+        Niveles Educativos
+      </h2>
+      <a href="{% url 'crear_nivel' %}" class="btn btn-primary rounded-3 fw-semibold">
+        + Nuevo Nivel
+      </a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-borderless align-middle bg-white rounded-3 overflow-hidden shadow-sm mb-0" style="min-width:380px;">
+        <thead class="table-light">
+          <tr>
+            <th class="text-start fs-6 fw-bold">Nombre</th>
+            <th class="text-center fs-6 fw-bold" style="width: 200px;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for nivel in niveles %}
+          <tr class="align-middle">
+            <td class="fs-6">{{ nivel.nombre }}</td>
+            <td class="text-center">
+              <a href="{% url 'editar_nivel' nivel.id %}" class="btn btn-sm btn-outline-primary me-2 rounded-3 shadow-none" title="Editar">
+                Editar
+              </a>
+              <a href="{% url 'eliminar_nivel' nivel.id %}" class="btn btn-sm btn-outline-danger rounded-3 shadow-none"
+                onclick="return confirm('¿Estás seguro de eliminar este nivel?');" title="Eliminar">
+                Eliminar
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="2" class="text-center text-muted py-4">
+              No hay niveles registrados.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 {% endblock %}

@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
+{% block body_class %}no-aside{% endblock %}
 
 {% block title %}Bienvenido{% endblock %}
 
 {% block content %}
-  <div class="text-center mt-10">
-    <h1 class="text-3xl font-bold text-blue-700 mb-4">Bienvenido al Sistema Escolar</h1>
-    <p class="text-lg text-gray-600">Por favor, inicia sesión para acceder al sistema.</p>
-    <a href="{% url 'login' %}" class="mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-      Iniciar sesión
-    </a>
+  <style>
+    /* Para la bienvenida, el main ocupa todo el ancho */
+    .layout-content {
+      left: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 112px); /* 64px navbar + 48px footer */
+    }
+  </style>
+  <div class="w-100">
+    <div class="text-center mx-auto" style="max-width: 700px;">
+      <h1 class="display-4 fw-bold text-primary mb-4">Bienvenido al Sistema Escolar</h1>
+      <p class="lead text-secondary mb-4">Por favor, inicia sesión para acceder al sistema.</p>
+      <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-5">Iniciar sesión</a>
+    </div>
   </div>
 {% endblock %}
+

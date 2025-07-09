@@ -7,7 +7,7 @@ from core.models import PerfilDeUsuario
 @login_required
 def perfil_usuario(request):
     usuario = request.user
-    perfil = getattr(usuario, 'perfil', None)
+    perfil = usuario.perfil
      # Detecta el rol para asignar el dashboard base correcto
     if request.user.rol.nombre == 'Coordinador Académico':
         base_template = 'panel_coordinador/dashboard_base.html'
