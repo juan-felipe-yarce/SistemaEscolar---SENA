@@ -6,162 +6,163 @@
 {% endblock %}
 
 {% block panel_content %}
-<div class="max-w-4xl mx-auto bg-white shadow-md rounded-md p-6 mt-6">
-  <h1 class="text-2xl font-semibold text-gray-700 mb-4">
-    📄 Datos Básicos del Docente
-  </h1>
+<div class="container max-w-4xl px-0">
+  <div class="bg-white shadow rounded p-4">
+    <h1 class="h4 fw-semibold text-primary mb-3 mt-2">
+      <i class="bi bi-person-badge"></i> Datos Básicos del Docente
+    </h1>
 
-  {% if messages %}
-    <div class="mb-4">
-      {% for message in messages %}
-        <div class="p-3 rounded text-sm {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% endif %}">
-          {{ message }}
+    {% if messages %}
+      <div class="mb-3">
+        {% for message in messages %}
+          <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %} py-2" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" autocomplete="off" novalidate>
+      {% csrf_token %}
+
+      <!-- 🧾 Identificación -->
+      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-credit-card-2-front"></i> Datos de Identificación</h2>
+      {{ form_identificacion.non_field_errors }}
+      <div class="row mb-3">
+        <div class="col-md-6 mb-3 mb-md-0">
+          {{ form_identificacion.tipo_documento.label_tag }}
+          {{ form_identificacion.tipo_documento|add_class:"form-select" }}
+          {{ form_identificacion.tipo_documento.errors }}
         </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+        <div class="col-md-6">
+          {{ form_identificacion.numero_documento.label_tag }}
+          {{ form_identificacion.numero_documento|add_class:"form-control" }}
+          {{ form_identificacion.numero_documento.errors }}
+        </div>
+        <div class="col-12 mt-3">
+          {{ form_identificacion.municipio_identificacion.label_tag }}
+          {{ form_identificacion.municipio_identificacion|add_class:"form-select" }}
+          {{ form_identificacion.municipio_identificacion.errors }}
+        </div>
+      </div>
 
-  <form method="post">
-    {% csrf_token %}
+      <!-- 🙋‍♂️ Identidad -->
+      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-person"></i> Identidad</h2>
+      <div class="row mb-3">
+        <div class="col-md-6 mb-3 mb-md-0">
+          {{ form_identidad.primer_nombre.label_tag }}
+          {{ form_identidad.primer_nombre|add_class:"form-control" }}
+        </div>
+        <div class="col-md-6">
+          {{ form_identidad.segundo_nombre.label_tag }}
+          {{ form_identidad.segundo_nombre|add_class:"form-control" }}
+        </div>
+        <div class="col-md-6 mt-3">
+          {{ form_identidad.primer_apellido.label_tag }}
+          {{ form_identidad.primer_apellido|add_class:"form-control" }}
+        </div>
+        <div class="col-md-6 mt-3">
+          {{ form_identidad.segundo_apellido.label_tag }}
+          {{ form_identidad.segundo_apellido|add_class:"form-control" }}
+        </div>
+      </div>
 
-    <!-- 🧾 Identificación -->
-<h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🧾 Datos de Identificación</h2>
-{{ form_identificacion.non_field_errors }}
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-  <div>
-    {{ form_identificacion.tipo_documento.label_tag }}
-    {{ form_identificacion.tipo_documento }}
-    {{ form_identificacion.tipo_documento.errors }}
+      <!-- 🎂 Nacimiento -->
+      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-cake2"></i> Nacimiento</h2>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          {{ form_basico.fecha_nacimiento.label_tag }}
+          {{ form_basico.fecha_nacimiento|add_class:"form-control" }}
+        </div>
+        <div class="col-md-4">
+          <label for="edad" class="form-label">Edad</label>
+          <input type="text" id="edad" name="edad" readonly class="form-control bg-light" />
+        </div>
+        <div class="col-md-4">
+          {{ form_basico.genero.label_tag }}
+          {{ form_basico.genero|add_class:"form-select" }}
+        </div>
+      </div>
+
+      <!-- 🏠 Domicilio -->
+      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-house"></i> Domicilio</h2>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          {{ form_basico.pais_residencia.label_tag }}
+          {{ form_basico.pais_residencia|add_class:"form-select" }}
+        </div>
+        <div class="col-md-4">
+          {{ form_basico.departamento_residencia.label_tag }}
+          {{ form_basico.departamento_residencia|add_class:"form-select" }}
+        </div>
+        <div class="col-md-4">
+          {{ form_basico.municipio_residencia.label_tag }}
+          {{ form_basico.municipio_residencia|add_class:"form-select" }}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          {{ form_basico.direccion_linea1.label_tag }}
+          {{ form_basico.direccion_linea1|add_class:"form-control" }}
+        </div>
+        <div class="col-md-6">
+          {{ form_basico.direccion_linea2.label_tag }}
+          {{ form_basico.direccion_linea2|add_class:"form-control" }}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          {{ form_basico.estrato.label_tag }}
+          {{ form_basico.estrato|add_class:"form-select" }}
+        </div>
+      </div>
+
+      <!-- ☎️ Datos de Contacto -->
+      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-telephone"></i> Datos de Contacto</h2>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          {{ form_basico.telefono_celular.label_tag }}
+          {{ form_basico.telefono_celular|add_class:"form-control" }}
+        </div>
+        <div class="col-md-6">
+          {{ form_basico.telefono_celular_alterno.label_tag }}
+          {{ form_basico.telefono_celular_alterno|add_class:"form-control" }}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          {{ form_basico.telefono_fijo.label_tag }}
+          {{ form_basico.telefono_fijo|add_class:"form-control" }}
+        </div>
+        <div class="col-md-6">
+          {{ form_basico.telefono_fijo_ext.label_tag }}
+          {{ form_basico.telefono_fijo_ext|add_class:"form-control" }}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          {{ form_basico.correo_alterno.label_tag }}
+          {{ form_basico.correo_alterno|add_class:"form-control" }}
+        </div>
+      </div>
+
+      <!-- 🎓 Perfil Ocupacional -->
+      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-award"></i> Perfil Ocupacional</h2>
+      <div class="row mb-3">
+        <div class="col-12">
+          {{ form_basico.resumen.label_tag }}
+          {{ form_basico.resumen|add_class:"form-control" }}
+        </div>
+      </div>
+
+      <!-- 💾 Botón -->
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-primary px-4">
+          <i class="bi bi-save"></i> Guardar
+        </button>
+      </div>
+    </form>
   </div>
-  <div>
-    {{ form_identificacion.numero_documento.label_tag }}
-    {{ form_identificacion.numero_documento }}
-    {{ form_identificacion.numero_documento.errors }}
-  </div>
-  <div class="sm:col-span-2">
-    {{ form_identificacion.municipio_identificacion.label_tag }}
-    {{ form_identificacion.municipio_identificacion }}
-    {{ form_identificacion.municipio_identificacion.errors }}
-  </div>
-</div>
-
-
-    <!-- 🙋‍♂️ Identidad -->
-    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🙋‍♂️ Identidad</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-      <div>
-        {{ form_identidad.primer_nombre.label_tag }} 
-        {{ form_identidad.primer_nombre }}
-      </div>
-      <div>
-        {{ form_identidad.segundo_nombre.label_tag }} 
-        {{ form_identidad.segundo_nombre }}
-      </div>
-      <div>
-        {{ form_identidad.primer_apellido.label_tag }} 
-        {{ form_identidad.primer_apellido }}
-      </div>
-      <div>
-        {{ form_identidad.segundo_apellido.label_tag }} 
-        {{ form_identidad.segundo_apellido }}
-      </div>
-    </div>
-
-    <!-- 🎂 Nacimiento -->
-    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🎂 Nacimiento</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div>
-        {{ form_basico.fecha_nacimiento.label_tag }}
-        {{ form_basico.fecha_nacimiento }}
-      </div>
-      <div>
-        <label for="edad" class="block text-sm font-medium text-gray-700">Edad</label>
-        <input type="text" id="edad" name="edad" readonly class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100" />
-      </div>
-      <div>
-        {{ form_basico.genero.label_tag }}
-        {{ form_basico.genero }}
-      </div>
-    </div>
-
-    <!-- 🏠 Domicilio -->
-    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🏠 Domicilio</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div>
-        {{ form_basico.pais_residencia.label_tag }} 
-        {{ form_basico.pais_residencia }}
-      </div>
-      <div>
-        {{ form_basico.departamento_residencia.label_tag }} 
-        {{ form_basico.departamento_residencia }}
-      </div>
-      <div>
-        {{ form_basico.municipio_residencia.label_tag }} 
-        {{ form_basico.municipio_residencia }}
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      <div>
-        {{ form_basico.direccion_linea1.label_tag }} 
-        {{ form_basico.direccion_linea1 }}
-      </div>
-      <div>
-        {{ form_basico.direccion_linea2.label_tag }} 
-        {{ form_basico.direccion_linea2 }}
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      <div>
-        {{ form_basico.estrato.label_tag }} 
-        {{ form_basico.estrato }}
-      </div>
-    </div>
-
-    <!-- ☎️ Datos de Contacto -->
-    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">☎️ Datos de Contacto</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div>
-        {{ form_basico.telefono_celular.label_tag }} 
-        {{ form_basico.telefono_celular }}
-      </div>
-      <div>
-        {{ form_basico.telefono_celular_alterno.label_tag }} 
-        {{ form_basico.telefono_celular_alterno }}
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      <div>
-        {{ form_basico.telefono_fijo.label_tag }} 
-        {{ form_basico.telefono_fijo }}
-      </div>
-      <div>
-        {{ form_basico.telefono_fijo_ext.label_tag }} 
-        {{ form_basico.telefono_fijo_ext }}
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-      <div>
-        {{ form_basico.correo_alterno.label_tag }} 
-        {{ form_basico.correo_alterno }}
-      </div>
-    </div>
-
-    <!-- 🎓 Perfil Ocupacional -->
-    <h2 class="text-lg font-semibold text-blue-700 mt-6 mb-2">🎓 Perfil Ocupacional</h2>
-    <div class="mt-2">
-      <div>
-        {{ form_basico.resumen.label_tag }}
-        {{ form_basico.resumen }}
-      </div>
-    </div>
-
-    <!-- 💾 Botón -->
-    <div class="mt-6">
-      <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-        💾 Guardar
-      </button>
-    </div>
-  </form>
 </div>
 
 <script>
@@ -182,7 +183,7 @@
       }
 
       birthInput.addEventListener("change", calcularEdad);
-      calcularEdad(); // Ejecutar al cargar si hay valor
+      calcularEdad();
     }
   });
 </script>

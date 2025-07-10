@@ -4,19 +4,51 @@
 {% block title %}Nuevo Grupo{% endblock %}
 
 {% block panel_content %}
-<div class="container" style="max-width: 600px;">
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <h2 class="h4 text-primary mb-4 d-flex align-items-center gap-2">
-        <span>👨‍🎓</span> Nuevo Grupo Académico
-      </h2>
+<style>
+  .btn-pastel-blue {
+    background: #eaf4fb;
+    color: #0574c7;
+    border-radius: 0.5rem;
+    border: 1px solid #b6e0fe;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-blue:hover, .btn-pastel-blue:focus {
+    background: #cbe7fb;
+    color: #035485;
+    text-decoration: none;
+  }
+  .btn-pastel-red {
+    background: #fdeaea;
+    color: #d71b3b;
+    border-radius: 0.5rem;
+    border: 1px solid #ffd6da;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-red:hover, .btn-pastel-red:focus {
+    background: #fbbfc1;
+    color: #98001b;
+    text-decoration: none;
+  }
+</style>
 
+<div class="container-fluid px-0" style="max-width: 600px;">
+  <div class="card shadow rounded-4 border-0 mt-4">
+    <div class="card-body">
+      <h2 class="h4 text-primary fw-bold mb-4">
+        Nuevo Grupo Académico
+      </h2>
       <form method="post" novalidate>
         {% csrf_token %}
 
-        <!-- Campo: Nombre del Grupo -->
+        <!-- Nombre -->
         <div class="mb-3">
-          <label for="id_nombre" class="form-label">Nombre del Grupo:</label>
+          <label for="id_nombre" class="form-label fw-semibold">Nombre:</label>
           {{ form.nombre|add_class:"form-control"|attr:"placeholder:Ejemplo: 6A" }}
           {% if form.nombre.errors %}
             <div class="invalid-feedback d-block">
@@ -25,9 +57,9 @@
           {% endif %}
         </div>
 
-        <!-- Campo: Grado -->
+        <!-- Grado -->
         <div class="mb-3">
-          <label for="id_grado" class="form-label">Grado:</label>
+          <label for="id_grado" class="form-label fw-semibold">Grado:</label>
           {{ form.grado|add_class:"form-select" }}
           {% if form.grado.errors %}
             <div class="invalid-feedback d-block">
@@ -36,9 +68,9 @@
           {% endif %}
         </div>
 
-        <!-- Campo: Aula -->
+        <!-- Aula -->
         <div class="mb-3">
-          <label for="id_aula" class="form-label">Aula:</label>
+          <label for="id_aula" class="form-label fw-semibold">Aula:</label>
           {{ form.aula|add_class:"form-select" }}
           {% if form.aula.errors %}
             <div class="invalid-feedback d-block">
@@ -49,11 +81,11 @@
 
         <!-- Botones -->
         <div class="mt-4 d-flex gap-3">
-          <button type="submit" class="btn btn-success">
-            💾 Guardar
+          <button type="submit" class="btn btn-pastel-blue">
+            Guardar
           </button>
-          <a href="{% url 'lista_grupos' %}" class="btn btn-outline-danger">
-            ❌ Cancelar
+          <a href="{% url 'lista_grupos' %}" class="btn btn-pastel-red">
+            Cancelar
           </a>
         </div>
       </form>

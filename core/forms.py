@@ -134,6 +134,14 @@ class PerfilUsuarioForm(forms.ModelForm):
         required=False,
         label="Municipio de expedición"
     )
+    ciudad = forms.ModelChoiceField(
+        queryset=Ciudad.objects.all(),
+        required=True,
+        label="Ciudad de residencia",
+        error_messages={
+            'required': "La ciudad de residencia es obligatoria."
+        }
+    )
 
     class Meta:
         model = PerfilDeUsuario
@@ -158,14 +166,14 @@ class PerfilUsuarioForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-        # Inicializar desde el usuario autenticado
+        # Inicializa datos desde usuario autenticado si existen
         if self.user:
             self.fields['correo'].initial = self.user.correo
             self.fields['tipo_documento'].initial = self.user.tipo_documento
             self.fields['numero_documento'].initial = self.user.numero_documento
             self.fields['municipio_identificacion'].initial = self.user.municipio_identificacion
 
-        # Definir campos visibles según el rol
+        # Campos que se muestran según rol
         campos_visibles = [
             'foto', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido',
             'tipo_documento', 'numero_documento', 'municipio_identificacion',
@@ -174,7 +182,6 @@ class PerfilUsuarioForm(forms.ModelForm):
 
         if self.user and self.user.rol:
             rol = self.user.rol.nombre.strip().lower()
-
             if rol == 'docente':
                 campos_visibles.append('especialidad')
                 self.fields['especialidad'].required = True
@@ -192,9 +199,16 @@ class PerfilUsuarioForm(forms.ModelForm):
             if field not in campos_visibles and field != 'correo':
                 del self.fields[field]
 
+    def clean_ciudad(self):
+        ciudad = self.cleaned_data.get('ciudad')
+        if not ciudad:
+            raise forms.ValidationError("La ciudad de residencia es obligatoria.")
+        return ciudad
+
     def save(self, commit=True):
         perfil = super().save(commit=False)
 
+        # Actualiza los datos básicos en usuario también
         if self.user:
             self.user.tipo_documento = self.cleaned_data.get('tipo_documento')
             self.user.numero_documento = self.cleaned_data.get('numero_documento')
@@ -393,21 +407,20 @@ class DatosBasicosDocenteForm(forms.ModelForm):
             }),
         }
 
-# Identificaci♀n Formulario
+# Identificación Formulario
 class IdentificacionForm(forms.ModelForm):
     municipio_identificacion = forms.ModelChoiceField(
         queryset=Ciudad.objects.all(),
         label="Municipio de Identificación",
-        required=False,  # MUY IMPORTANTE
+        required=False,
         widget=forms.Select(attrs={
             'class': 'w-full border border-gray-300 rounded px-3 py-2'
         })
     )
 
-
     class Meta:
         model = Usuario
-        fields = ['tipo_documento', 'numero_documento']  # 👈 Solo campos del modelo
+        fields = ['tipo_documento', 'numero_documento', 'municipio_identificacion']  # 👈 AGRÉGALO AQUÍ
         widgets = {
             'tipo_documento': forms.Select(attrs={
                 'class': 'w-full border border-gray-300 rounded px-3 py-2'
@@ -415,7 +428,9 @@ class IdentificacionForm(forms.ModelForm):
             'numero_documento': forms.TextInput(attrs={
                 'class': 'w-full border border-gray-300 rounded px-3 py-2'
             }),
+            # Puedes personalizar municipio_identificacion aquí si prefieres
         }
+
 
         
 # Identidad Form

@@ -1,5 +1,3 @@
-# core/views/docente_hoja_vida.py
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -21,22 +19,22 @@ def docente_datos_basicos_view(request):
     except HojaDeVidaDocente.DoesNotExist:
         hoja_de_vida = None
 
+    # Armar datos iniciales para los campos redundantes
+    initial_basico = {}
+    if perfil:
+        initial_basico['direccion_linea1'] = perfil.direccion_linea1
+        initial_basico['direccion_linea2'] = perfil.direccion_linea2
+        initial_basico['municipio_residencia'] = perfil.ciudad  # ciudad = municipio
+        if perfil.ciudad:
+            initial_basico['departamento_residencia'] = perfil.ciudad.departamento
+            initial_basico['pais_residencia'] = perfil.ciudad.departamento.pais
+
     if request.method == 'POST':
         form_identificacion = IdentificacionForm(request.POST, instance=usuario)
         form_identidad = IdentidadForm(request.POST, instance=perfil)
-        form_basico = DatosBasicosDocenteForm(request.POST, instance=hoja_de_vida)
-
-        # ⚠️ Validación personalizada para el campo adicional
+        form_basico = DatosBasicosDocenteForm(request.POST, instance=hoja_de_vida, initial=initial_basico)
         if all([form_identificacion.is_valid(), form_identidad.is_valid(), form_basico.is_valid()]):
-            usuario = form_identificacion.save(commit=False)
-            municipio_ident = form_identificacion.cleaned_data.get('municipio_identificacion')
-
-            usuario.save()
-            
-            if perfil:
-                perfil.municipio_identificacion = municipio_ident
-                perfil.save()
-            
+            usuario = form_identificacion.save()
             form_identidad.save()
 
             hoja = form_basico.save(commit=False)
@@ -46,14 +44,11 @@ def docente_datos_basicos_view(request):
             messages.success(request, "✅ Información actualizada correctamente.")
             return redirect('docente_datos_basicos')
         else:
-            print("Errores Identificación:", form_identificacion.errors)
-            print("Errores Identidad:", form_identidad.errors)
-            print("Errores Básico:", form_basico.errors)
             messages.error(request, "❌ Corrige los errores en los formularios.")
     else:
         form_identificacion = IdentificacionForm(instance=usuario)
         form_identidad = IdentidadForm(instance=perfil)
-        form_basico = DatosBasicosDocenteForm(instance=hoja_de_vida)
+        form_basico = DatosBasicosDocenteForm(instance=hoja_de_vida, initial=initial_basico)
 
     context = {
         'form_identificacion': form_identificacion,

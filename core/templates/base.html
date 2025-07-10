@@ -93,12 +93,19 @@
   </nav>
 
   <!-- ASIDE (menú lateral) -->
-  {% comment %} Mostrar aside sólo a coordinador autenticado {% endcomment %}
-  {% if user.is_authenticated and user.rol.nombre == "Coordinador Académico" %}
+  {% if user.is_authenticated %}
     <aside class="layout-aside">
-      {% block aside %}{% include "includes/aside_coordinador.html" %}{% endblock %}
+      {% block aside %}
+        {% if user.rol.nombre == "Coordinador Académico" %}
+          {% include "includes/aside_coordinador.html" %}
+        {% elif user.rol.nombre == "Docente" %}
+          {% include "includes/aside_docente.html" %}
+        {% endif %}
+      {% endblock %}
     </aside>
   {% endif %}
+
+
 
 
   <!-- CONTENIDO CENTRAL -->

@@ -106,7 +106,7 @@
           </div>
           <div class="col-12 col-md-6 mb-1">
             <span class="perfil-label">Segundo nombre:</span>
-            <span class="perfil-value ms-1">{{ perfil.segundo_nombre }}</span>
+            <span class="perfil-value ms-1">{{ perfil.segundo_nombre|default_if_none:"" }}</span>
           </div>
           <div class="col-12 col-md-6 mb-1">
             <span class="perfil-label">Primer apellido:</span>
@@ -114,7 +114,7 @@
           </div>
           <div class="col-12 col-md-6 mb-1">
             <span class="perfil-label">Segundo apellido:</span>
-            <span class="perfil-value ms-1">{{ perfil.segundo_apellido }}</span>
+            <span class="perfil-value ms-1">{{ perfil.segundo_apellido|default_if_none:"" }}</span>
           </div>
           <div class="col-12 col-md-6 mb-1">
             <span class="perfil-label">Tipo de documento:</span>
@@ -143,7 +143,7 @@
           </div>
           <div class="col-12 col-md-6 mb-1">
             <span class="perfil-label">Dirección línea 2:</span>
-            <span class="perfil-value ms-1">{{ perfil.direccion_linea2 }}</span>
+            <span class="perfil-value ms-1">{{ perfil.direccion_linea2|default_if_none:"" }}</span>
           </div>
           <div class="col-12 col-md-6 mb-1">
             <span class="perfil-label">Ciudad:</span>
@@ -159,8 +159,38 @@
           </div>
         </div>
         {% else %}
-        <div class="alert alert-warning mt-2 mb-2 py-1">Este usuario no tiene un perfil creado.</div>
+          <div class="alert alert-warning mt-2 mb-2 py-1">
+            Este usuario no tiene un perfil creado.
+          </div>
+          <div class="row g-3 mb-2">
+            <div class="col-12 col-md-4 mb-2">
+              <div class="perfil-label mb-1">Tipo de documento:</div>
+              <div class="perfil-value">
+                {{ usuario.tipo_documento|default:"No especificado" }}
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-2">
+              <div class="perfil-label mb-1">Número de documento:</div>
+              <div class="perfil-value">
+                {{ usuario.numero_documento|default:"No especificado" }}
+              </div>
+            </div>
+            <div class="col-12 col-md-4 mb-2">
+              <div class="perfil-label mb-1">Municipio de expedición:</div>
+              <div class="perfil-value">
+                {% if usuario.municipio_identificacion %}
+                  {{ usuario.municipio_identificacion.nombre }}<br>
+                  {{ usuario.municipio_identificacion.departamento.nombre }}<br>
+                  {{ usuario.municipio_identificacion.departamento.pais.nombre }}
+                {% else %}
+                  <span class="text-muted">No especificado</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
         {% endif %}
+
+
 
         <div class="mt-3">
           <a href="{% url 'editar_perfil' %}" class="perfil-btn-editar">

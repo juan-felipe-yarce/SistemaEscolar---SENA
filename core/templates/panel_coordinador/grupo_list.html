@@ -1,50 +1,102 @@
 {% extends "panel_coordinador/dashboard_base.html" %}
 
-{% block title %}Lista de Niveles Educativos{% endblock %}
+{% block title %}Lista de Grupos{% endblock %}
 
 {% block panel_content %}
-<div class="card shadow-lg rounded-4 border-0 mt-0" style="background:rgba(255,255,255,0.97);">
-  <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="h4 text-primary fw-bold mb-0">
-        Niveles Educativos
-      </h2>
-      <a href="{% url 'crear_nivel' %}" class="btn btn-primary rounded-3 fw-semibold">
-        + Nuevo Nivel
-      </a>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-hover table-borderless align-middle bg-white rounded-3 overflow-hidden shadow-sm mb-0" style="min-width:380px;">
-        <thead class="table-light">
-          <tr>
-            <th class="text-start fs-6 fw-bold">Nombre</th>
-            <th class="text-center fs-6 fw-bold" style="width: 200px;">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for nivel in niveles %}
-          <tr class="align-middle">
-            <td class="fs-6">{{ nivel.nombre }}</td>
-            <td class="text-center">
-              <a href="{% url 'editar_nivel' nivel.id %}" class="btn btn-sm btn-outline-primary me-2 rounded-3 shadow-none" title="Editar">
-                Editar
-              </a>
-              <a href="{% url 'eliminar_nivel' nivel.id %}" class="btn btn-sm btn-outline-danger rounded-3 shadow-none"
-                onclick="return confirm('¿Estás seguro de eliminar este nivel?');" title="Eliminar">
-                Eliminar
-              </a>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="2" class="text-center text-muted py-4">
-              No hay niveles registrados.
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<style>
+  .btn-pastel-blue {
+    background: #eaf4fb;
+    color: #0574c7;
+    border-radius: 0.5rem;
+    border: 1px solid #b6e0fe;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-blue:hover, .btn-pastel-blue:focus {
+    background: #cbe7fb;
+    color: #035485;
+    text-decoration: none;
+  }
+  .btn-pastel-red {
+    background: #fdeaea;
+    color: #d71b3b;
+    border-radius: 0.5rem;
+    border: 1px solid #ffd6da;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-pastel-red:hover, .btn-pastel-red:focus {
+    background: #fbbfc1;
+    color: #98001b;
+    text-decoration: none;
+  }
+  .btn-pastel-blue, .btn-pastel-red {
+    margin-bottom: 0 !important;
+  }
+  td.text-end.pe-4 {
+    white-space: nowrap;
+    min-width: 210px;
+  }
+</style>
+
+<div class="container-fluid px-0" style="max-width: 1100px;">
+  <div class="card shadow rounded-4 border-0 mt-3">
+    <div class="card-body">
+      <h2 class="h4 text-primary fw-bold mb-2">Grupos Académicos</h2>
+      <!-- Botón: Nuevo Grupo -->
+      <div class="mb-4">
+        <a href="{% url 'crear_grupo' %}" class="btn btn-primary btn-sm px-4 py-2 rounded-3 shadow-sm">
+          <i class="bi bi-plus-circle me-2"></i>+ Nuevo Grupo
+        </a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-borderless align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" class="ps-4">Nombre</th>
+              <th scope="col">Grado</th>
+              <th scope="col">Aula</th>
+              <th scope="col" class="text-end pe-4" style="width: 210px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for grupo in grupos %}
+            <tr>
+              <td class="ps-4 fw-semibold text-dark" style="vertical-align: middle;">{{ grupo.nombre }}</td>
+              <td style="vertical-align: middle;">{{ grupo.grado }}</td>
+              <td style="vertical-align: middle;">{{ grupo.aula }}</td>
+              <td class="text-end pe-4" style="vertical-align: middle;">
+                <a href="{% url 'editar_grupo' grupo.id %}" class="btn btn-pastel-blue me-2 d-inline-flex align-items-center">
+                  <i class="bi bi-pencil-square me-1"></i>Editar
+                </a>
+                <a href="{% url 'eliminar_grupo' grupo.id %}" class="btn btn-pastel-red d-inline-flex align-items-center"
+                   onclick="return confirm('¿Deseas eliminar este grupo?');">
+                  <i class="bi bi-trash me-1"></i>Eliminar
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center text-muted py-5">
+                <div>
+                  <span style="font-size:2rem;">📂</span>
+                  <div class="mt-2 fw-medium">No hay grupos registrados.</div>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- ICONOS BOOTSTRAP (si no está ya en tu base.html) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 {% endblock %}
