@@ -22,3 +22,11 @@ Este sistema permite gestionar currículo, docentes, estudiantes, matrículas y 
 ```bash
 git clone https://github.com/jdcarvajalMontoya/SistemaEscolarBootstrap.git
 cd SistemaEscolarBootstrap
+
+## Licencia
+
+Copyright © 2024 Juan David Carvajal Montoya
+
+Solo para fines educativos internos en el SENA.  
+Se prohíbe la copia, distribución, uso comercial y modificación fuera del contexto de aprendizaje autorizado.
+
