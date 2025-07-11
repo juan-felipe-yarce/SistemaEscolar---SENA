@@ -25,7 +25,7 @@ cd SistemaEscolarBootstrap
 
 ## Licencia
 
-Copyright © 2024 Juan David Carvajal Montoya
+Copyright © 2025 Juan David Carvajal Montoya
 
 Solo para fines educativos internos en el SENA.  
 Se prohíbe la copia, distribución, uso comercial y modificación fuera del contexto de aprendizaje autorizado.
