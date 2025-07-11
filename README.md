@@ -20,5 +20,5 @@ Este sistema permite gestionar currículo, docentes, estudiantes, matrículas y 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/jdcarvajalMontoya/sistema_escolar.git
-cd sistema_escolar
+git clone https://github.com/jdcarvajalMontoya/SistemaEscolarBootstrap.git
+cd SistemaEscolarBootstrap
