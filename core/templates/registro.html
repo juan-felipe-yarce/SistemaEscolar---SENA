@@ -90,7 +90,13 @@
             <div class="mb-3 position-relative">
               <label for="id_password" class="form-label">Contraseña:</label>
               {{ form.password|add_class:"form-control pe-5" }}
-              <button type="button" onclick="togglePassword('id_password')" class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2" tabindex="-1" style="text-decoration:none;">👁️</button>
+              <button type="button"
+                      onclick="togglePasswordIcon('id_password', this)"
+                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2"
+                      tabindex="-1"
+                      style="text-decoration:none;">
+                <i class="bi bi-eye-slash" aria-label="Mostrar contraseña"></i>
+              </button>
               {% if form.password.errors %}
                 <div class="text-danger small">{{ form.password.errors.0 }}</div>
               {% endif %}
@@ -111,7 +117,13 @@
             <div class="mb-4 position-relative">
               <label for="id_confirmar_password" class="form-label">Confirmar Contraseña:</label>
               {{ form.confirmar_password|add_class:"form-control pe-5" }}
-              <button type="button" onclick="togglePassword('id_confirmar_password')" class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2" tabindex="-1" style="text-decoration:none;">👁️</button>
+              <button type="button"
+                      onclick="togglePasswordIcon('id_confirmar_password', this)"
+                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2"
+                      tabindex="-1"
+                      style="text-decoration:none;">
+                <i class="bi bi-eye-slash" aria-label="Mostrar contraseña"></i>
+              </button>
               {% if form.confirmar_password.errors %}
                 <div class="text-danger small">{{ form.confirmar_password.errors.0 }}</div>
               {% endif %}
