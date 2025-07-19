@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
 @login_required
 def panel_docente_view(request):
-    return render(request, 'panel_docente/dashboard_base.html')
+    return redirect('docente_datos_basicos')

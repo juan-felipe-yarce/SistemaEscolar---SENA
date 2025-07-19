@@ -1,6 +1,11 @@
 {% extends "panel_coordinador/dashboard_base.html" %}
-
+{% load static %}
 {% block title %}Usuarios Pendientes de Activación{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/usuarios_pendientes.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
 
 {% block panel_content %}
 <div class="card shadow-sm border-0 rounded-4 my-4">
@@ -17,7 +22,7 @@
             <span class="fw-semibold">{{ usuario.correo }}</span><br>
             <span class="text-secondary small">Rol: {{ usuario.rol.nombre }}</span>
           </div>
-          <form method="post" action="{% url 'activar_usuario' usuario.id %}" onsubmit="return confirmarActivacion('{{ usuario.correo }}')">
+          <form method="post" action="{% url 'activar_usuario' usuario.id %}" class="form-activar-usuario" data-correo="{{ usuario.correo }}">
             {% csrf_token %}
             <button type="submit" class="btn btn-success btn-sm rounded-3 shadow-none" aria-label="Activar cuenta de {{ usuario.correo }}">
               <i class="bi bi-person-check me-1"></i> Activar
@@ -45,27 +50,8 @@
     {% endif %}
   </div>
 </div>
+{% endblock %}
 
-<script>
-  function confirmarActivacion(correo) {
-    return confirm(`¿Estás seguro de que deseas activar la cuenta del usuario con correo: ${correo}?`);
-  }
-
-  // Toast visual al activar usuario
-  window.addEventListener('DOMContentLoaded', () => {
-    if (sessionStorage.getItem('mostrarToast') === 'true') {
-      var toastEl = document.getElementById('toast-exito');
-      var toast = new bootstrap.Toast(toastEl);
-      toast.show();
-      sessionStorage.removeItem('mostrarToast');
-    }
-  });
-
-  // Marca para mostrar toast después del POST
-  document.querySelectorAll("form[action*='activar_usuario']").forEach(form => {
-    form.addEventListener('submit', () => {
-      sessionStorage.setItem('mostrarToast', 'true');
-    });
-  });
-</script>
+{% block extra_js %}
+  <script src="{% static 'js/usuarios_pendientes.js' %}"></script>
 {% endblock %}

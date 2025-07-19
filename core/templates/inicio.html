@@ -1,27 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body_class %}no-aside{% endblock %}
 
 {% block title %}Bienvenido{% endblock %}
 
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+{% endblock %}
+
 {% block content %}
-  <style>
-    /* Para la bienvenida, el main ocupa todo el ancho */
-    .layout-content {
-      left: 0 !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: calc(100vh - 112px); /* 64px navbar + 48px footer */
-    }
-  </style>
-  <div class="w-100">
-    <div class="text-center mx-auto" style="max-width: 700px;">
+  <div class="w-100 layout-content-bienvenida">
+    <div class="text-center mx-auto bienvenida-box">
       <h1 class="display-4 fw-bold text-primary mb-4">Bienvenido al Sistema Escolar</h1>
       <p class="lead text-secondary mb-4">Por favor, inicia sesión para acceder al sistema.</p>
       <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-5">Iniciar sesión</a>
     </div>
   </div>
 {% endblock %}
-

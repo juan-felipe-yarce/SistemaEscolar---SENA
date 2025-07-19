@@ -1,13 +1,18 @@
 {% extends "base.html" %}
+{% load static %}
 {% block body_class %}no-aside{% endblock %}
 
-{% load static %}
+
 {% load widget_tweaks %}
 
 {% block title %}Registro de Usuario{% endblock %}
 
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/registro.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
+<div class="container d-flex align-items-center justify-content-center registro-min-vh">
   <div class="row w-100 justify-content-center">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
       <div class="card shadow-sm border-0 rounded-4">
@@ -92,16 +97,15 @@
               {{ form.password|add_class:"form-control pe-5" }}
               <button type="button"
                       onclick="togglePasswordIcon('id_password', this)"
-                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2"
-                      tabindex="-1"
-                      style="text-decoration:none;">
+                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2 toggle-password-btn"
+                      tabindex="-1">
                 <i class="bi bi-eye-slash" aria-label="Mostrar contraseña"></i>
               </button>
               {% if form.password.errors %}
                 <div class="text-danger small">{{ form.password.errors.0 }}</div>
               {% endif %}
 
-              <div class="progress my-2" style="height: 7px;">
+              <div class="progress my-2 password-progress">
                 <div id="password-strength" class="progress-bar bg-danger" style="width: 0%"></div>
               </div>
               <ul class="small ps-3 mb-0" id="password-requirements">
@@ -119,9 +123,8 @@
               {{ form.confirmar_password|add_class:"form-control pe-5" }}
               <button type="button"
                       onclick="togglePasswordIcon('id_confirmar_password', this)"
-                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2"
-                      tabindex="-1"
-                      style="text-decoration:none;">
+                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2 toggle-password-btn"
+                      tabindex="-1">
                 <i class="bi bi-eye-slash" aria-label="Mostrar contraseña"></i>
               </button>
               {% if form.confirmar_password.errors %}
@@ -138,133 +141,8 @@
     </div>
   </div>
 </div>
+{% endblock %}
 
-<script>
-  // 👁️ Mostrar / ocultar contraseña
-  function togglePassword(id) {
-    const field = document.getElementById(id);
-    field.type = field.type === "password" ? "text" : "password";
-  }
-
-  // 🔒 Verificación de fuerza de contraseña
-  const passwordField = document.getElementById("id_password");
-  const bar = document.getElementById("password-strength");
-  const checks = {
-    len: document.getElementById("len"),
-    mayus: document.getElementById("mayus"),
-    minus: document.getElementById("minus"),
-    num: document.getElementById("num"),
-    sym: document.getElementById("sym"),
-  };
-
-  if(passwordField){
-    passwordField.addEventListener("input", function () {
-      const value = passwordField.value;
-      let score = 0;
-
-      if (value.length >= 8) {
-        checks.len.classList.replace("text-danger", "text-success");
-        score++;
-      } else {
-        checks.len.classList.replace("text-success", "text-danger");
-      }
-
-      if (/[A-Z]/.test(value)) {
-        checks.mayus.classList.replace("text-danger", "text-success");
-        score++;
-      } else {
-        checks.mayus.classList.replace("text-success", "text-danger");
-      }
-
-      if (/[a-z]/.test(value)) {
-        checks.minus.classList.replace("text-danger", "text-success");
-        score++;
-      } else {
-        checks.minus.classList.replace("text-success", "text-danger");
-      }
-
-      if (/\d/.test(value)) {
-        checks.num.classList.replace("text-danger", "text-success");
-        score++;
-      } else {
-        checks.num.classList.replace("text-success", "text-danger");
-      }
-
-      if (/[#\$%!_]/.test(value)) {
-        checks.sym.classList.replace("text-danger", "text-success");
-        score++;
-      } else {
-        checks.sym.classList.replace("text-success", "text-danger");
-      }
-
-      const percentage = (score / 5) * 100;
-      bar.style.width = percentage + "%";
-      bar.classList.remove("bg-success", "bg-warning", "bg-danger");
-      if (percentage < 40) {
-        bar.classList.add("bg-danger");
-      } else if (percentage < 80) {
-        bar.classList.add("bg-warning");
-      } else {
-        bar.classList.add("bg-success");
-      }
-    });
-  }
-
-  // Carga dinámica de País → Departamento → Ciudad
-  document.addEventListener("DOMContentLoaded", function () {
-    const paisSelect = document.getElementById("id_pais_identificacion");
-    const departamentoSelect = document.getElementById("id_departamento_identificacion");
-    const municipioSelect = document.getElementById("id_municipio_identificacion");
-
-    if (paisSelect && departamentoSelect && municipioSelect) {
-      paisSelect.addEventListener("change", function () {
-        const paisId = this.value;
-        departamentoSelect.innerHTML = '<option value="">Cargando...</option>';
-        municipioSelect.innerHTML = '<option value="">Seleccione municipio</option>';
-
-        fetch(`/ajax/departamentos/?pais_id=${paisId}`)
-          .then(res => res.json())
-          .then(data => {
-            departamentoSelect.innerHTML = '<option value="">Seleccione un departamento</option>';
-            data.forEach(dep => {
-              departamentoSelect.innerHTML += `<option value="${dep.id}">${dep.nombre}</option>`;
-            });
-          });
-      });
-
-      departamentoSelect.addEventListener("change", function () {
-        const depId = this.value;
-        municipioSelect.innerHTML = '<option value="">Cargando...</option>';
-
-        fetch(`/ajax/ciudades/?departamento_id=${depId}`)
-          .then(res => res.json())
-          .then(data => {
-            municipioSelect.innerHTML = '<option value="">Seleccione municipio</option>';
-            data.forEach(mun => {
-              municipioSelect.innerHTML += `<option value="${mun.id}">${mun.nombre}</option>`;
-            });
-          });
-      });
-    }
-  });
-
-  // Mostrar alerta si el rol seleccionado es Coordinador Académico
-  document.addEventListener("DOMContentLoaded", function () {
-    const rolSelect = document.getElementById("id_rol");
-    const alertaDiv = document.getElementById("coordinador-alerta");
-
-    if (rolSelect && alertaDiv) {
-      function toggleAlerta() {
-        const selectedText = rolSelect.options[rolSelect.selectedIndex].text.toLowerCase();
-        if (selectedText.includes("coordinador")) {
-          alertaDiv.classList.remove("d-none");
-        } else {
-          alertaDiv.classList.add("d-none");
-        }
-      }
-      rolSelect.addEventListener("change", toggleAlerta);
-      toggleAlerta(); // Ejecutar una vez al cargar
-    }
-  });
-</script>
+{% block extra_js %}
+  <script src="{% static 'js/registro.js' %}"></script>
 {% endblock %}

@@ -1,24 +1,26 @@
-<div class="d-flex flex-column align-items-stretch p-3">
+{% load static %}
+<div class="d-flex flex-column align-items-stretch p-3 aside-docente">
   <div class="mb-3 ps-2">
     <span class="fs-6 fw-semibold text-primary">Docente</span>
   </div>
 
-  <a href="{% url 'docente_datos_basicos' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'docente_datos_basicos' %}" class="aside-link">
     <i class="bi bi-person-badge fs-5 text-primary"></i> Datos Básicos del Docente
   </a>
-  <a href="{% url 'docente_educacion' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'docente_educacion' %}" class="aside-link">
     <i class="bi bi-mortarboard fs-5 text-primary"></i> Educación
   </a>
-  <a href="{% url 'docente_capacitacion' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'docente_capacitacion' %}" class="aside-link">
     <i class="bi bi-lightbulb fs-5 text-primary"></i> Capacitación Complementaria
   </a>
-  <a href="{% url 'docente_idiomas' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'docente_idiomas' %}" class="aside-link">
     <i class="bi bi-translate fs-5 text-primary"></i> Idiomas
   </a>
-  <a href="{% url 'docente_experiencia' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'docente_experiencia' %}" class="aside-link">
     <i class="bi bi-briefcase fs-5 text-primary"></i> Experiencia Laboral
   </a>
-  <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm text-start mt-4 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm text-start mt-4 d-flex align-items-center gap-2 shadow-none rounded-3 aside-logout" style="font-size: 0.96rem;">
     <i class="bi bi-box-arrow-right fs-5"></i> Cerrar Sesión
   </a>
 </div>
+<link rel="stylesheet" href="{% static 'css/aside_docente.css' %}">

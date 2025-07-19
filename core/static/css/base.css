@@ -1,0 +1,82 @@
+.requisitos-password {
+  display: none;
+}
+.requisitos-password.activo {
+  display: block;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+body.no-aside .layout-content {
+  left: 0 !important;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.layout-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1040;
+  height: 64px;
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+}
+.layout-aside {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  bottom: 48px;
+  width: 240px;
+  background: #fff;
+  box-shadow: 1px 0 8px rgba(0,0,0,0.04);
+  z-index: 1030;
+  padding-top: 1.5rem;
+  overflow-y: auto;
+}
+.layout-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  background: #fff;
+  border-top: 1px solid #dee2e6;
+  z-index: 1040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.92rem;
+  color: #6c757d;
+}
+.layout-content {
+  position: absolute;
+  left: 240px;
+  right: 0;
+  top: 64px;
+  bottom: 48px;
+  overflow-y: auto;
+  padding: 2rem 2rem 1.5rem 2rem;
+  background: #f8f9fa;
+}
+@media (max-width: 991px) {
+  .layout-aside {
+    width: 65px;
+    padding-top: 0.5rem;
+  }
+  .layout-content {
+    left: 65px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

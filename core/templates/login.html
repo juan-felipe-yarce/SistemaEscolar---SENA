@@ -1,15 +1,20 @@
 {% extends "base.html" %}
-{% block body_class %}no-aside{% endblock %}
 {% load static %}
+{% block body_class %}no-aside{% endblock %}
 {% load widget_tweaks %}
 
 {% block title %}Iniciar Sesión{% endblock %}
 
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+<div class="login-container">
   <div class="row w-100 justify-content-center">
     <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
-      <div class="card shadow-sm border-0 rounded-4">
+      <div class="card login-card">
         <div class="card-body p-4">
           <h2 class="card-title text-center mb-4 text-primary">Iniciar Sesión</h2>
 
@@ -22,7 +27,7 @@
             {% endfor %}
           {% endif %}
 
-          <form method="post" novalidate>
+          <form method="post" novalidate id="loginForm">
             {% csrf_token %}
             {% if form.non_field_errors %}
               <div class="alert alert-danger" role="alert">
@@ -51,9 +56,12 @@
           </form>
 
           <div class="text-center mt-4">
-            <p class="small mb-0">
+            <p class="small mb-1">
               ¿No tienes cuenta?
               <a href="{% url 'registro' %}" class="link-primary">Regístrate aquí</a>
+            </p>
+            <p class="small mb-0">
+              <a href="{% url 'password_reset' %}" class="link-secondary">¿Olvidó su contraseña?</a>
             </p>
           </div>
         </div>
@@ -61,4 +69,8 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/login.js' %}"></script>
 {% endblock %}

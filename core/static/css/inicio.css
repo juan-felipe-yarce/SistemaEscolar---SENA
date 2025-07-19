@@ -1,0 +1,13 @@
+.layout-content-bienvenida {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 112px); /* 64px navbar + 48px footer */
+  padding: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+.bienvenida-box {
+  max-width: 700px;
+}

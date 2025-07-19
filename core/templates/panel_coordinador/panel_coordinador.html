@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+{% extends "dashboard_base.html" %}
 {% block title %}Panel del Coordinador Académico{% endblock %}
 
 {% block panel_content %}
-  <div class="text-center mt-10">
-    <h2 class="text-3xl font-bold text-blue-800">👋 Bienvenido, {{ user.perfil.primer_nombre }}</h2>
-    <p class="mt-2 text-gray-600">Usa el menú lateral para gestionar el sistema escolar.</p>
+  <div class="panel-coordinador-welcome text-center">
+    <h2 class="panel-coordinador-title">👋 Bienvenido, {{ user.perfil.primer_nombre }}</h2>
+    <p class="panel-coordinador-description">Usa el menú lateral para gestionar el sistema escolar.</p>
   </div>
+  <link rel="stylesheet" href="{% static 'css/panel_coordinador.css' %}">
 {% endblock %}

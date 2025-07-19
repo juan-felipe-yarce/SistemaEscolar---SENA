@@ -10,7 +10,7 @@ def es_coordinador(user):
 @login_required
 @user_passes_test(es_coordinador)
 def panel_coordinador(request):
-    return redirect('usuarios_pendientes')
+    return redirect('lista_niveles')
 
 @login_required
 @user_passes_test(es_coordinador)

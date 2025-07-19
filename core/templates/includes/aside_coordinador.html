@@ -1,30 +1,35 @@
-<div class="d-flex flex-column align-items-stretch p-3">
+{% load static %}
+<div class="d-flex flex-column align-items-stretch p-3 aside-coordinador">
   <div class="mb-3 ps-2">
     <span class="fs-6 fw-semibold text-primary">Coordinador</span>
   </div>
 
-  <a href="{% url 'lista_niveles' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'lista_niveles' %}" class="aside-link">
     <i class="bi bi-diagram-3 fs-5 text-primary"></i> Niveles Educativos
   </a>
-  <a href="{% url 'lista_grados' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'lista_grados' %}" class="aside-link">
     <i class="bi bi-book fs-5 text-primary"></i> Grados
   </a>
-  <a href="{% url 'lista_areas' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'lista_areas' %}" class="aside-link">
     <i class="bi bi-layers fs-5 text-primary"></i> Áreas
   </a>
-  <a href="{% url 'lista_asignaturas' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'lista_asignaturas' %}" class="aside-link">
     <i class="bi bi-journal-code fs-5 text-primary"></i> Asignaturas
   </a>
-  <a href="{% url 'lista_aulas' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'lista_aulas' %}" class="aside-link">
     <i class="bi bi-door-open fs-5 text-primary"></i> Aulas
   </a>
-  <a href="{% url 'lista_grupos' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'lista_grupos' %}" class="aside-link">
     <i class="bi bi-people fs-5 text-primary"></i> Grupos
   </a>
-  <a href="{% url 'usuarios_pendientes' %}" class="btn btn-light text-primary btn-sm text-start mb-2 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'lista_asignaciones' %}" class="aside-link">
+    <i class="bi bi-person-workspace fs-5 text-primary"></i> Asignación de Docentes
+  </a>
+  <a href="{% url 'usuarios_pendientes' %}" class="aside-link">
     <i class="bi bi-person-lines-fill fs-5 text-primary"></i> Validar Usuarios
   </a>
-  <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm text-start mt-4 d-flex align-items-center gap-2 shadow-none rounded-3" style="font-size: 0.96rem;">
+  <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm text-start mt-4 d-flex align-items-center gap-2 shadow-none rounded-3 aside-logout" style="font-size: 0.96rem;">
     <i class="bi bi-box-arrow-right fs-5"></i> Cerrar Sesión
   </a>
 </div>
+<link rel="stylesheet" href="{% static 'css/aside_coordinador.css' %}">

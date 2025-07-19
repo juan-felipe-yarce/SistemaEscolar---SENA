@@ -1,21 +1,21 @@
 {% extends "panel_docente/dashboard_base.html" %}
+{% load static %}
 {% load widget_tweaks %}
 
-{% block title %}
-  Datos Básicos del Docente
-{% endblock %}
+{% block title %}Datos Básicos del Docente{% endblock %}
 
 {% block panel_content %}
-<div class="container max-w-4xl px-0">
-  <div class="bg-white shadow rounded p-4">
-    <h1 class="h4 fw-semibold text-primary mb-3 mt-2">
+<link rel="stylesheet" href="{% static 'css/datos_basicos_docente.css' %}">
+<div class="datos-basicos-container">
+  <div class="datos-basicos-card">
+    <h1 class="datos-basicos-title">
       <i class="bi bi-person-badge"></i> Datos Básicos del Docente
     </h1>
 
     {% if messages %}
-      <div class="mb-3">
+      <div class="datos-basicos-messages">
         {% for message in messages %}
-          <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %} py-2" role="alert">
+          <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %}" role="alert">
             {{ message }}
           </div>
         {% endfor %}
@@ -25,8 +25,8 @@
     <form method="post" autocomplete="off" novalidate>
       {% csrf_token %}
 
-      <!-- 🧾 Identificación -->
-      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-credit-card-2-front"></i> Datos de Identificación</h2>
+      <!-- Identificación -->
+      <h2 class="datos-basicos-section"><i class="bi bi-credit-card-2-front"></i> Datos de Identificación</h2>
       {{ form_identificacion.non_field_errors }}
       <div class="row mb-3">
         <div class="col-md-6 mb-3 mb-md-0">
@@ -46,8 +46,8 @@
         </div>
       </div>
 
-      <!-- 🙋‍♂️ Identidad -->
-      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-person"></i> Identidad</h2>
+      <!-- Identidad -->
+      <h2 class="datos-basicos-section"><i class="bi bi-person"></i> Identidad</h2>
       <div class="row mb-3">
         <div class="col-md-6 mb-3 mb-md-0">
           {{ form_identidad.primer_nombre.label_tag }}
@@ -67,8 +67,8 @@
         </div>
       </div>
 
-      <!-- 🎂 Nacimiento -->
-      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-cake2"></i> Nacimiento</h2>
+      <!-- Nacimiento -->
+      <h2 class="datos-basicos-section"><i class="bi bi-cake2"></i> Nacimiento</h2>
       <div class="row mb-3">
         <div class="col-md-4">
           {{ form_basico.fecha_nacimiento.label_tag }}
@@ -84,8 +84,8 @@
         </div>
       </div>
 
-      <!-- 🏠 Domicilio -->
-      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-house"></i> Domicilio</h2>
+      <!-- Domicilio -->
+      <h2 class="datos-basicos-section"><i class="bi bi-house"></i> Domicilio</h2>
       <div class="row mb-3">
         <div class="col-md-4">
           {{ form_basico.pais_residencia.label_tag }}
@@ -117,8 +117,8 @@
         </div>
       </div>
 
-      <!-- ☎️ Datos de Contacto -->
-      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-telephone"></i> Datos de Contacto</h2>
+      <!-- Datos de Contacto -->
+      <h2 class="datos-basicos-section"><i class="bi bi-telephone"></i> Datos de Contacto</h2>
       <div class="row mb-3">
         <div class="col-md-6">
           {{ form_basico.telefono_celular.label_tag }}
@@ -146,8 +146,8 @@
         </div>
       </div>
 
-      <!-- 🎓 Perfil Ocupacional -->
-      <h2 class="h6 fw-semibold text-primary mt-3 mb-2"><i class="bi bi-award"></i> Perfil Ocupacional</h2>
+      <!-- Perfil Ocupacional -->
+      <h2 class="datos-basicos-section"><i class="bi bi-award"></i> Perfil Ocupacional</h2>
       <div class="row mb-3">
         <div class="col-12">
           {{ form_basico.resumen.label_tag }}
@@ -155,7 +155,7 @@
         </div>
       </div>
 
-      <!-- 💾 Botón -->
+      <!-- Botón Guardar -->
       <div class="mt-4 text-end">
         <button type="submit" class="btn btn-primary px-4">
           <i class="bi bi-save"></i> Guardar
@@ -164,27 +164,5 @@
     </form>
   </div>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const birthInput = document.querySelector("#id_fecha_nacimiento");
-    const ageOutput = document.querySelector("#edad");
-
-    if (birthInput) {
-      function calcularEdad() {
-        const birthDate = new Date(birthInput.value);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-          age--;
-        }
-        ageOutput.value = isNaN(age) ? "" : age;
-      }
-
-      birthInput.addEventListener("change", calcularEdad);
-      calcularEdad();
-    }
-  });
-</script>
+<script src="{% static 'js/datos_basicos_docente.js' %}"></script>
 {% endblock %}

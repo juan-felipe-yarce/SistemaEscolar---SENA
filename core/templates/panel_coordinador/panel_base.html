@@ -1,31 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="flex min-h-screen">
+<div class="dashboard-flex-layout">
   <!-- Menú lateral -->
-  <aside class="w-64 bg-blue-800 text-gray-100 min-h-screen px-4 py-6 space-y-4 shadow-lg">
-    <h2 class="text-2xl font-bold text-gray-100 mb-6">🎓 Coordinador Académico</h2>
-  
-    <nav class="space-y-2">
-      <a href="{% url 'panel_coordinador' %}" class="block hover:bg-blue-700 px-3 py-2 rounded">🏠 Inicio</a>
-  
-      <a href="{% url 'usuarios_pendientes' %}" class="block hover:bg-blue-700 px-3 py-2 rounded flex justify-between items-center">
+  <aside class="dashboard-sidebar">
+    <h2 class="dashboard-sidebar-title">🎓 Coordinador Académico</h2>
+    <nav class="dashboard-nav">
+      <a href="{% url 'panel_coordinador' %}" class="dashboard-nav-link">🏠 Inicio</a>
+
+      <a href="{% url 'usuarios_pendientes' %}" class="dashboard-nav-link dashboard-nav-pending">
         🕒 Validar Usuarios
         {% if pending_count > 0 %}
-          <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full shadow">{{ pending_count }}</span>
+          <span class="dashboard-badge-pending">{{ pending_count }}</span>
         {% endif %}
       </a>
-  
-      <a href="{% url 'lista_asignaciones' %}" class="block hover:bg-blue-700 px-3 py-2 rounded">📚 Asignaciones</a>
-  
-      <a href="{% url 'logout' %}" class="block hover:bg-blue-700 px-3 py-2 rounded text-red-300">🚪 Cerrar sesión</a>
+
+      <a href="{% url 'lista_asignaciones' %}" class="dashboard-nav-link">📚 Asignaciones</a>
+
+      <a href="{% url 'logout' %}" class="dashboard-nav-link dashboard-nav-logout">🚪 Cerrar sesión</a>
     </nav>
   </aside>
-  
 
   <!-- Contenido del panel -->
-  <main class="flex-1 bg-gray-100 p-6">
+  <main class="dashboard-main-content">
     {% block panel_content %}{% endblock %}
   </main>
 </div>
+<link rel="stylesheet" href="{% static 'css/panel_base.css' %}">
 {% endblock %}
