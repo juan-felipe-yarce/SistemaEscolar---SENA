@@ -1,4 +1,4 @@
-.layout-content-bienvenida {
+.layout-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,4 +10,20 @@
 
 .bienvenida-box {
   max-width: 700px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 
+      0 8px 32px 0 rgba(31, 38, 135, 0.37),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  transition: transform 0.3s ease !important;
+  padding: 2rem !important;
+}
+
+.bienvenida-box:hover {
+  transform: scale(1.05) !important;
 }

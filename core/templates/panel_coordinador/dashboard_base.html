@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/dashboard_base.css' %}">
+{% endblock %}
+
 {% block aside %}
   {% include "includes/aside_coordinador.html" %}
 {% endblock %}
+
 {% block content %}
   <main class="dashboard-panel-content">
     {% block panel_content %}{% endblock %}
   </main>
-  <link rel="stylesheet" href="{% static 'css/dashboard_base.css' %}">
 {% endblock %}
