@@ -69,7 +69,7 @@ body.no-aside .layout-content {
   bottom: 48px;
   overflow-y: auto;
   padding: 2rem 2rem 1.5rem 2rem;
-  background-image: url('../img/SALON_DE_CLASES.jpg'); /* Ruta relativa a la imagen */
+  background-image: url('../img/SALON_DE_CLASES.png'); /* Ruta relativa a la imagen */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
