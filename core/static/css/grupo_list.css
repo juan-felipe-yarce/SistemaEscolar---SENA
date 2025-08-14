@@ -1,38 +1,248 @@
-.btn-pastel-blue {
-  background: #eaf4fb !important;
-  color: #0574c7 !important;
-  border-radius: 0.5rem !important;
-  border: 1px solid #b6e0fe !important;
-  transition: background 0.2s, color 0.2s;
-  font-weight: 500 !important;
-  padding: 0.35rem 0.9rem !important;
-  font-size: 1rem !important;
+/* === GLASSMORPHISM CARD-BODY CORREGIDO === */
+/* Sobrescribir completamente el card-body de Bootstrap */
+.card .card-body,
+.card-body {
+    position: relative !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    padding: 2rem !important;
+    margin: 1rem !important;
 }
-.btn-pastel-blue:hover, .btn-pastel-blue:focus {
-  background: #cbe7fb !important;
-  color: #035485 !important;
-  text-decoration: none !important;
+
+/* Hover effect con alta prioridad */
+.card .card-body:hover,
+.card-body:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 
+        0 12px 40px 0 rgba(31, 38, 135, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.15) !important;
 }
-.btn-pastel-red {
-  background: #fdeaea !important;
-  color: #d71b3b !important;
-  border-radius: 0.5rem !important;
-  border: 1px solid #ffd6da !important;
-  transition: background 0.2s, color 0.2s;
-  font-weight: 500 !important;
-  padding: 0.35rem 0.9rem !important;
-  font-size: 1rem !important;
+
+/* Brillo interno superior */
+.card .card-body::before,
+.card-body::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.6), 
+        transparent) !important;
+    border-radius: 20px 20px 0 0 !important;
+    opacity: 0.8 !important;
+    z-index: 1 !important;
 }
-.btn-pastel-red:hover, .btn-pastel-red:focus {
-  background: #fbbfc1 !important;
-  color: #98001b !important;
-  text-decoration: none !important;
+
+/* Reflejo lateral */
+.card .card-body::after,
+.card-body::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 20px !important;
+    left: 0 !important;
+    width: 2px !important;
+    height: 60% !important;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.3), 
+        transparent) !important;
+    border-radius: 0 0 0 20px !important;
+    z-index: 1 !important;
 }
-.btn-pastel-blue, .btn-pastel-red {
-  margin-bottom: 0 !important;
+
+/* Contenido con z-index mayor */
+.card-body > * {
+    position: relative !important;
+    z-index: 2 !important;
 }
-td.text-end.pe-4,
-.acciones-col {
-  white-space: nowrap;
-  min-width: 210px;
+
+/* TEXTO BLANCO BOLD - Sobrescribir título Bootstrap */
+.card-body .h4,
+.card-body h2 {
+    color: #ffffff !important; /* Blanco */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important; /* Sombra para contraste */
+    margin-bottom: 1.5rem !important;
+    font-weight: 700 !important; /* Extra bold */
 }
+
+/* TABLA COMPLETAMENTE TRANSPARENTE */
+.card-body .table {
+    background: transparent !important;
+    color: #ffffff !important; /* Blanco */
+    border: none !important;
+}
+
+/* Header de tabla - solo bordes, sin fondo */
+.card-body .table-light,
+.card-body .table thead th {
+    background: transparent !important;
+    color: #ffffff !important; /* Blanco para headers */
+    border: none !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3) !important; /* Línea divisoria blanca */
+    font-weight: 700 !important; /* Extra bold */
+    padding: 1rem !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Filas de tabla - completamente transparentes con líneas divisorias */
+.card-body .table tbody tr {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; /* Línea divisoria blanca */
+}
+
+.card-body .table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1) !important; /* Hover sutil en blanco */
+    backdrop-filter: blur(5px) !important;
+}
+
+/* Celdas de tabla */
+.card-body .table td {
+    color: #ffffff !important; /* Blanco */
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; /* Línea divisoria blanca */
+    padding: 1rem !important;
+    background: transparent !important;
+    font-weight: 600 !important; /* Semi-bold */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important; /* Sombra para contraste */
+}
+
+/* Texto específico - TODO EN BLANCO */
+.card-body .table .text-dark {
+    color: #ffffff !important; /* Blanco */
+    font-weight: 600 !important;
+}
+
+.card-body .table .text-muted {
+    color: rgba(255, 255, 255, 0.8) !important; /* Blanco con opacidad para texto secundario */
+    font-weight: 500 !important;
+}
+
+/* Sobrescribir botones Bootstrap */
+.card-body .btn-primary {
+    background: rgba(13, 110, 253, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+    box-shadow: none !important;
+}
+
+.card-body .btn-primary:hover,
+.card-body .btn-primary:focus,
+.card-body .btn-primary:active {
+    background: rgba(13, 110, 253, 1) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* TUS BOTONES PASTEL - mantienen sus colores originales */
+.card-body .btn-pastel-blue {
+    background: #eaf4fb !important;
+    color: #0574c7 !important;
+    border: 1px solid #b6e0fe !important;
+    transition: all 0.3s ease !important;
+    border-radius: 0.5rem !important;
+    font-weight: 500 !important;
+    padding: 0.35rem 0.9rem !important;
+    font-size: 1rem !important;
+}
+
+.card-body .btn-pastel-blue:hover,
+.card-body .btn-pastel-blue:focus {
+    background: #cbe7fb !important;
+    color: #035485 !important;
+    transform: translateY(-1px) !important;
+    text-decoration: none !important;
+}
+
+.card-body .btn-pastel-red {
+    background: #fdeaea !important;
+    color: #d71b3b !important;
+    border: 1px solid #ffd6da !important;
+    transition: all 0.3s ease !important;
+    border-radius: 0.5rem !important;
+    font-weight: 500 !important;
+    padding: 0.35rem 0.9rem !important;
+    font-size: 1rem !important;
+}
+
+.card-body .btn-pastel-red:hover,
+.card-body .btn-pastel-red:focus {
+    background: #fbbfc1 !important;
+    color: #98001b !important;
+    transform: translateY(-1px) !important;
+    text-decoration: none !important;
+}
+
+/* Mantener tu regla de margin */
+.card-body .btn-pastel-blue, 
+.card-body .btn-pastel-red {
+    margin-bottom: 0 !important;
+}
+
+/* Iconos Bootstrap Icons */
+.card-body .bi {
+    color: inherit !important;
+}
+
+/* Responsive con alta prioridad */
+@media (max-width: 768px) {
+    .card .card-body,
+    .card-body {
+        margin: 0.5rem !important;
+        padding: 1.5rem !important;
+        border-radius: 15px !important;
+    }
+    
+    .card .card-body::after,
+    .card-body::after {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .card .card-body,
+    .card-body {
+        margin: 0.25rem !important;
+        padding: 1rem !important;
+        border-radius: 12px !important;
+    }
+}
+
+/* Animación de entrada */
+.card-body {
+    animation: fadeInUp 0.6s ease-out !important;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Eliminar bordes y sombras por defecto de Bootstrap */
+.card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* === FIN GLASSMORPHISM CORREGIDO === */

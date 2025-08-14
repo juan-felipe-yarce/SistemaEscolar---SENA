@@ -1,29 +1,321 @@
-.layout-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 112px); /* 64px navbar + 48px footer */
-  padding: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
+/* === GLASSMORPHISM PÁGINA DE INICIO === */
+body {
+    margin: 0 !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    background-color: #f0f2f5 !important;
+    color: #333333 !important;
+}
+/* Layout principal */
+.layout-content-bienvenida {
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 2rem 1rem !important;
+    position: relative !important;
 }
 
+/* Fondo con gradiente opcional si quieres mejorarlo */
+body.no-aside {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    min-height: 100vh !important;
+}
+
+/* === CAJA PRINCIPAL GLASSMORPHISM === */
 .bienvenida-box {
-  max-width: 700px;
-  position: relative;
-  background: rgba(255, 255, 255, 0.08) !important;
-  backdrop-filter: blur(15px) !important;
-  -webkit-backdrop-filter: blur(15px) !important;
-  border-radius: 20px !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 
-      0 8px 32px 0 rgba(31, 38, 135, 0.37),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 0 1px rgba(255, 255, 255, 0.1) !important;
-  transition: transform 0.3s ease !important;
-  padding: 2rem !important;
+    position: relative !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 
+        0 12px 40px 0 rgba(31, 38, 135, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    padding: 3rem 2.5rem !important;
+    max-width: 500px !important;
+    width: 100% !important;
+    transition: all 0.4s ease !important;
+    animation: fadeInScale 1s ease-out !important;
 }
 
+/* Hover effect para la caja */
 .bienvenida-box:hover {
-  transform: scale(1.05) !important;
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: 
+        0 20px 60px 0 rgba(31, 38, 135, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.15) !important;
 }
+
+/* Efectos de brillo en la caja */
+.bienvenida-box::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.8), 
+        transparent) !important;
+    border-radius: 24px 24px 0 0 !important;
+    opacity: 0.9 !important;
+    z-index: 1 !important;
+}
+
+.bienvenida-box::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 30px !important;
+    left: 0 !important;
+    width: 3px !important;
+    height: 70% !important;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.4), 
+        transparent) !important;
+    border-radius: 0 0 0 24px !important;
+    z-index: 1 !important;
+}
+
+/* Contenido con z-index mayor */
+.bienvenida-box > * {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* === TÍTULO PRINCIPAL === */
+.bienvenida-box .display-4,
+.bienvenida-box h1,
+html body .bienvenida-box .text-primary,
+html body .bienvenida-box h1.text-primary {
+    color: #0b5ed7 !important;
+  
+    margin-bottom: 1.5rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    animation: titleGlow 2s ease-in-out infinite alternate !important;
+}
+
+/* === TEXTO SECUNDARIO === */
+.bienvenida-box .lead,
+.bienvenida-box .text-secondary,
+html body .bienvenida-box .text-secondary,
+html body .bienvenida-box p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    margin-bottom: 2rem !important;
+    font-weight: 500 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+}
+
+/* === BOTÓN PRINCIPAL GLASSMORPHISM === */
+.bienvenida-box .btn,
+.bienvenida-box .btn-primary,
+html body .bienvenida-box .btn-primary,
+html body .bienvenida-box a.btn {
+    background: #0b5ed7 !important;
+    color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity)) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 16px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    padding: 0.875rem 2.5rem !important;
+    text-decoration: none !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 
+        0 6px 20px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Efecto hover del botón */
+.bienvenida-box .btn:hover,
+.bienvenida-box .btn-primary:hover,
+html body .bienvenida-box .btn-primary:hover,
+html body .bienvenida-box a.btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 
+        0 12px 35px rgba(255, 255, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Efecto focus del botón */
+.bienvenida-box .btn:focus,
+.bienvenida-box .btn-primary:focus {
+    outline: none !important;
+    box-shadow: 
+        0 12px 35px rgba(255, 255, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 0 4px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Efecto de ondas en el botón */
+.bienvenida-box .btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent) !important;
+    transition: left 0.5s ease !important;
+    z-index: 1 !important;
+}
+
+.bienvenida-box .btn:hover::before {
+    left: 100% !important;
+}
+
+.bienvenida-box .btn > * {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* === ANIMACIONES === */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes titleGlow {
+    0% {
+        text-shadow: 
+            0 3px 15px rgba(0, 0, 0, 0.5),
+            0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    100% {
+        text-shadow: 
+            0 3px 15px rgba(0, 0, 0, 0.5),
+            0 1px 3px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Animación flotante sutil */
+.bienvenida-box {
+    animation: fadeInScale 1s ease-out, float 6s ease-in-out infinite 1s !important;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .bienvenida-box {
+        padding: 2rem 1.5rem !important;
+        margin: 1rem !important;
+        border-radius: 20px !important;
+    }
+
+    .bienvenida-box .display-4,
+    .bienvenida-box h1 {
+        font-size: 2.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .bienvenida-box .lead {
+        font-size: 1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .bienvenida-box .btn {
+        padding: 0.75rem 2rem !important;
+        font-size: 1rem !important;
+        width: 100% !important;
+    }
+
+    .bienvenida-box::after {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .layout-content-bienvenida {
+        padding: 1rem 0.5rem !important;
+    }
+
+    .bienvenida-box {
+        padding: 1.5rem 1rem !important;
+        margin: 0.5rem !important;
+        border-radius: 16px !important;
+    }
+
+    .bienvenida-box .display-4,
+    .bienvenida-box h1 {
+        font-size: 2rem !important;
+    }
+}
+
+/* === PARTÍCULAS OPCIONALES (decorativo) === */
+.layout-content-bienvenida::before {
+    content: '' !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 25%) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    animation: particles 20s linear infinite !important;
+}
+
+@keyframes particles {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* === RESETEO BOOTSTRAP === */
+html body .text-primary {
+    color: #ffffff !important;
+}
+
+html body .text-secondary {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+html body .btn-primary {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+}
+
+html body .btn-primary:hover,
+html body .btn-primary:focus,
+html body .btn-primary:active {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+}
+
+/* === FIN === */

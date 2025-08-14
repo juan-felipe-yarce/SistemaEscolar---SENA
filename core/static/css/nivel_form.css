@@ -1,30 +1,368 @@
-.btn-pastel-blue {
-  background: #eaf4fb;
-  color: #0574c7;
-  border-radius: 0.5rem;
-  border: 1px solid #b6e0fe;
-  transition: background 0.2s, color 0.2s;
-  font-weight: 500;
-  padding: 0.35rem 0.9rem;
-  font-size: 1rem;
+/* === GLASSMORPHISM PARA FORMULARIO NIVEL EDUCATIVO === */
+
+/* === CARD-BODY BASE === */
+.card .card-body,
+.card-body,
+html body .card .card-body,
+html body .card-body {
+    position: relative !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    padding: 2rem !important;
+    margin: 1rem !important;
 }
-.btn-pastel-blue:hover, .btn-pastel-blue:focus {
-  background: #cbe7fb;
-  color: #035485;
-  text-decoration: none;
+
+/* Hover effect */
+.card .card-body:hover,
+.card-body:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 
+        0 12px 40px 0 rgba(31, 38, 135, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.15) !important;
 }
-.btn-pastel-red {
-  background: #fdeaea;
-  color: #d71b3b;
-  border-radius: 0.5rem;
-  border: 1px solid #ffd6da;
-  transition: background 0.2s, color 0.2s;
-  font-weight: 500;
-  padding: 0.35rem 0.9rem;
-  font-size: 1rem;
+
+/* Efectos de brillo */
+.card .card-body::before,
+.card-body::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.6), 
+        transparent) !important;
+    border-radius: 20px 20px 0 0 !important;
+    opacity: 0.8 !important;
+    z-index: 1 !important;
 }
-.btn-pastel-red:hover, .btn-pastel-red:focus {
-  background: #fbbfc1;
-  color: #98001b;
-  text-decoration: none;
+
+.card .card-body::after,
+.card-body::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 20px !important;
+    left: 0 !important;
+    width: 2px !important;
+    height: 60% !important;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.3), 
+        transparent) !important;
+    border-radius: 0 0 0 20px !important;
+    z-index: 1 !important;
 }
+
+/* Contenido con z-index mayor */
+.card-body > * {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* === TÍTULO PRINCIPAL === */
+.card .card-body .h4,
+.card .card-body h2,
+.card .card-body .text-primary,
+.card-body .h4,
+.card-body h2,
+.card-body .text-primary,
+html body .card-body .text-primary,
+html body .card-body h2.text-primary,
+html body .card-body .h4.text-primary,
+html body .text-primary {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+    margin-bottom: 1.5rem !important;
+    font-weight: 700 !important;
+}
+
+/* === LABELS === */
+.card .card-body .form-label,
+.card-body .form-label,
+html body .card-body label.form-label,
+html body .card .card-body .form-label,
+html body .form-label,
+html body label {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* === INPUT TEXT === */
+.card .card-body .form-control,
+.card-body .form-control,
+html body .card-body input.form-control,
+html body .card .card-body .form-control,
+html body .form-control,
+html body input.form-control[type="text"] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 0.75rem 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 
+        0 4px 15px rgba(31, 38, 135, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Placeholder */
+.card .card-body .form-control::placeholder,
+.card-body .form-control::placeholder,
+html body .card-body input.form-control::placeholder,
+html body .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Focus state */
+.card .card-body .form-control:focus,
+.card-body .form-control:focus,
+html body .card-body input.form-control:focus,
+html body .card .card-body .form-control:focus,
+html body .form-control:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 
+        0 6px 20px rgba(31, 38, 135, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    outline: none !important;
+}
+
+/* Estados de error */
+.card .card-body .form-control.is-invalid,
+.card-body .form-control.is-invalid,
+html body .card-body input.form-control.is-invalid,
+html body .form-control.is-invalid {
+    border: 1px solid rgba(220, 53, 69, 0.8) !important;
+    box-shadow: 
+        0 4px 15px rgba(220, 53, 69, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.card .card-body .form-control.is-invalid:focus,
+.card-body .form-control.is-invalid:focus,
+html body .form-control.is-invalid:focus {
+    border: 1px solid rgba(220, 53, 69, 1) !important;
+    box-shadow: 
+        0 6px 20px rgba(220, 53, 69, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 3px rgba(220, 53, 69, 0.2) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+}
+
+/* Mensajes de error */
+.card .card-body .invalid-feedback,
+.card-body .invalid-feedback,
+html body .card-body .invalid-feedback,
+html body .invalid-feedback {
+    color: #ff6b7a !important;
+    font-weight: 500 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    margin-top: 0.5rem !important;
+    display: block !important;
+}
+
+/* === BOTONES PASTEL === */
+.card .card-body .btn-pastel-blue,
+.card-body .btn-pastel-blue,
+html body .card-body .btn-pastel-blue,
+html body .btn-pastel-blue,
+html body button.btn-pastel-blue {
+    background: rgba(234, 244, 251, 0.9) !important;
+    color: #0574c7 !important;
+    border: 1px solid rgba(182, 224, 254, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+    box-shadow: 0 4px 15px rgba(5, 116, 199, 0.2) !important;
+    text-decoration: none !important;
+}
+
+.card .card-body .btn-pastel-blue:hover,
+.card .card-body .btn-pastel-blue:focus,
+.card-body .btn-pastel-blue:hover,
+.card-body .btn-pastel-blue:focus,
+html body .btn-pastel-blue:hover,
+html body .btn-pastel-blue:focus,
+html body button.btn-pastel-blue:hover,
+html body button.btn-pastel-blue:focus {
+    background: rgba(203, 231, 251, 0.95) !important;
+    color: #035485 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(5, 116, 199, 0.3) !important;
+    border: 1px solid rgba(182, 224, 254, 1) !important;
+    text-decoration: none !important;
+}
+
+.card .card-body .btn-pastel-red,
+.card-body .btn-pastel-red,
+html body .card-body .btn-pastel-red,
+html body .btn-pastel-red,
+html body a.btn-pastel-red {
+    background: rgba(253, 234, 234, 0.9) !important;
+    color: #d71b3b !important;
+    border: 1px solid rgba(255, 214, 218, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    transition: all 0.3s ease !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+    box-shadow: 0 4px 15px rgba(215, 27, 59, 0.2) !important;
+    text-decoration: none !important;
+}
+
+.card .card-body .btn-pastel-red:hover,
+.card .card-body .btn-pastel-red:focus,
+.card-body .btn-pastel-red:hover,
+.card-body .btn-pastel-red:focus,
+html body .btn-pastel-red:hover,
+html body .btn-pastel-red:focus,
+html body a.btn-pastel-red:hover,
+html body a.btn-pastel-red:focus {
+    background: rgba(251, 191, 193, 0.95) !important;
+    color: #98001b !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(215, 27, 59, 0.3) !important;
+    border: 1px solid rgba(255, 214, 218, 1) !important;
+    text-decoration: none !important;
+}
+
+/* === CONTENEDORES === */
+.card-body .d-flex.gap-3 {
+    gap: 1rem !important;
+    margin-top: 2rem !important;
+}
+
+.container-fluid.px-0 {
+    margin: 0 auto !important;
+}
+
+.card.shadow.rounded-4.border-0,
+.card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border-radius: 20px !important;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .card .card-body,
+    .card-body {
+        margin: 0.5rem !important;
+        padding: 1.5rem !important;
+        border-radius: 15px !important;
+    }
+    
+    .card .card-body::after,
+    .card-body::after {
+        display: none !important;
+    }
+
+    .card-body .d-flex.gap-3 {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+
+    .card-body .btn-pastel-blue,
+    .card-body .btn-pastel-red {
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .card .card-body,
+    .card-body {
+        margin: 0.25rem !important;
+        padding: 1rem !important;
+        border-radius: 12px !important;
+    }
+
+    .card-body .form-control {
+        font-size: 16px !important; /* Evita zoom en iOS */
+    }
+}
+
+/* === ANIMACIONES === */
+.card-body {
+    animation: fadeInUp 0.6s ease-out !important;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-body .form-control {
+    animation: inputFadeIn 0.3s ease-out !important;
+}
+
+@keyframes inputFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === RESETEO MÁXIMO DE BOOTSTRAP === */
+html body .text-primary,
+html body h1.text-primary,
+html body h2.text-primary,
+html body h3.text-primary,
+html body h4.text-primary,
+html body .h1.text-primary,
+html body .h2.text-primary,
+html body .h3.text-primary,
+html body .h4.text-primary {
+    color: #ffffff !important;
+}
+
+html body .form-control {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+}
+
+html body .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 20px rgba(31, 38, 135, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+}
+
