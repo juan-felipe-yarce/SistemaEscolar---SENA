@@ -1,11 +1,10 @@
-/* static/css/login.css */
+/* === CSS LOGIN GLASSMORPHISM COMPLETO === */
 
 .login-container {
     min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }
 
 .login-card {
@@ -19,26 +18,303 @@
         0 8px 32px 0 rgba(31, 38, 135, 0.37),
         inset 0 1px 0 rgba(255, 255, 255, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 2rem;
+    max-width: 400px;
+    width: 100%;
 }
 
 .login-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+        0 12px 40px 0 rgba(31, 38, 135, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.15);
 }
 
+/* Efectos de brillo en la tarjeta */
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.6), 
+        transparent);
+    border-radius: 20px 20px 0 0;
+    opacity: 0.8;
+    z-index: 1;
+}
+
+.login-card::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 2px;
+    height: 60%;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    border-radius: 0 0 0 20px;
+    z-index: 1;
+}
+
+/* Contenido con z-index mayor */
+.login-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* === TÍTULOS === */
+.login-card h1,
+.login-card h2,
+.login-card h3,
+.login-card .h1,
+.login-card .h2,
+.login-card .h3,
+html body .login-card .text-primary {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 700 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* === LABELS === */
+.login-card .form-label,
+html body .login-card .form-label,
+html body .login-card label {
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* === INPUTS (TODOS LOS TIPOS) === */
+.login-card .form-control,
+.login-card input.form-control,
+.login-card input[type="text"],
+.login-card input[type="email"],
+.login-card input[type="password"],
+.login-card input[type="username"],
+html body .login-card .form-control,
+html body .login-card input.form-control,
+html body .login-card input[type="text"],
+html body .login-card input[type="email"],
+html body .login-card input[type="password"] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 0.75rem 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 
+        0 4px 15px rgba(31, 38, 135, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Placeholder */
+.login-card .form-control::placeholder,
+.login-card input::placeholder,
+html body .login-card .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Focus state */
+.login-card .form-control:focus,
+.login-card input:focus,
+html body .login-card .form-control:focus,
+html body .login-card input:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 
+        0 6px 20px rgba(31, 38, 135, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    outline: none !important;
+}
+
+/* Estados de error */
+.login-card .form-control.is-invalid,
+.login-card input.is-invalid,
+html body .login-card .form-control.is-invalid {
+    border: 1px solid rgba(220, 53, 69, 0.8) !important;
+    box-shadow: 
+        0 4px 15px rgba(220, 53, 69, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.login-card .form-control.is-invalid:focus,
+.login-card input.is-invalid:focus {
+    border: 1px solid rgba(220, 53, 69, 1) !important;
+    box-shadow: 
+        0 6px 20px rgba(220, 53, 69, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 3px rgba(220, 53, 69, 0.2) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+}
+
+/* Mensajes de error */
+.login-card .invalid-feedback,
+.login-card .alert-danger,
+html body .login-card .invalid-feedback {
+    color: #ff6b7a !important;
+    font-weight: 500 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    margin-top: 0.5rem !important;
+    display: block !important;
+}
+
+/* === BOTÓN PRINCIPAL === */
+.login-card .btn-primary,
+.login-card button.btn-primary,
+html body .login-card .btn-primary,
+html body .login-card button.btn-primary {
+    background: rgba(13, 110, 253, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    padding: 0.75rem 2rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3) !important;
+    text-decoration: none !important;
+    width: 100% !important;
+}
+
+.login-card .btn-primary:hover,
+.login-card .btn-primary:focus,
+html body .login-card .btn-primary:hover,
+html body .login-card .btn-primary:focus {
+    background: rgba(13, 110, 253, 1) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    text-decoration: none !important;
+}
+
+/* === ENLACES === */
+.login-card a,
+html body .login-card a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.login-card a:hover,
+html body .login-card a:hover {
+    color: #ffffff !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5) !important;
+    text-decoration: underline !important;
+}
+
+/* === TEXTO GENERAL === */
+.login-card p,
+.login-card span,
+.login-card small,
+html body .login-card p,
+html body .login-card span {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* === RESPONSIVE === */
 @media (max-width: 576px) {
     .login-card {
-        border-radius: 0.7rem;
-        padding: 0.5rem;
+        border-radius: 15px !important;
+        padding: 1.5rem !important;
+        margin: 1rem !important;
+    }
+
+    .login-card::after {
+        display: none !important;
+    }
+
+    .login-card .form-control,
+    .login-card input {
+        font-size: 16px !important; /* Evita zoom en iOS */
+    }
+
+    .login-card .btn-primary {
+        padding: 0.875rem 1.5rem !important;
     }
 }
 
-.login-card .form-label {
-    font-weight: 500;
-    color: #ffffff;
+@media (max-width: 400px) {
+    .login-container {
+        min-height: 70vh;
+        padding: 1rem 0.5rem;
+    }
+
+    .login-card {
+        padding: 1rem !important;
+        margin: 0.5rem !important;
+        border-radius: 12px !important;
+    }
 }
 
-.login-card .btn-primary {
-    font-weight: 600;
-    letter-spacing: 0.02em;
+/* === ANIMACIONES === */
+.login-card {
+    animation: fadeInUp 0.8s ease-out;
 }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Animación para inputs */
+.login-card .form-control,
+.login-card input {
+    animation: inputFadeIn 0.5s ease-out;
+}
+
+@keyframes inputFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* === RESETEO BOOTSTRAP === */
+html body .text-primary {
+    color: #ffffff !important;
+}
+
+html body .btn-primary {
+    background-color: rgba(13, 110, 253, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+html body .btn-primary:hover,
+html body .btn-primary:focus,
+html body .btn-primary:active {
+    background-color: rgba(13, 110, 253, 1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* === FIN === */
