@@ -1,10 +1,12 @@
 /* === CSS LOGIN GLASSMORPHISM COMPLETO === */
 
 .login-container {
-    min-height: 80vh;
+    min-height: 100vh; /* Cambiado de 80vh a 100vh para ocupar toda la pantalla */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 2rem 1rem; /* Agregado padding para evitar que toque los bordes */
+    box-sizing: border-box; /* Asegura que el padding se incluya en el cálculo del ancho */
 }
 
 .login-card {
@@ -22,6 +24,7 @@
     padding: 2rem;
     max-width: 400px;
     width: 100%;
+    margin: 0 auto; /* Agregado para centrado adicional */
 }
 
 .login-card:hover {
@@ -234,10 +237,16 @@ html body .login-card span {
 
 /* === RESPONSIVE === */
 @media (max-width: 576px) {
+    .login-container {
+        padding: 1rem 0.5rem !important; /* Menos padding en móviles */
+    }
+
     .login-card {
         border-radius: 15px !important;
         padding: 1.5rem !important;
-        margin: 1rem !important;
+        margin: 0 !important; /* Elimina margin para mejor centrado */
+        max-width: none !important; /* Permite que use todo el ancho disponible */
+        width: calc(100% - 1rem) !important; /* Deja un pequeño margen */
     }
 
     .login-card::after {
@@ -256,14 +265,15 @@ html body .login-card span {
 
 @media (max-width: 400px) {
     .login-container {
-        min-height: 70vh;
-        padding: 1rem 0.5rem;
+        min-height: 100vh !important; /* Mantiene altura completa */
+        padding: 0.5rem !important;
     }
 
     .login-card {
         padding: 1rem !important;
-        margin: 0.5rem !important;
+        margin: 0 !important;
         border-radius: 12px !important;
+        width: 100% !important;
     }
 }
 
@@ -317,4 +327,14 @@ html body .btn-primary:active {
     border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* === FIN === */
+/* === CENTRADO ADICIONAL (por si necesitas forzarlo) === */
+.login-container * {
+    box-sizing: border-box;
+}
+
+/* Asegura que no hay márgenes que interfieran */
+body {
+    margin: 0;
+    padding: 0;
+}
+

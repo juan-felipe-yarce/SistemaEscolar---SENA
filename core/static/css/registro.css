@@ -1,0 +1,531 @@
+
+
+/* Reset básico */
+* {
+    box-sizing: border-box !important;
+}
+
+
+/* === CONTENEDOR PRINCIPAL === */
+.registro-container {
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 2rem 1rem !important;
+}
+
+.registro-wrapper {
+    width: 100% !important;
+    max-width: 600px !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.registro-column {
+    width: 100% !important;
+}
+
+/* === TARJETA PRINCIPAL === */
+.registro-card {
+    position: relative !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.37) ,
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) ,
+        0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    animation: fadeInUp 0.8s ease-out !important;
+    margin: 0 auto !important;
+}
+
+.registro-card:hover {
+    transform: translateY(-5px) scale(1.01) !important;
+    box-shadow: 
+        0 12px 40px 0 rgba(31, 38, 135, 0.5) ,
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) ,
+        0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Efectos de brillo */
+.registro-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent) !important;
+    border-radius: 20px 20px 0 0 !important;
+    opacity: 0.8 !important;
+    z-index: 1 !important;
+}
+
+.registro-card::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 20px !important;
+    left: 0 !important;
+    width: 2px !important;
+    height: 60% !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent) !important;
+    border-radius: 0 0 0 20px !important;
+    z-index: 1 !important;
+}
+/* === CUERPO DE LA TARJETA === */
+.registro-card-body {
+    position: relative !important;
+    z-index: 2 !important;
+    padding: 2rem !important;
+}
+
+/* === HEADER === */
+.registro-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 2rem !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+}
+
+.registro-title {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    margin: 0 !important;
+}
+
+/* === BOTONES === */
+.registro-btn-secondary {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    text-decoration: none !important;
+    font-size: 0.875rem !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+    cursor: pointer !important;
+}
+
+.registro-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    text-decoration: none !important;
+}
+
+.registro-btn-primary {
+    background: rgba(13, 110, 253, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    padding: 0.75rem 2rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3) !important;
+    width: 100% !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+}
+
+.registro-btn-primary:hover {
+    background: rgba(13, 110, 253, 1) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.registro-btn-primary:focus {
+    outline: none !important;
+    box-shadow: 
+        0 8px 25px rgba(13, 110, 253, 0.4) ,
+        0 0 0 3px rgba(13, 110, 253, 0.3) !important;
+}
+/* === CAMPOS DEL FORMULARIO === */
+.registro-field {
+    margin-bottom: 1.5rem !important;
+}
+
+.registro-label {
+    display: block !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.95rem !important;
+}
+
+/* === INPUTS Y SELECTS === */
+.registro-input,
+.registro-select {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 0.75rem 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 
+        0 4px 15px rgba(31, 38, 135, 0.2) ,
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    animation: inputFadeIn 0.5s ease-out !important;
+    width: 100% !important;
+    font-size: 1rem !important;
+}
+
+.registro-input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.registro-input:focus,
+.registro-select:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 
+        0 6px 20px rgba(31, 38, 135, 0.3) ,
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) ,
+        0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    outline: none !important;
+}
+
+/* Estados de error para inputs */
+.registro-input.is-invalid,
+.registro-select.is-invalid {
+    border: 1px solid rgba(220, 53, 69, 0.8) !important;
+    box-shadow: 
+        0 4px 15px rgba(220, 53, 69, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.registro-input.is-invalid:focus,
+.registro-select.is-invalid:focus {
+    border: 1px solid rgba(220, 53, 69, 1) !important;
+    box-shadow: 
+        0 6px 20px rgba(220, 53, 69, 0.4) ,
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) ,
+        0 0 0 3px rgba(220, 53, 69, 0.2) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+}
+
+/* Opciones de select */
+.registro-select option {
+    background: rgba(30, 30, 50, 0.95) !important;
+    color: #ffffff !important;
+    padding: 0.5rem !important;
+}
+/* === CAMPOS DE CONTRASEÑA === */
+.registro-password-field {
+    margin-bottom: 1.5rem !important;
+}
+
+.registro-input-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.registro-password-input {
+    padding-right: 3rem !important;
+}
+
+.registro-password-toggle {
+    position: absolute !important;
+    right: 0.75rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: none !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    cursor: pointer !important;
+    padding: 0.25rem !important;
+    transition: color 0.3s ease !important;
+    z-index: 3 !important;
+    font-size: 1rem !important;
+}
+
+.registro-password-toggle:hover {
+    color: #ffffff !important;
+}
+
+.registro-password-toggle:focus {
+    outline: none !important;
+    color: #ffffff !important;
+}
+
+/* === PROGRESS BAR === */
+.registro-progress {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    height: 6px !important;
+    margin: 0.75rem 0 !important;
+    overflow: hidden !important;
+}
+
+.registro-progress-bar {
+    height: 100% !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    background: #dc3545 !important;
+    width: 0% !important;
+}
+
+.registro-progress-bar.bg-warning {
+    background: #ffc107 !important;
+}
+
+.registro-progress-bar.bg-success {
+    background: #20c997 !important;
+}
+
+/* === LISTA DE REQUISITOS === */
+.registro-requirements {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0.5rem 0 0 1rem !important;
+    font-size: 0.875rem !important;
+}
+
+.registro-requirements li {
+    color: rgba(255, 255, 255, 0.7) !important;
+    transition: color 0.3s ease !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.registro-requirement-success {
+    color: #20c997 !important;
+}
+
+.registro-requirement-danger {
+    color: #ff6b7a !important;
+}
+
+/* === ALERTAS === */
+.registro-alert {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1rem !important;
+    margin-bottom: 1rem !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    position: relative !important;
+    font-size: 0.9rem !important;
+}
+
+.registro-alert-warning {
+    background: rgba(255, 193, 7, 0.15) !important;
+    border: 1px solid rgba(255, 193, 7, 0.3) !important;
+    color: #ffc107 !important;
+}
+
+.registro-alert-success {
+    background: rgba(25, 135, 84, 0.15) !important;
+    border: 1px solid rgba(25, 135, 84, 0.3) !important;
+    color: #20c997 !important;
+}
+
+.registro-alert-danger {
+    background: rgba(220, 53, 69, 0.15) !important;
+    border: 1px solid rgba(220, 53, 69, 0.3) !important;
+    color: #ff6b7a !important;
+}
+
+.registro-alert-info {
+    background: rgba(13, 202, 240, 0.15) !important;
+    border: 1px solid rgba(13, 202, 240, 0.3) !important;
+    color: #0dcaf0 !important;
+}
+
+.registro-hidden {
+    display: none !important;
+}
+
+.registro-btn-close {
+    position: absolute !important;
+    right: 0.75rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: none !important;
+    border: none !important;
+    color: currentColor !important;
+    opacity: 0.7 !important;
+    cursor: pointer !important;
+    font-size: 1.25rem !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.registro-btn-close:hover {
+    opacity: 1 !important;
+}
+
+.registro-btn-close:focus {
+    outline: none !important;
+    opacity: 1 !important;
+}
+/* === ERRORES === */
+.registro-error {
+    color: #ff6b7a !important;
+    font-weight: 500 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    margin-top: 0.5rem !important;
+    font-size: 0.875rem !important;
+    display: block !important;
+}
+
+/* === SUBMIT WRAPPER === */
+.registro-submit-wrapper {
+    margin-top: 2rem !important;
+}
+
+/* === ENLACES === */
+.registro-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.registro-link:hover {
+    color: #ffffff !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5) !important;
+    text-decoration: underline !important;
+}
+
+/* === TEXTO GENERAL === */
+.registro-text {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .registro-wrapper {
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .registro-container {
+        padding: 1rem 0.5rem !important;
+    }
+    
+    .registro-card {
+        border-radius: 15px !important;
+    }
+
+    .registro-card::after {
+        display: none !important;
+    }
+
+    .registro-card-body {
+        padding: 1.5rem !important;
+    }
+
+    .registro-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+
+    .registro-input,
+    .registro-select {
+        font-size: 16px !important; /* Evita zoom en iOS */
+    }
+
+    .registro-btn-primary {
+        padding: 0.875rem 1.5rem !important;
+    }
+
+    .registro-title {
+        font-size: 1.3rem !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .registro-container {
+        padding: 0.5rem !important;
+    }
+
+    .registro-card-body {
+        padding: 1rem !important;
+    }
+    
+    .registro-card {
+        border-radius: 12px !important;
+    }
+
+    .registro-title {
+        font-size: 1.2rem !important;
+    }
+
+    .registro-field {
+        margin-bottom: 1.25rem !important;
+    }
+}
+
+/* === ANIMACIONES === */
+@keyframes fadeInUp {
+    from {
+        opacity: 0 !important;
+        transform: translateY(30px) scale(0.95) !important;
+    }
+    to {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
+    }
+}
+
+@keyframes inputFadeIn {
+    from {
+        opacity: 0 !important;
+        transform: translateX(-10px) !important;
+    }
+    to {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+    }
+}
+
+/* === UTILIDADES === */
+.registro-fade-show {
+    animation: fadeInUp 0.5s ease-out !important;
+}
+
+.registro-fade-hide {
+    animation: fadeInUp 0.3s ease-out reverse !important;
+}
+
+/* === ACCESIBILIDAD === */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* === FIN === */

@@ -1,32 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
-{% block body_class %}no-aside{% endblock %}
-
-
 {% load widget_tweaks %}
 
+{% block body_class %}no-aside{% endblock %}
 {% block title %}Registro de Usuario{% endblock %}
 
 {% block extra_head %}
-  <link rel="stylesheet" href="{% static 'css/registro.css' %}">
+<link rel="stylesheet" href="{% static 'css/registro.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center registro-min-vh">
-  <div class="row w-100 justify-content-center">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-      <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h4 text-primary fw-bold mb-0">Registro de Usuario</h2>
-            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm">Volver a iniciar sesión</a>
+<div class="registro-container">
+  <div class="registro-wrapper">
+    <div class="registro-column">
+      <div class="registro-card">
+        <div class="registro-card-body">
+          <div class="registro-header">
+            <h2 class="registro-title">Registro de Usuario</h2>
+            <a href="{% url 'login' %}" class="registro-btn-secondary">Volver a iniciar sesión</a>
           </div>
 
           {% if messages %}
             {% for message in messages %}
-              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              <div class="registro-alert registro-alert-{{ message.tags }}">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                <button type="button" class="registro-btn-close" data-bs-dismiss="alert" aria-label="Cerrar">&times;</button>
               </div>
             {% endfor %}
           {% endif %}
@@ -34,106 +32,112 @@
           <form method="post" novalidate>
             {% csrf_token %}
 
-            <div class="mb-3">
-              <label for="id_correo" class="form-label">Correo Electrónico:</label>
-              {{ form.correo|add_class:"form-control" }}
+            <div class="registro-field">
+              <label for="id_correo" class="registro-label">Correo Electrónico:</label>
+              {{ form.correo|add_class:"registro-input" }}
               {% if form.correo.errors %}
-                <div class="text-danger small">{{ form.correo.errors.0 }}</div>
+                <div class="registro-error">{{ form.correo.errors.0 }}</div>
               {% endif %}
             </div>
 
-            <div class="mb-3">
-              <label for="id_rol" class="form-label">Rol:</label>
-              {{ form.rol|add_class:"form-select" }}
+            <div class="registro-field">
+              <label for="id_rol" class="registro-label">Rol:</label>
+              {{ form.rol|add_class:"registro-select" }}
               {% if form.rol.errors %}
-                <div class="text-danger small">{{ form.rol.errors.0 }}</div>
+                <div class="registro-error">{{ form.rol.errors.0 }}</div>
               {% endif %}
             </div>
-            <div id="coordinador-alerta" class="alert alert-warning py-2 px-3 mb-3 d-none small">
+
+            <div id="coordinador-alerta" class="registro-alert registro-alert-warning registro-hidden">
               ⚠️ Tu cuenta será revisada por un Superusuario antes de poder ingresar. Recibirás una notificación cuando sea activada.
             </div>
 
-            <div class="mb-3">
-              <label for="id_tipo_documento" class="form-label">Tipo de Documento:</label>
-              {{ form.tipo_documento|add_class:"form-select" }}
+            <div class="registro-field">
+              <label for="id_tipo_documento" class="registro-label">Tipo de Documento:</label>
+              {{ form.tipo_documento|add_class:"registro-select" }}
               {% if form.tipo_documento.errors %}
-                <div class="text-danger small">{{ form.tipo_documento.errors.0 }}</div>
+                <div class="registro-error">{{ form.tipo_documento.errors.0 }}</div>
               {% endif %}
             </div>
 
-            <div class="mb-3">
-              <label for="id_numero_documento" class="form-label">Número de Documento:</label>
-              {{ form.numero_documento|add_class:"form-control" }}
+            <div class="registro-field">
+              <label for="id_numero_documento" class="registro-label">Número de Documento:</label>
+              {{ form.numero_documento|add_class:"registro-input" }}
               {% if form.numero_documento.errors %}
-                <div class="text-danger small">{{ form.numero_documento.errors.0 }}</div>
+                <div class="registro-error">{{ form.numero_documento.errors.0 }}</div>
               {% endif %}
             </div>
 
-            <div class="mb-3">
-              <label for="id_pais_identificacion" class="form-label">País de Expedición:</label>
-              {{ form.pais_identificacion|add_class:"form-select" }}
+            <div class="registro-field">
+              <label for="id_pais_identificacion" class="registro-label">País de Expedición:</label>
+              {{ form.pais_identificacion|add_class:"registro-select" }}
               {% if form.pais_identificacion.errors %}
-                <div class="text-danger small">{{ form.pais_identificacion.errors.0 }}</div>
+                <div class="registro-error">{{ form.pais_identificacion.errors.0 }}</div>
               {% endif %}
             </div>
-            <div class="mb-3">
-              <label for="id_departamento_identificacion" class="form-label">Departamento de Expedición:</label>
-              {{ form.departamento_identificacion|add_class:"form-select" }}
+
+            <div class="registro-field">
+              <label for="id_departamento_identificacion" class="registro-label">Departamento de Expedición:</label>
+              {{ form.departamento_identificacion|add_class:"registro-select" }}
               {% if form.departamento_identificacion.errors %}
-                <div class="text-danger small">{{ form.departamento_identificacion.errors.0 }}</div>
+                <div class="registro-error">{{ form.departamento_identificacion.errors.0 }}</div>
               {% endif %}
             </div>
-            <div class="mb-3">
-              <label for="id_municipio_identificacion" class="form-label">Municipio de Expedición:</label>
-              {{ form.municipio_identificacion|add_class:"form-select" }}
+
+            <div class="registro-field">
+              <label for="id_municipio_identificacion" class="registro-label">Municipio de Expedición:</label>
+              {{ form.municipio_identificacion|add_class:"registro-select" }}
               {% if form.municipio_identificacion.errors %}
-                <div class="text-danger small">{{ form.municipio_identificacion.errors.0 }}</div>
+                <div class="registro-error">{{ form.municipio_identificacion.errors.0 }}</div>
               {% endif %}
             </div>
 
-            <!-- Contraseña -->
-            <div class="mb-3 position-relative">
-              <label for="id_password" class="form-label">Contraseña:</label>
-              {{ form.password|add_class:"form-control pe-5" }}
-              <button type="button"
-                      onclick="togglePasswordIcon('id_password', this)"
-                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2 toggle-password-btn"
-                      tabindex="-1">
-                <i class="bi bi-eye-slash" aria-label="Mostrar contraseña"></i>
-              </button>
+            <div class="registro-password-field">
+              <label for="id_password" class="registro-label">Contraseña:</label>
+              <div class="registro-input-wrapper">
+                {{ form.password|add_class:"registro-input registro-password-input" }}
+                <button type="button"
+                        onclick="togglePasswordIcon('id_password', this)"
+                        class="registro-password-toggle"
+                        tabindex="-1">
+                  <i class="bi bi-eye-slash"></i>
+                </button>
+              </div>
               {% if form.password.errors %}
-                <div class="text-danger small">{{ form.password.errors.0 }}</div>
+                <div class="registro-error">{{ form.password.errors.0 }}</div>
               {% endif %}
 
-              <div class="progress my-2 password-progress">
-                <div id="password-strength" class="progress-bar bg-danger" style="width: 0%"></div>
+              <div class="registro-progress">
+                <div id="password-strength" class="registro-progress-bar"></div>
               </div>
-              <ul class="small ps-3 mb-0" id="password-requirements">
-                <li id="len" class="text-danger">✔️ Al menos 8 caracteres</li>
-                <li id="mayus" class="text-danger">✔️ Una letra mayúscula</li>
-                <li id="minus" class="text-danger">✔️ Una letra minúscula</li>
-                <li id="num" class="text-danger">✔️ Un número</li>
-                <li id="sym" class="text-danger">✔️ Un símbolo especial (# $ % ! _)</li>
+
+              <ul class="registro-requirements" id="password-requirements">
+                <li id="len" class="registro-requirement-danger">✔️ Al menos 8 caracteres</li>
+                <li id="mayus" class="registro-requirement-danger">✔️ Una letra mayúscula</li>
+                <li id="minus" class="registro-requirement-danger">✔️ Una letra minúscula</li>
+                <li id="num" class="registro-requirement-danger">✔️ Un número</li>
+                <li id="sym" class="registro-requirement-danger">✔️ Un símbolo especial (# $ % ! _)</li>
               </ul>
             </div>
 
-            <!-- Confirmar contraseña -->
-            <div class="mb-4 position-relative">
-              <label for="id_confirmar_password" class="form-label">Confirmar Contraseña:</label>
-              {{ form.confirmar_password|add_class:"form-control pe-5" }}
-              <button type="button"
-                      onclick="togglePasswordIcon('id_confirmar_password', this)"
-                      class="btn btn-link btn-sm position-absolute top-0 end-0 mt-2 me-2 toggle-password-btn"
-                      tabindex="-1">
-                <i class="bi bi-eye-slash" aria-label="Mostrar contraseña"></i>
-              </button>
+            <div class="registro-password-field">
+              <label for="id_confirmar_password" class="registro-label">Confirmar Contraseña:</label>
+              <div class="registro-input-wrapper">
+                {{ form.confirmar_password|add_class:"registro-input registro-password-input" }}
+                <button type="button"
+                        onclick="togglePasswordIcon('id_confirmar_password', this)"
+                        class="registro-password-toggle"
+                        tabindex="-1">
+                  <i class="bi bi-eye-slash"></i>
+                </button>
+              </div>
               {% if form.confirmar_password.errors %}
-                <div class="text-danger small">{{ form.confirmar_password.errors.0 }}</div>
+                <div class="registro-error">{{ form.confirmar_password.errors.0 }}</div>
               {% endif %}
             </div>
 
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary">Registrarse</button>
+            <div class="registro-submit-wrapper">
+              <button type="submit" class="registro-btn-primary">Registrarse</button>
             </div>
           </form>
         </div>
@@ -144,5 +148,5 @@
 {% endblock %}
 
 {% block extra_js %}
-  <script src="{% static 'js/registro.js' %}"></script>
+<script src="{% static 'js/registro.js' %}"></script>
 {% endblock %}
